@@ -17,8 +17,9 @@
 - Run `node server.js`
 
 ## Contribution Workflow
-1. `git checkout -b feature/your-feature`
-2. Make changes
-3. `git add . && git commit -m "your message"`
-4. `git push origin feature/your-feature`
-5. Open a Pull Request on GitHub
+git clone https://github.com/your-username/your-repo.git
+cd your-repo
+git checkout -b feature/your-feature
+git add . && git commit -m "your message"
+git push origin feature/your-feature
+Open a Pull Request on GitHub
