@@ -1,3 +1,17 @@
 body {
     background-color: #f8f9fa;
   }
+
+  h1, h2, h5, p {
+    font-family: 'DM Sans', 'Inter', sans-serif;
+  }
+  
+  a.btn {
+    font-weight: 600;
+  }
+
+  .section-dark {
+    background-color: #010725;
+    color: white;
+  }
+  
