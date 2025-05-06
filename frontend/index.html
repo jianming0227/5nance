@@ -4,13 +4,244 @@
   <meta charset="UTF-8">
   <title>Bootstrap Project</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/home.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 </head>
-<body>
-  <div class="container text-center mt-5">
-    <h1 class="text-primary">Hello Bootstrap!</h1>
+<body style="background-color: #010725; color: white; font-family: 'DM Sans', 'Inter', sans-serif;">
+  
+  <!-- Navbar -->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top custom-navbar py-3">
+  <div class="container">
+    <a href="/" class="logo text-decoration-none d-flex align-items-center">
+      <span class="logo-number">5</span>NANCE
+    </a>
+
+    <!-- Hamburger Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+      aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible Links -->
+    <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+      <ul class="navbar-nav ms-md-5 gap-md-4">
+        <li class="nav-item">
+          <a class="nav-link active" href="index.html">HOME</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/services">SERVICES</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="about.html">ABOUT</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/contact">CONTACT US</a>
+        </li>
+      </ul>
+      <div class="d-none d-md-block">
+        <i class="bi bi-person-circle fs-4 text-white"></i>
+      </div>
+    </div>
   </div>
+</nav>
+
+  <section class="hero-section d-flex align-items-center justify-content-center text-center p-5">
+    <div class="overlay"></div>
+    <div class="content position-relative text-white">
+      <h1 class="display-4 fw-bold">
+        Your <span class="text-warning">Financial Freedom</span> Starts Here
+      </h1>
+      <p class="mb-4">Plan, track, and optimize your investments with our intuitive tools—all in one place.</p>
+  
+      <button class="btn btn-warning btn-md mb-3 fw-bold custom-btn">
+        OPEN AN ACCOUNT
+      </button>      
+  
+      <div class="d-flex justify-content-center align-items-center gap-2">
+        <p class="mb-0">Already a user?</p>
+        <a href="#" class="text-warning">Login</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Quotes -->
+  <section class="quote-section section-dark py-5">
+    <div class="container text-center">
+  
+      <!-- Heading above -->
+      <h2 class="text-white text-start mb-4">Financial Wisdom for Your Journey</h2>
+  
+      <!-- Carousel -->
+      <div id="carouselQuotes" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner rounded">
+  
+          <div class="carousel-item active">
+            <img src="images/quote1.jpg" class="d-block w-100" alt="Quote 1">
+          </div>
+          <div class="carousel-item">
+            <img src="images/quote2.jpg" class="d-block w-100" alt="Quote 2">
+          </div>
+          <div class="carousel-item">
+            <img src="images/quote3.jpg" class="d-block w-100" alt="Quote 3">
+          </div>
+  
+        </div>
+  
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselQuotes" data-bs-slide-to="0" class="active" aria-current="true"></button>
+          <button type="button" data-bs-target="#carouselQuotes" data-bs-slide-to="1"></button>
+          <button type="button" data-bs-target="#carouselQuotes" data-bs-slide-to="2"></button>
+        </div>
+  
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselQuotes" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon"></span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselQuotes" data-bs-slide="next">
+          <span class="carousel-control-next-icon"></span>
+        </button>
+      </div>
+  
+    </div>
+  </section>  
+
+  <!-- Importance Section -->
+<section class="section-dark py-5">
+  <div class="container">
+    <h2 class="text-white mb-4">Why Financial Planning Matters</h2>
+    <div class="row g-4 justify-content-center">
+      
+      <!-- BENEFIT 1 -->
+      <div class="col-md-6">
+        <div class="info-widget d-flex align-items-center justify-content-center p-5" style="background-color: #010D50; border-radius: 40px; height: 246px; width: 100%;">
+          <i class="bi bi-umbrella-fill" style="color: #0328EE; font-size: 3rem; min-width: 80px;"></i>
+          <div>
+            <h5 class="text-white fw-bold mb-4">EMERGENCY BUFFER</h5>
+            <p class="mb-0">A safety net covering 3–6 months of living expenses, kept in liquid accounts for unexpected events like job loss or medical bills.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- BENEFIT 2 -->
+      <div class="col-md-6">
+        <div class="info-widget d-flex align-items-center justify-content-center p-5" style="background-color: #010D50; border-radius: 40px; height: 246px; width: 100%;">
+          <i class="bi bi-credit-card-2-front-fill" style="color: #0328EE; font-size: 3rem; min-width: 80px;"></i>
+          <div>
+            <h5 class="text-white fw-bold mb-4">DEBT STRATEGY</h5>
+            <p class="mb-0">Systematic repayment plans to eliminate high-interest debt within 3–5 years while preserving credit health.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- BENEFIT 3 -->
+      <div class="col-md-6">
+        <div class="info-widget d-flex align-items-center justify-content-center p-5" style="background-color: #010D50; border-radius: 40px; height: 246px; width: 100%;">
+          <i class="bi bi-bar-chart-fill" style="color: #0328EE; font-size: 3rem; min-width: 80px;"></i>
+          <div>
+            <h5 class="text-white fw-bold mb-4">GOAL-BASED INVESTING</h5>
+            <p class="mb-0">Building a diversified portfolio aligned with specific timelines and risk tolerance for goals like a home or retirement.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- BENEFIT 4 -->
+      <div class="col-md-6">
+        <div class="info-widget d-flex align-items-center justify-content-center p-5" style="background-color: #010D50; border-radius: 40px; height: 246px; width: 100%;">
+          <i class="bi bi-calendar-check-fill" style="color: #0328EE; font-size: 3rem; min-width: 80px;"></i>
+          <div>
+            <h5 class="text-white fw-bold mb-4">RETIREMENT READINESS</h5>
+            <p class="mb-0">Consistent contributions to tax-advantaged accounts targeting 10–15% of income to ensure lifelong financial independence.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- How Our Platform Helps Section -->
+<section class="section-dark py-5">
+  <div class="container">
+    <h2 class="text-white mb-4">How Our Platform Helps</h2>
+    <div class="row g-4 justify-content-center">
+      
+      <!-- Investment Strategy Recommendation -->
+      <div class="col-md-6">
+        <div class="info-widget d-flex align-items-center justify-content-center p-4" style="background-color: #010D50; border-radius: 40px; height: 246px; width: 100%;">
+          <i class="bi bi-bar-chart-line" style="color: #0328EE; font-size: 3rem; min-width: 80px;"></i>
+          <div>
+            <h5 class="text-white fw-bold mb-4">Investment Strategy</h5>
+            <p class="mb-1">Get smart, personalized recommendations based on your risk profile and goals.</p>
+            <a href="AI.html" class="text-warning fw-bold">Start now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ROI Calculator -->
+      <div class="col-md-6">
+        <div class="info-widget d-flex align-items-center justify-content-center p-4" style="background-color: #010D50; border-radius: 40px; height: 246px; width: 100%;">
+          <i class="bi bi-calculator" style="color: #0328EE; font-size: 3rem; min-width: 80px;"></i>
+          <div>
+            <h5 class="text-white fw-bold mb-4">ROI Calculator</h5>
+            <p class="mb-1">Compare returns across assets and forecast future value with our ROI tool.</p>
+            <a href="#ROI-calculator" class="text-warning fw-bold">Start now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Goal-Based Planner -->
+      <div class="col-md-6">
+        <div class="info-widget d-flex align-items-center justify-content-center p-4" style="background-color: #010D50; border-radius: 40px; height: 246px; width: 100%;">
+          <i class="bi bi-bullseye" style="color: #0328EE; font-size: 3rem; min-width: 80px;"></i>
+          <div>
+            <h5 class="text-white fw-bold mb-4">Goal-Based Planner</h5>
+            <p class="mb-1">Create and manage milestones like home buying, education, or retirement.</p>
+            <a href="#goal-planner" class="text-warning fw-bold">Start now</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Market Insight Dashboard -->
+      <div class="col-md-6">
+        <div class="info-widget d-flex align-items-center justify-content-center p-4" style="background-color: #010D50; border-radius: 40px; height: 246px; width: 100%;">
+          <i class="bi bi-graph-up" style="color: #0328EE; font-size: 3rem; min-width: 80px;"></i>
+          <div>
+            <h5 class="text-white fw-bold mb-4">Market Insights</h5>
+            <p class="mb-1">Track market trends, news, and analytics to stay ahead of the curve.</p>
+            <a href="#market-dashboard" class="text-warning fw-bold">Start now</a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section text-center d-flex flex-column justify-content-center align-items-center py-5">
+  <h1 class="text-white fw-bold mb-4">Ready to start your journey?</h1>
+  
+  <button class="btn btn-warning btn-md mb-3 fw-bold custom-btn">
+    OPEN AN ACCOUNT
+  </button>      
+
+  <div class="d-flex justify-content-center align-items-center gap-2">
+    <p class="mb-0">Already a user?</p>
+    <a href="#" class="text-warning">Login</a>
+  </div>
+</section>
+  
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/scripts.js"></script>
 </body>
+
+<footer class="text-center py-3 text-white" style="background-color: #010725;">
+  &copy; copyright 5nance <span id="year"></span>
+</footer>
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
 </html>
