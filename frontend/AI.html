@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>5NANCE - Strategy Recommendation</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/AI.css">
+</head>
+<body>
+  <div class="finance-app">
+    <!-- Header -->
+    <header class="py-3">
+      <div class="container">
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center gap-5">
+            <a href="/" class="logo text-decoration-none">
+              <span class="logo-number">5</span>NANCE
+            </a>
+            <nav class="d-none d-md-flex">
+              <ul class="nav-links">
+                <li><a href="/" class="active">HOME</a></li>
+                <li><a href="/services">SERVICES</a></li>
+                <li><a href="/about">ABOUT</a></li>
+                <li><a href="/contact">CONTACT US</a></li>
+              </ul>
+            </nav>
+          </div>
+          <div>
+            <i class="bi bi-person-circle fs-4"></i>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container py-5">
+      <h1 class="main-heading mb-4">Strategy Recommendation</h1>
+
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4">
+        <button class="btn btn-primary suggest-btn mb-3 mb-md-0" id="suggestBtn">
+          Suggest Matching Strategy
+        </button>
+
+        <div class="sort-dropdown" id="sortDropdown">
+          <div class="sort-dropdown-header">
+            <span id="currentSort">Sort by: Highest Return</span>
+            <i class="bi bi-chevron-down ms-2"></i>
+          </div>
+          <div class="sort-dropdown-menu">
+            <div class="sort-option" data-sort="highest-return">Highest Return</div>
+            <div class="sort-option" data-sort="lowest-risk">Lowest Risk</div>
+            <div class="sort-option" data-sort="shortest-duration">Shortest Duration</div>
+            <div class="sort-option" data-sort="highest-rating">Highest Rating</div>
+            <div class="sort-option" data-sort="recommended">Recommended</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row g-4" id="strategiesContainer">
+        <!-- Strategy 1 -->
+        <div class="col-md-6">
+          <div class="strategy-card position-relative" data-strategy="1">
+            <div class="recommended-badge">
+              <i class="bi bi-lightbulb-fill text-warning"></i>
+              <span>Recommended for you</span>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-start mb-4">
+              <h2 class="strategy-title">Strategy 1</h2>
+              <div class="d-flex gap-2">
+                <button class="btn btn-outline-primary btn-sm add-plan-btn">
+                  Add to plan <span><i class="bi bi-plus-circle"></i></span>
+                </button>
+                <button class="btn btn-link text-white p-0 bookmark-btn">
+                  <i class="bi bi-bookmark fs-5"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-6">
+                <p class="risk-level">Risk level: Moderate</p>
+                <p class="return-value">Return: 7.0%</p>
+              </div>
+              <div class="col-6">
+                <p class="duration">Duration: 5 years</p>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <button class="btn btn-primary btn-sm view-detail-btn">
+                View detail <span><i class="bi bi-arrow-right-square"></i></span>
+              </button>
+              <div class="rating" data-rating="0">
+                <i class="bi bi-star rating-star" data-index="1"></i>
+                <i class="bi bi-star rating-star" data-index="2"></i>
+                <i class="bi bi-star rating-star" data-index="3"></i>
+                <i class="bi bi-star rating-star" data-index="4"></i>
+                <i class="bi bi-star rating-star" data-index="5"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Strategy 2 -->
+        <div class="col-md-6">
+          <div class="strategy-card" data-strategy="2">
+            <div class="d-flex justify-content-between align-items-start mb-4">
+              <h2 class="strategy-title">Strategy 2</h2>
+              <div class="d-flex gap-2">
+                <button class="btn btn-outline-primary btn-sm add-plan-btn">
+                  Add to plan <span><i class="bi bi-plus-circle"></i></span>
+                </button>
+                <button class="btn btn-link text-white p-0 bookmark-btn">
+                  <i class="bi bi-bookmark fs-5"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-6">
+                <p class="risk-level">Risk level: Moderate</p>
+                <p class="return-value">Return: 7.0%</p>
+              </div>
+              <div class="col-6">
+                <p class="duration">Duration: 5 years</p>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <button class="btn btn-primary btn-sm view-detail-btn">
+                View detail <span><i class="bi bi-arrow-right-square"></i></span>
+              </button>
+              <div class="rating" data-rating="0">
+                <i class="bi bi-star rating-star" data-index="1"></i>
+                <i class="bi bi-star rating-star" data-index="2"></i>
+                <i class="bi bi-star rating-star" data-index="3"></i>
+                <i class="bi bi-star rating-star" data-index="4"></i>
+                <i class="bi bi-star rating-star" data-index="5"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Strategy 3 -->
+        <div class="col-md-6">
+          <div class="strategy-card" data-strategy="3">
+            <div class="d-flex justify-content-between align-items-start mb-4">
+              <h2 class="strategy-title">Strategy 3</h2>
+              <div class="d-flex gap-2">
+                <button class="btn btn-outline-primary btn-sm add-plan-btn">
+                  Add to plan <span><i class="bi bi-plus-circle"></i></span>
+                </button>
+                <button class="btn btn-link text-white p-0 bookmark-btn">
+                  <i class="bi bi-bookmark fs-5"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-6">
+                <p class="risk-level">Risk level: Moderate</p>
+                <p class="return-value">Return: 7.0%</p>
+              </div>
+              <div class="col-6">
+                <p class="duration">Duration: 5 years</p>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <button class="btn btn-primary btn-sm view-detail-btn">
+                View detail <span><i class="bi bi-arrow-right-square"></i></span>
+              </button>
+              <div class="rating" data-rating="0">
+                <i class="bi bi-star rating-star" data-index="1"></i>
+                <i class="bi bi-star rating-star" data-index="2"></i>
+                <i class="bi bi-star rating-star" data-index="3"></i>
+                <i class="bi bi-star rating-star" data-index="4"></i>
+                <i class="bi bi-star rating-star" data-index="5"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Strategy 4 -->
+        <div class="col-md-6">
+          <div class="strategy-card" data-strategy="4">
+            <div class="d-flex justify-content-between align-items-start mb-4">
+              <h2 class="strategy-title">Strategy 4</h2>
+              <div class="d-flex gap-2">
+                <button class="btn btn-outline-primary btn-sm add-plan-btn">
+                  Add to plan <span><i class="bi bi-plus-circle"></i></span>
+                </button>
+                <button class="btn btn-link text-white p-0 bookmark-btn">
+                  <i class="bi bi-bookmark fs-5"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-6">
+                <p class="risk-level">Risk level: Moderate</p>
+                <p class="return-value">Return: 7.0%</p>
+              </div>
+              <div class="col-6">
+                <p class="duration">Duration: 5 years</p>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <button class="btn btn-primary btn-sm view-detail-btn">
+                View detail <span><i class="bi bi-arrow-right-square"></i></span>
+              </button>
+              <div class="rating" data-rating="0">
+                <i class="bi bi-star rating-star" data-index="1"></i>
+                <i class="bi bi-star rating-star" data-index="2"></i>
+                <i class="bi bi-star rating-star" data-index="3"></i>
+                <i class="bi bi-star rating-star" data-index="4"></i>
+                <i class="bi bi-star rating-star" data-index="5"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-4 text-center">
+      <p>©COPYRIGHT 5NANCE 2025</p>
+    </footer>
+
+    <!-- AI Analysis Popup -->
+    <div class="ai-analysis-overlay" id="aiAnalysisOverlay">
+      <div class="ai-analysis-content">
+        <h2 class="text-center mb-4">Finding your best match...</h2>
+        
+        <div class="ai-robot-container">
+          <div class="ai-robot">
+            <img src="images/AI.png" alt="AI Robot" width="180" height="180">
+          </div>
+        </div>
+        
+        <div class="text-center mt-4">
+          <p>Our AI is analyzing your financial goals,<br>profile, and preferences...</p>
+          <p class="text-muted">This may take a few seconds.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Strategy Detail Popup -->
+    <div class="strategy-detail-overlay" id="strategyDetailOverlay">
+      <div class="strategy-detail-content">
+        <div class="strategy-detail-card">
+          <div class="user-avatar">
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-3tpDpD61QZ04ZKPXY3dmq92zJnqLNP.png" alt="User" class="avatar-img">
+          </div>
+          
+          <h2 class="strategy-detail-title">Strategy 1</h2>
+          
+          <div class="strategy-detail-info">
+            <div class="row mb-3">
+              <div class="col-6">
+                <p class="risk-level">Risk level: Moderate</p>
+                <p class="return-value">Return: 7.0%</p>
+              </div>
+              <div class="col-6">
+                <p class="duration">Duration: 5 years</p>
+              </div>
+            </div>
+            
+            <div class="strategy-description">
+              <h3>Description</h3>
+              <p>Conservative investment using bonds and fixed deposit.</p>
+            </div>
+          </div>
+          
+          <button class="btn btn-primary view-detail-close" id="closeDetailBtn">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JavaScript -->
+  <script src="js/AI.js"></script>
+</body>
+</html>
