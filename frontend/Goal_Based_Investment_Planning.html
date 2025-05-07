@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Goal-Based Investment Planning</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/frontend/css/Goal_Based_Investment_Planning.css">
+</head>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top custom-navbar py-3">
+    <div class="container">
+      <a href="/" class="logo text-decoration-none d-flex align-items-center">
+        <span class="logo-number">5</span>NANCE
+      </a>
+  
+      <!-- Hamburger Toggle -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <!-- Collapsible Links -->
+      <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+        <ul class="navbar-nav ms-md-5 gap-md-4">
+          <li class="nav-item">
+            <a class="nav-link active" href="index.html">HOME</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/services">SERVICES</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">ABOUT</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contact">CONTACT US</a>
+          </li>
+        </ul>
+        <div class="d-none d-md-block">
+          <i class="bi bi-person-circle fs-4 text-white"></i>
+        </div>
+      </div>
+    </div>
+  </nav>
+  
+<body>
+  <div class="container py-5">
+    <h1 class="text-center mb-4">Goal-Based Investment Planning</h1>
+    
+    <!-- Add Goal Button -->
+    <div class="mb-4" id="add-goal-button-container">
+      <button class="btn btn-primary w-100" id="add-goal-button">
+        <i class="bi bi-plus-lg me-2"></i> Add New Financial Goal
+      </button>
+    </div>
+    
+    <!-- Add Goal Form (initially hidden) -->
+    <div class="card mb-4 d-none" id="add-goal-form">
+      <div class="card-header">
+        <h5 class="card-title mb-0">Add New Financial Goal</h5>
+      </div>
+      <div class="card-body">
+        <form id="goal-form">
+          <div class="mb-3">
+            <label for="goal-name" class="form-label">Goal Name</label>
+            <input type="text" class="form-control" id="goal-name" placeholder="e.g., Retirement, House Down Payment" required>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="target-amount" class="form-label">Target Amount</label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" class="form-control" id="target-amount" placeholder="50000" required>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <label for="current-amount" class="form-label">Current Savings (Optional)</label>
+              <div class="input-group">
+                <span class="input-group-text">$</span>
+                <input type="number" class="form-control" id="current-amount" placeholder="0">
+              </div>
+            </div>
+          </div>
+          
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="category" class="form-label">Category</label>
+              <select class="form-select" id="category" required>
+                <option value="" selected disabled>Select category</option>
+                <option value="retirement">Retirement</option>
+                <option value="housing">Housing</option>
+                <option value="education">Education</option>
+                <option value="travel">Travel</option>
+                <option value="emergency">Emergency Fund</option>
+                <option value="other">Other</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="target-date" class="form-label">Target Date</label>
+              <input type="date" class="form-control" id="target-date" required>
+            </div>
+          </div>
+          
+          <div class="mb-3">
+            <label for="description" class="form-label">Description (Optional)</label>
+            <textarea class="form-control" id="description" rows="3" placeholder="Describe your financial goal..."></textarea>
+          </div>
+          
+          <div class="d-flex justify-content-between">
+            <button type="button" class="btn btn-outline-secondary" id="cancel-add-goal">Cancel</button>
+            <button type="submit" class="btn btn-primary">Add Goal</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    
+    <!-- Goals List Container -->
+    <div id="goals-container">
+      <!-- Goals will be added here dynamically -->
+    </div>
+  </div>
+  
+  <!-- Edit Goal Modal -->
+  <div class="modal fade" id="editGoalModal" tabindex="-1" aria-labelledby="editGoalModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="editGoalModalLabel">Edit Financial Goal</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="edit-goal-form">
+            <input type="hidden" id="edit-goal-id">
+            <div class="mb-3">
+              <label for="edit-goal-name" class="form-label">Goal Name</label>
+              <input type="text" class="form-control" id="edit-goal-name" required>
+            </div>
+            
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="edit-target-amount" class="form-label">Target Amount</label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input type="number" class="form-control" id="edit-target-amount" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="edit-current-amount" class="form-label">Current Savings</label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input type="number" class="form-control" id="edit-current-amount" required>
+                </div>
+              </div>
+            </div>
+            
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="edit-category" class="form-label">Category</label>
+                <select class="form-select" id="edit-category" required>
+                  <option value="retirement">Retirement</option>
+                  <option value="housing">Housing</option>
+                  <option value="education">Education</option>
+                  <option value="travel">Travel</option>
+                  <option value="emergency">Emergency Fund</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="edit-target-date" class="form-label">Target Date</label>
+                <input type="date" class="form-control" id="edit-target-date" required>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="edit-description" class="form-label">Description (Optional)</label>
+              <textarea class="form-control" id="edit-description" rows="3"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="save-edit-goal">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Add Savings Modal -->
+  <div class="modal fade" id="addSavingsModal" tabindex="-1" aria-labelledby="addSavingsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addSavingsModalLabel">Add Savings</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="savings-goal-id">
+          <div class="mb-3">
+            <label for="savings-amount" class="form-label">Amount</label>
+            <div class="input-group">
+              <span class="input-group-text">$</span>
+              <input type="number" class="form-control" id="savings-amount" placeholder="0" required>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="save-savings">Add Savings</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- SortableJS for drag and drop -->
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+  <!-- Custom JavaScript -->
+  <script src="/frontend/js/Goal_Based_Investment_Planning.js"></script>
+</body>
+</html>
