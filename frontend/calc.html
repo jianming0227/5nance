@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROI Calculator - 5NANCE</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="calculator.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header class="py-3">
+        <div class="container">
+            <div class="d-flex align-items-center">
+                <div class="logo me-4">
+                    <a href="#" class="text-decoration-none">
+                        <span class="logo-text">5</span><span class="logo-text-small">NANCE</span>
+                    </a>
+                </div>
+                <nav class="d-none d-md-flex">
+                    <ul class="nav">
+                        <li class="nav-item"><a href="#" class="nav-link">HOME</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">SERVICES</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">ABOUT</a></li>
+                        <li class="nav-item"><a href="#" class="nav-link">CONTACT US</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container py-5">
+        <!-- Hero Section -->
+        <section class="mb-5">
+            <h1 class="display-4 fw-bold">ROI Calculator</h1>
+            <p class="text-muted">Compare and visualize potential returns for your investments.</p>
+        </section>
+
+        <!-- Features Section -->
+        <section class="mb-5">
+            <h2 class="fw-bold mb-4">Why use our ROI Calculator?</h2>
+            <div class="row g-4">
+                <!-- Feature 1 -->
+                <div class="col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3 class="feature-title">SMART INPUT FORM</h3>
+                        <p class="feature-text">
+                            A user-friendly, responsive form where users can enter a few attributes like initial investment,
+                            interest rate, duration, and additional contributions.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 2 -->
+                <div class="col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <h3 class="feature-title">VISUAL ROI BREAKDOWN & ANALYTICS</h3>
+                        <p class="feature-text">
+                            ROI summary cards showing CAGR, effective annual rate, total interest earned, and final amount.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 3 -->
+                <div class="col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-file-alt"></i>
+                        </div>
+                        <h3 class="feature-title">EXPORT & REPORTING OPTIONS</h3>
+                        <p class="feature-text">
+                            Export results as PDF or generate a print-friendly report.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Feature 4 -->
+                <div class="col-md-6">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3 class="feature-title">BASIC FORMULA GUIDE</h3>
+                        <p class="feature-text">
+                            Explain the usage of the formula
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Calculator Section -->
+        <section class="mb-5">
+            <h2 class="fw-bold mb-4">Calculate your ROI 🙂</h2>
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <form id="roi-form">
+                        <!-- Initial Investment -->
+                        <div class="mb-4">
+                            <label for="initial-investment" class="form-label fw-medium">Initial Investment</label>
+                            <input type="number" class="form-control" id="initial-investment" placeholder="Enter amount" required>
+                        </div>
+
+                        <!-- Annual Interest Rate -->
+                        <div class="mb-4">
+                            <label for="interest-rate" class="form-label fw-medium">Annual Interest Rate (%)</label>
+                            <input type="number" class="form-control" id="interest-rate" placeholder="Enter rate" step="0.01" required>
+                        </div>
+
+                        <!-- Investment Duration -->
+                        <div class="mb-4">
+                            <label for="duration" class="form-label fw-medium">Investment Duration (Years)</label>
+                            <input type="number" class="form-control" id="duration" placeholder="Enter years" required>
+                        </div>
+
+                        <!-- Additional Contributions -->
+                        <div class="mb-4">
+                            <label class="form-label fw-medium">Additional Contributions</label>
+                            <div class="d-flex">
+                                <div class="form-check me-4">
+                                    <input class="form-check-input" type="radio" name="contribution-frequency" id="monthly" value="monthly">
+                                    <label class="form-check-label" for="monthly">Monthly</label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="contribution-frequency" id="yearly" value="yearly">
+                                    <label class="form-check-label" for="yearly">Yearly</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Contribution Amount (conditionally shown) -->
+                        <div class="mb-4" id="contribution-amount-container" style="display: none;">
+                            <label for="contribution-amount" class="form-label fw-medium">Contribution Amount</label>
+                            <input type="number" class="form-control" id="contribution-amount" placeholder="Enter amount">
+                        </div>
+
+                        <!-- Buttons -->
+                        <div class="d-flex gap-3">
+                            <button type="submit" class="btn btn-primary px-4 rounded-pill">CALCULATE</button>
+                            <button type="button" id="export-btn" class="btn btn-outline-primary px-4 rounded-pill">EXPORT</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="col-lg-6 d-flex align-items-center justify-content-center">
+                    <img src="images/finance_illustration.png" alt="Financial illustration" class="img-fluid" style="max-height: 400px;">
+                </div>
+            </div>
+        </section>
+
+        <!-- Results Section -->
+        <section id="results-section" style="display: none;">
+            <div class="row g-4 mb-5">
+                <!-- Final Value -->
+                <div class="col-md-6">
+                    <div class="result-card">
+                        <h3 class="result-title">Final Value (Total Portfolio Value)</h3>
+                        <p id="final-value" class="result-value text-success">RM 0</p>
+                    </div>
+                </div>
+
+                <!-- Total Contributions -->
+                <div class="col-md-6">
+                    <div class="result-card">
+                        <h3 class="result-title">Total Contributions</h3>
+                        <p id="total-contributions" class="result-value">RM 0 <i class="fas fa-arrow-up-right text-success ms-2"></i></p>
+                    </div>
+                </div>
+
+                <!-- Total Interest Earned -->
+                <div class="col-md-6">
+                    <div class="result-card">
+                        <h3 class="result-title">Total Interest Earned (Total Returns)</h3>
+                        <div class="formula-box">
+                            ROI=Total Contributions/Returns×100
+                        </div>
+                        <p id="total-interest" class="result-value">RM 0 <i class="fas fa-arrow-up-right text-success ms-2"></i></p>
+                    </div>
+                </div>
+
+                <!-- CAGR -->
+                <div class="col-md-6">
+                    <div class="result-card">
+                        <h3 class="result-title">CAGR / Effective Annual Rate</h3>
+                        <div class="formula-box">
+                            CAGR=(Initial Investment/Final Value)^(1/t)-1
+                        </div>
+                        <p id="cagr" class="result-value">0% <i class="fas fa-arrow-up-right text-success ms-2"></i></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <h3 class="fw-bold mb-4">Investment Visualization</h3>
+                
+                <!-- Growth Chart -->
+                <div class="chart-container mb-5">
+                    <h4 class="chart-title">Investment Growth Over Time</h4>
+                    <div class="chart-wrapper">
+                        <canvas id="growthChart"></canvas>
+                    </div>
+                </div>
+                
+                <div class="row g-4">
+                    <!-- Breakdown Chart -->
+                    <div class="col-md-6">
+                        <div class="chart-container">
+                            <h4 class="chart-title">Investment Breakdown</h4>
+                            <div class="chart-wrapper">
+                                <canvas id="breakdownChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Yearly Comparison Chart -->
+                    <div class="col-md-6">
+                        <div class="chart-container">
+                            <h4 class="chart-title">Yearly Comparison</h4>
+                            <div class="chart-wrapper">
+                                <canvas id="yearlyComparisonChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="py-4 text-center">
+        <div class="container">
+            <p class="text-muted small mb-0">©COPYRIGHT 5NANCE 2025</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- jsPDF for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- Custom JS -->
+    <script src="calculator.js"></script>
+</body>
+</html>
