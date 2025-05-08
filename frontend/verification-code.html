@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5NANCE - Verify Account</title>
+    <link rel="stylesheet" href="css/user.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <div class="logo-nav">
+                    <div class="logo">
+                        <span class="logo-number">5</span>NANCE
+                    </div>
+                    <nav class="main-nav">
+                        <a href="#" class="nav-link">HOME</a>
+                        <a href="#" class="nav-link">SERVICES</a>
+                        <a href="#" class="nav-link">ABOUT</a>
+                        <a href="#" class="nav-link">CONTACT US</a>
+                    </nav>
+                </div>
+                <div class="header-icons">
+                    <button class="icon-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                        </svg>
+                    </button>
+                    <button class="icon-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+    <!-- Main Content -->
+    <main>
+        <h1 class="main-title">Check your email</h1>
+
+            <div class="verification-container">
+                <p class="verification-message">
+                    We sent a reset link to <span class="email-highlight">email@example.com</span>
+                </p>
+                <p class="verification-instruction">
+                    Enter 5 digit code that mentioned in the email
+                </p>
+                
+                <form id="verification-form" class="verification-form">
+                    <div class="code-inputs">
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                        <input type="text" class="code-input" maxlength="1" pattern="[0-9]" inputmode="numeric" required>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="verify-button">VERIFY CODE</button>
+                    </div>
+                </form>
+            </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>©COPYRIGHT 5NANCE 2025</p>
+    </footer>
+  </div>
+
+  <script src="js/verification-code.js"></script>
+
+</body>
+</html>

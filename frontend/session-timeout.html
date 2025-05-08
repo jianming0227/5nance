@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5NANCE - Session Expired Soon</title>
+    <link rel="stylesheet" href="css/user.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <div class="logo-nav">
+                    <div class="logo">
+                        <span class="logo-number">5</span>NANCE
+                    </div>
+                    <nav class="main-nav">
+                        <a href="#" class="nav-link">HOME</a>
+                        <a href="#" class="nav-link">SERVICES</a>
+                        <a href="#" class="nav-link">ABOUT</a>
+                        <a href="#" class="nav-link">CONTACT US</a>
+                    </nav>
+                </div>
+                <div class="header-icons">
+                    <button class="icon-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <h1 class="main-title">Session Expired Soon</h1>
+
+            <div class="session-container">
+                <p class="session-message">Automatic logout in</p>
+                
+                <div class="countdown-container">
+                    <div id="countdown" class="countdown">60</div>
+                    <div class="countdown-label">SECONDS</div>
+                </div>
+                
+                <p class="continue-message">Would you like to continue with your session?</p>
+                
+                <button id="continue-btn" class="continue-button">CONTINUE SESSION</button>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>©COPYRIGHT 5NANCE 2025</p>
+        </footer>
+    </div>
+
+    <script>
+        // Set the countdown time in seconds
+        let timeLeft = 60;
+        
+        // Get the countdown element
+        const countdownElement = document.getElementById('countdown');
+        
+        // Get the continue button
+        const continueButton = document.getElementById('continue-btn');
+        
+        // Function to update the countdown
+        function updateCountdown() {
+            // Display the current time left
+            countdownElement.textContent = timeLeft;
+            
+            // Decrease the time left
+            timeLeft--;
+            
+            // If time runs out, redirect to logout page
+            if (timeLeft < 0) {
+                clearInterval(countdownInterval);
+                // Redirect to logout page or perform logout action
+                // window.location.href = 'logout.html';
+                alert('You have been logged out due to inactivity.');
+            }
+        }
+        
+        // Start the countdown
+        const countdownInterval = setInterval(updateCountdown, 1000);
+        
+        // Reset the countdown when the continue button is clicked
+        continueButton.addEventListener('click', function() {
+            timeLeft = 60;
+            // Here you would typically make an API call to refresh the session
+            alert('Your session has been extended.');
+        });
+    </script>
+</body>
+</html>

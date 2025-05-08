@@ -1,0 +1,107 @@
+
+//select country, state and city for sign-up-page.html
+const stateOptions = {
+    "Malaysia": [
+        "Selangor", "Pulau Pinang", "Sabah", "Pahang", "Perak",
+        "Perlis", "Terengganu", "Kedah", "Johor", "Kelantan",
+        "Sarawak", "Melaka", "Negeri Sembilan", "Wilayah Persekutuan"
+    ]
+};
+
+const cityOptions = {
+    "Selangor": ["Shah Alam", "Petaling Jaya", "Klang", "Subang Jaya", "Kajang"],
+    "Pulau Pinang": ["George Town", "Butterworth", "Bayan Lepas", "Bukit Mertajam"],
+    "Sabah": ["Kota Kinabalu", "Sandakan", "Tawau", "Lahad Datu", "Keningau"],
+    "Pahang": ["Kuantan", "Temerloh", "Bentong", "Jerantut"],
+    "Perak": ["Ipoh", "Taiping", "Teluk Intan", "Sitiawan"],
+    "Perlis": ["Kangar", "Arau", "Padang Besar"],
+    "Terengganu": ["Kuala Terengganu", "Dungun", "Kemaman", "Marang"],
+    "Kedah": ["Alor Setar", "Sungai Petani", "Kulim", "Langkawi"],
+    "Johor": ["Johor Bahru", "Batu Pahat", "Kluang", "Muar"],
+    "Kelantan": ["Kota Bharu", "Pasir Mas", "Tumpat", "Tanah Merah"],
+    "Sarawak": ["Kuching", "Miri", "Sibu", "Bintulu"],
+    "Melaka": ["Melaka City", "Alor Gajah", "Jasin"],
+    "Negeri Sembilan": ["Seremban", "Port Dickson", "Nilai"],
+    "Wilayah Persekutuan": ["Kuala Lumpur", "Putrajaya", "Labuan"]
+};
+
+function populateCountries() {
+    const countrySelect = document.getElementById('country');
+    // Populate country dropdown dynamically
+    Object.keys(stateOptions).forEach(country => {
+        const opt = document.createElement('option');
+        opt.value = country;
+        opt.textContent = country;
+        countrySelect.appendChild(opt);
+    });
+}
+
+function updateState() {
+    const country = document.getElementById('country').value;
+    const stateSelect = document.getElementById('state');
+    const citySelect = document.getElementById('city');
+
+    // Clear state and city options
+    stateSelect.innerHTML = '<option value="">--Select State--</option>';
+    citySelect.innerHTML = '<option value="">--Select City--</option>';
+
+    if (stateOptions[country]) {
+        stateOptions[country].forEach(state => {
+            const opt = document.createElement('option');
+            opt.value = state;
+            opt.textContent = state;
+            stateSelect.appendChild(opt);
+        });
+    }
+}
+
+function updateCity() {
+    const state = document.getElementById('state').value;
+    const citySelect = document.getElementById('city');
+
+    // Clear city options
+    citySelect.innerHTML = '<option value="">--Select City--</option>';
+
+    if (cityOptions[state]) {
+        cityOptions[state].forEach(city => {
+            const opt = document.createElement('option');
+            opt.value = city;
+            opt.textContent = city;
+            citySelect.appendChild(opt);
+        });
+    }
+}
+
+// Initialize countries on page load
+window.onload = populateCountries;
+
+//Toggle between password visibility -- log-in-page.html
+function pwVisibility() {
+    var x = document.getElementById("myInput");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+}
+
+//validate log in
+document.addEventListener("DOMContentLoaded", function () {
+    const loginButton = document.querySelector(".login-button");
+  
+    loginButton.addEventListener("click", function (event) {
+      event.preventDefault(); // Prevent default link behavior
+  
+      const email = document.getElementById("email").value.trim();
+      const password = document.getElementById("myInput").value.trim();
+  
+      if (!email || !password) {
+        alert("Please enter both email and password.");
+        return;
+      }
+  
+      alert("Login successful!");
+      window.location.href = "dashboard.html";
+    });
+  });
+  
