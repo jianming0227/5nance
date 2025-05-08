@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5NANCE - Sign Up</title>
+    <link rel="stylesheet" href="css/user.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <div class="logo-nav">
+                    <div class="logo">
+                        <span class="logo-number">5</span>NANCE
+                    </div>
+                    <nav class="main-nav">
+                        <a href="#" class="nav-link">HOME</a>
+                        <a href="#" class="nav-link">SERVICES</a>
+                        <a href="#" class="nav-link">ABOUT</a>
+                        <a href="#" class="nav-link">CONTACT US</a>
+                    </nav>
+                </div>
+                <div class="header-icons">
+                    <button class="icon-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                        </svg>
+                    </button>
+                    <button class="icon-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <h1 class="main-title">Get Started Now</h1>
+
+            <form class="signup-form">
+                <!-- Name Field -->
+                <div class="form-group">
+                    <label for="name" class="form-label">NAME*</label>
+                    <div class="input-container">
+                        <input id="name" type="text" placeholder="Jian Ming" class="form-input" required>
+                    </div>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="email" class="form-label">EMAIL ADDRESS*</label>
+                    <div class="input-container">
+                        <input id="email" type="email" placeholder="email@example.com" class="form-input" required>
+                    </div>
+                </div>
+
+                <!-- Contact Number Field -->
+                <div class="form-group">
+                    <label for="contact" class="form-label">CONTACT NUMBER*</label>
+                    <div class="input-container contact-input">
+                        <select id="country-code" class="country-code">
+                            <option value="+60">+60 (MY)</option>
+                            <!-- <option value="+65">+65 (SG)</option>
+                            <option value="+1">+1 (US)</option>
+                            <option value="+44">+44 (UK)</option> -->
+                        </select>
+                        <input id="contact" type="tel" class="phone-input" required>
+                    </div>
+                </div>
+
+                <!-- Date of Birth Field -->
+                <div class="form-group">
+                    <label for="dob" class="form-label">DATE OF BIRTH*</label>
+                    <div class="input-container">
+                      <input id="dob" type="date" class="form-input" required>
+                      <button type="button" class="calendar-button" onclick="document.getElementById('dob').showPicker()">
+                        <svg class="calendar-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10m-12 4h12M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                      </button>
+                    </div>
+                  </div>
+                  
+
+                <!-- Country Field -->
+                <div class="form-group">
+                    <label for="country" class="form-label">COUNTRY*</label>
+                    <div class="input-container select-container">
+                        <select id="country" class="form-input" onchange="updateState()" required>
+                            <option value="">--Select Country--</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- State Field -->
+                <div class="form-group">
+                    <label for="state" class="form-label">STATE*</label>
+                    <div class="input-container select-container">
+                        <select id="state" class="form-input" onchange="updateCity()" required>
+                            <option value="">--Select State--</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- City Field -->
+                <div class="form-group">
+                    <label for="city" class="form-label">CITY*</label>
+                    <div class="input-container select-container">
+                        <select id="city" class="form-input" required>
+                            <option value="">--Select City--</option>
+                        </select>
+                    </div>
+                </div>
+
+                <script src="js/scripts.js"></script>
+
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password" class="form-label">PASSWORD*</label>
+                    <div class="input-container">
+                        <input id="password" type="password" placeholder="@123abc" class="form-input" required>
+                    </div>
+                </div>
+
+                <!-- Sign In Button -->
+                <div class="button-container">
+                    <button type="submit" class="signin-button">SIGN UP</button>
+                </div>
+            </form>
+
+            <!-- Divider -->
+            <div class="divider">
+                <div class="divider-line"></div>
+                <div class="divider-text">Or</div>
+                <div class="divider-line"></div>
+            </div>
+
+            <!-- Google Sign In -->
+            <button class="google-signin">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="google-icon">
+                    <path fill="#EA4335" d="M5.26620003,9.76452941 C6.19878754,6.93863203 8.85444915,4.90909091 12,4.90909091 C13.6909091,4.90909091 15.2181818,5.50909091 16.4181818,6.49090909 L19.9090909,3 C17.7818182,1.14545455 15.0545455,0 12,0 C7.27006974,0 3.1977497,2.69829785 1.23999023,6.65002441 L5.26620003,9.76452941 Z"/>
+                    <path fill="#34A853" d="M16.0407269,18.0125889 C14.9509167,18.7163016 13.5660892,19.0909091 12,19.0909091 C8.86648613,19.0909091 6.21911939,17.076871 5.27698177,14.2678769 L1.23746264,17.3349879 C3.19279051,21.2970142 7.26500293,24 12,24 C14.9328362,24 17.7353462,22.9573905 19.834192,20.9995801 L16.0407269,18.0125889 Z"/>
+                    <path fill="#4A90E2" d="M19.834192,20.9995801 C22.0291676,18.9520994 23.4545455,15.903663 23.4545455,12 C23.4545455,11.2909091 23.3454545,10.5272727 23.1818182,9.81818182 L12,9.81818182 L12,14.4545455 L18.4363636,14.4545455 C18.1187732,16.013626 17.2662994,17.2212117 16.0407269,18.0125889 L19.834192,20.9995801 Z"/>
+                    <path fill="#FBBC05" d="M5.27698177,14.2678769 C5.03832634,13.556323 4.90909091,12.7937589 4.90909091,12 C4.90909091,11.2182781 5.03443647,10.4668121 5.26620003,9.76452941 L1.23999023,6.65002441 C0.43658717,8.26043162 0,10.0753848 0,12 C0,13.9195484 0.444780743,15.7301709 1.23746264,17.3349879 L5.27698177,14.2678769 Z"/>
+                </svg>
+                
+                <span style="font-weight: 500;">Sign in with Google</span>
+            </button>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>©COPYRIGHT 5NANCE 2025</p>
+        </footer>
+    </div>
+</body>
+</html>

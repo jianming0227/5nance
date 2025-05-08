@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>5NANCE - Log In</title>
+    <link rel="stylesheet" href="css/user.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header>
+            <div class="header-content">
+                <div class="logo-nav">
+                    <div class="logo">
+                        <span class="logo-number">5</span>NANCE
+                    </div>
+                    <nav class="main-nav">
+                        <a href="#" class="nav-link">HOME</a>
+                        <a href="#" class="nav-link">SERVICES</a>
+                        <a href="#" class="nav-link">ABOUT</a>
+                        <a href="#" class="nav-link">CONTACT US</a>
+                    </nav>
+                </div>
+                <div class="header-icons">
+                    <button class="icon-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                            <path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"></path>
+                            <path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"></path>
+                        </svg>
+                    </button>
+                    <button class="icon-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main>
+            <h1 class="welcome">Welcome Back!</h1>
+            <div class="login-box">
+                <h2>Enter your Credentials to access your account</h2>
+                <form>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" placeholder="email@example.com" required>
+                    </div>
+                
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" placeholder="Password" id="myInput" required>
+                    </div>
+
+                    <div class="checkbox-row">
+                        <label class="checkbox">
+                          <input type="checkbox" id="showpassword" onclick="pwVisibility()">
+                          Show Password
+                        </label>
+                      
+                        <label class="checkbox">
+                          <input type="checkbox" id="remember">
+                          Remember me
+                        </label>
+                    </div>
+                      
+                    <div class="form-group">
+                        <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
+                    </div>
+                
+                    <div class="button-group">
+                        <a href="#" class="cancel">CANCEL</a>
+                        <a href="#" class="login">LOG IN</a>
+                      </div>
+                
+                    <div class="form-group">
+                        <p class="signup-text">
+                            Don’t have an account? <a href="sign-up-page.html" class="signup-link">Sign Up</a>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer>
+            <p>©COPYRIGHT 5NANCE 2025</p>
+        </footer>
+    </div>
+
+    <script src="js/scripts.js"></script>
+
+</body>
+</html>
