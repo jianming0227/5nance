@@ -4,35 +4,47 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>5NANCE - Session Expired Soon</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/user.css">
 </head>
 <body>
     <div class="container">
-        <!-- Header -->
-        <header>
-            <div class="header-content">
-                <div class="logo-nav">
-                    <div class="logo">
-                        <span class="logo-number">5</span>NANCE
-                    </div>
-                    <nav class="main-nav">
-                        <a href="#" class="nav-link">HOME</a>
-                        <a href="#" class="nav-link">SERVICES</a>
-                        <a href="#" class="nav-link">ABOUT</a>
-                        <a href="#" class="nav-link">CONTACT US</a>
-                    </nav>
-                </div>
-                <div class="header-icons">
-                    <button class="icon-button">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
-                            <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                            <circle cx="12" cy="7" r="4"></circle>
-                        </svg>
-                    </button>
-                </div>
-            </div>
-        </header>
+     <!-- Navbar -->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top custom-navbar py-3">
+  <div class="container">
+    <a href="/" class="logo text-decoration-none d-flex align-items-center">
+      <span class="logo-number">5</span>NANCE
+    </a>
 
+    <!-- Hamburger Toggle -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+      aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Collapsible Links -->
+    <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+      <ul class="navbar-nav ms-md-5 gap-md-4">
+        <li class="nav-item">
+          <a class="nav-link active" href="index.html">HOME</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/services">SERVICES</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="about.html">ABOUT</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="/contact">CONTACT US</a>
+        </li>
+      </ul>
+      <div class="d-none d-md-block">
+        <i class="bi bi-person-circle fs-4 text-white"></i>
+      </div>
+    </div>
+  </div>
+</nav>
         <!-- Main Content -->
         <main>
             <h1 class="main-title">Session Expired Soon</h1>

@@ -14,35 +14,46 @@
 </head>
 
 <body>
-    <div class="finance-app">
-        <!-- Header -->
-        <header class="py-3">
-            <div class="container">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div class="d-flex align-items-center gap-5">
-                        <a href="/" class="logo text-decoration-none">
-                            <span class="logo-number">5</span>NANCE
-                        </a>
-                        <nav class="d-none d-md-flex">
-                            <ul class="nav-links">
-                                <li><a href="/" class="active">HOME</a></li>
-                                <li><a href="/services">SERVICES</a></li>
-                                <li><a href="/about">ABOUT</a></li>
-                                <li><a href="/contact">CONTACT US</a></li>
-                            </ul>
-                        </nav>
-                    </div>
-                    <div>
-                        <i class="bi bi-person-circle fs-4"></i>
-                    </div>
-                </div>
-            </div>
-        </header>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top custom-navbar py-3">
+    <div class="container">
+      <a href="/" class="logo text-decoration-none d-flex align-items-center">
+        <span class="logo-number">5</span>NANCE
+      </a>
+  
+      <!-- Hamburger Toggle -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <!-- Collapsible Links -->
+      <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+        <ul class="navbar-nav ms-md-5 gap-md-4">
+          <li class="nav-item">
+            <a class="nav-link active" href="index.html">HOME</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/services">SERVICES</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">ABOUT</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contact">CONTACT US</a>
+          </li>
+        </ul>
+        <div class="d-none d-md-block">
+          <i class="bi bi-person-circle fs-4 text-white"></i>
+        </div>
+      </div>
+    </div>
+  </nav>
 
 
         <!-- Main Content -->
         <main class="container py-5">
-            <h1 class="main-heading mb-4">Market Insights Dashboard</h1>
+            <h1 class="mt-5 main-heading mb-4">Market Insights Dashboard</h1>
             <h6 class="h6">Central hub to track, analyze, and stay updated on financial markets in real time.</h6>
 
             <!-- Horizontal Scrolling Container -->

@@ -14,33 +14,50 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-    <!-- Header -->
-    <header class="py-3">
-        <div class="container">
-            <div class="d-flex align-items-center">
-                <div class="logo me-4">
-                    <a href="#" class="text-decoration-none">
-                        <span class="logo-text">5</span><span class="logo-text-small">NANCE</span>
-                    </a>
-                </div>
-                <nav class="d-none d-md-flex">
-                    <ul class="nav">
-                        <li class="nav-item"><a href="#" class="nav-link">HOME</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">SERVICES</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">ABOUT</a></li>
-                        <li class="nav-item"><a href="#" class="nav-link">CONTACT US</a></li>
-                    </ul>
-                </nav>
-            </div>
+ <!-- Navbar -->
+ <nav class="navbar navbar-expand-md navbar-dark fixed-top custom-navbar py-3">
+    <div class="container">
+      <a href="/" class="logo text-decoration-none d-flex align-items-center">
+        <span class="logo-number">5</span>NANCE
+      </a>
+  
+      <!-- Hamburger Toggle -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <!-- Collapsible Links -->
+      <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+        <ul class="navbar-nav ms-md-5 gap-md-4">
+          <li class="nav-item">
+            <a class="nav-link active" href="index.html">HOME</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/services">SERVICES</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">ABOUT</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/contact">CONTACT US</a>
+          </li>
+        </ul>
+        <div class="d-none d-md-block">
+          <i class="bi bi-person-circle fs-4 text-white"></i>
         </div>
-    </header>
+      </div>
+    </div>
+  </nav>
 
     <!-- Main Content -->
     <main class="container py-5">
         <!-- Hero Section -->
-        <section class="mb-5">
-            <h1 class="display-4 fw-bold">ROI Calculator</h1>
-            <p class="text-muted">Compare and visualize potential returns for your investments.</p>
+        <section style="margin-top: 50px"></section> 
+            <h1 class="display-4 fw-bold gap-2">ROI Calculator</h1>
+            <span class="move-down"></span>
+            <p class="text-white" style="margin-bottom: 50px">Compare and visualize potential returns for your investments.</p>
+            
         </section>
 
         <!-- Features Section -->
@@ -103,7 +120,7 @@
         </section>
 
         <!-- Calculator Section -->
-        <section class="mb-5">
+        <section class="mb-5" style="margin-top: 100px;">
             <h2 class="fw-bold mb-4">Calculate your ROI 🙂</h2>
             <div class="row g-4">
                 <div class="col-lg-6">
@@ -161,7 +178,7 @@
         </section>
 
         <!-- Results Section -->
-        <section id="results-section" style="display: none;">
+        <section id="results-section" style="display: none; margin-top: 100px;">
             <div class="row g-4 mb-5">
                 <!-- Final Value -->
                 <div class="col-md-6">
@@ -203,7 +220,7 @@
             </div>
 
             <!-- Charts Section -->
-            <div class="charts-section">
+            <div class="charts-section" style="margin-top: 100px;">
                 <h3 class="fw-bold mb-4">Investment Visualization</h3>
                 
                 <!-- Growth Chart -->

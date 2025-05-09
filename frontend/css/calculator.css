@@ -2,43 +2,61 @@
 body {
     background-color: #050726;
     color: white;
-    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  }
-  
-  /* Header Styles */
-  header {
-    background-color: #050726;
-  }
-  
-  .logo-text {
-    color: #2563eb;
-    font-size: 2rem;
-    font-weight: bold;
-  }
-  
-  .logo-text-small {
-    color: #2563eb;
-    font-size: 1.2rem;
-    font-weight: bold;
-  }
-  
-  .nav-link {
-    color: white;
-    font-size: 0.9rem;
-    margin-right: 1.5rem;
-    transition: color 0.3s;
-  }
-  
-  .nav-link:hover {
-    color: #2563eb;
-  }
+    font-family: 'DM Sans', 'Inter', sans-serif;
+}
+
+
+/* Custom Navbar Background */
+.custom-navbar {
+    background-color: #010725;
+}
+
+/* Logo Styling */
+  .logo {
+    color: #0328EE;
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+  .logo-number {
+    font-size: 2.5rem;
+}
+
+/* Navbar Links */
+  .navbar-nav .nav-link {
+    color: #ffffff;
+    transition: color 0.2s ease;
+    text-transform: uppercase;
+}
+
+/* Hover + Active Effect */
+  .navbar-nav .nav-link:hover,
+  .navbar-nav .nav-link.active {
+    color: #0328EE;
+}
+
+/* Hamburger Icon */
+  .navbar-toggler {
+    border: none;
+}
+
+  .navbar-toggler:focus {
+    box-shadow: none;
+}  
   
   /* Feature Cards */
   .feature-card {
+    position: relative;
+    height: 100vh;
     background-color: #0a1145;
     border-radius: 1rem;
     padding: 2rem;
     height: 100%;
+  }
+
+  .move-down {
+    position: relative;
+    top: 10px;
   }
   
   .feature-icon {

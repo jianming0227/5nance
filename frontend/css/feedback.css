@@ -1,4 +1,10 @@
 /* Custom Navbar Background */
+body {
+    background-color: #050726;
+    color: white;
+    font-family: 'DM Sans', 'Inter', sans-serif;
+  }   
+
 .custom-navbar {
     background-color: #010725;
   }
