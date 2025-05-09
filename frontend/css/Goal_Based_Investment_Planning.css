@@ -2,7 +2,9 @@
 body {
   background-color: #010725;
   color: #ffffff;
+  font-family: 'DM Sans', 'Inter', sans-serif;
 }
+
 
 /* Container styling */
 .container {
@@ -261,81 +263,40 @@ h1, h2, h3, h4, h5, h6 {
   color: #ffffff;
 }
 
-/* Navbar styles */
+/* Custom Navbar Background */
 .custom-navbar {
   background-color: #010725;
-  padding: 1rem 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
 
+/* Logo Styling */
 .logo {
+  color: #0328EE;
   font-size: 1.5rem;
   font-weight: 700;
-  color: #ffffff;
 }
 
 .logo-number {
-  color: #0d6efd;
-  font-weight: 800;
-  margin-right: 2px;
+  font-size: 2.5rem;
 }
 
-.navbar-nav {
-  margin-left: 2rem;
-}
-
-.navbar-nav .nav-item {
-  margin-right: 1.5rem;
-}
-
+/* Navbar Links */
 .navbar-nav .nav-link {
   color: #ffffff;
-  font-weight: 500;
-  letter-spacing: 0.5px;
-  padding: 0.5rem 0;
   transition: color 0.2s ease;
+  text-transform: uppercase;
 }
 
-.navbar-nav .nav-link:hover {
-  color: #0d6efd;
-}
-
+/* Hover + Active Effect */
+.navbar-nav .nav-link:hover,
 .navbar-nav .nav-link.active {
-  color: #0d6efd;
+  color: #0328EE;
 }
 
-.navbar-dark .navbar-toggler {
-  border-color: rgba(255, 255, 255, 0.1);
+/* Hamburger Icon */
+.navbar-toggler {
+  border: none;
 }
 
-.navbar-dark .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.7%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
-}
-
-/* Add padding to body to account for fixed navbar */
-body {
-  padding-top: 76px; /* Adjust based on navbar height */
-}
-
-/* Make sure the navbar is full width on mobile */
-@media (max-width: 768px) {
-  .navbar-collapse {
-    background-color: #010725;
-    padding: 1rem;
-    margin: 0 -1rem;
-  }
-  
-  .navbar-nav {
-    padding-top: 0.5rem;
-    margin-left: 0;
-  }
-  
-  .navbar-nav .nav-item {
-    margin-right: 0;
-    margin-bottom: 0.5rem;
-  }
-  
-  body {
-    padding-top: 62px; /* Adjust for smaller navbar on mobile */
-  }
-}
+.navbar-toggler:focus {
+  box-shadow: none;
+}  
