@@ -8,11 +8,216 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="/5nance/frontend/css/Goal_Based_Investment_Planning.css">
-</head>
+  <link rel="stylesheet" href="/frontend/css/Goal_Based_Investment_Planning.css">
+  <style>
+    /* Add animations directly in HTML to ensure they're applied */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-  <!-- Navbar -->
+    @keyframes slideUp {
+      from { 
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to { 
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes progressAnimation {
+      from { 
+        width: 0;
+        opacity: 0.5;
+      }
+      to { 
+        opacity: 1;
+      }
+    }
+
+    @keyframes glow {
+      0% { text-shadow: 0 0 10px rgba(3, 40, 238, 0.2); }
+      50% { text-shadow: 0 0 20px rgba(3, 40, 238, 0.4); }
+      100% { text-shadow: 0 0 10px rgba(3, 40, 238, 0.2); }
+    }
+
+    /* Apply animations to elements */
+    h1.text-center {
+      animation: fadeIn 1s ease-in-out, glow 3s infinite;
+    }
+
+    .card {
+      animation: slideUp 0.5s ease-out;
+    }
+
+    .progress-bar {
+      animation: progressAnimation 1.5s ease-out;
+    }
+
+    /* Add animation delays to cards */
+    .goal-card:nth-child(1) { animation-delay: 0.1s; }
+    .goal-card:nth-child(2) { animation-delay: 0.2s; }
+    .goal-card:nth-child(3) { animation-delay: 0.3s; }
+    .goal-card:nth-child(4) { animation-delay: 0.4s; }
+    .goal-card:nth-child(5) { animation-delay: 0.5s; }
+    
+    /* Quote carousel styling */
+    .quote-carousel {
+      background: linear-gradient(145deg, #051042, #0a1956);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .quote-text {
+      font-size: 1.2rem;
+      font-style: italic;
+      line-height: 1.6;
+      position: relative;
+      padding: 0 1.5rem;
+    }
+    
+    .quote-text:before, .quote-text:after {
+      content: '"';
+      font-size: 2.5rem;
+      color: #0328EE;
+      position: absolute;
+      opacity: 0.7;
+    }
+    
+    .quote-text:before {
+      left: -0.5rem;
+      top: -1rem;
+    }
+    
+    .quote-text:after {
+      right: -0.5rem;
+      bottom: -2rem;
+    }
+    
+    .quote-author {
+      font-weight: 600;
+      color: #00ffcc;
+      text-align: right;
+      margin-top: 1rem;
+    }
+    
+    /* Benefits section styling */
+    .benefits-section {
+      margin-bottom: 2rem;
+    }
+    
+    .benefit-card {
+      background: linear-gradient(145deg, #051042, #0a1956);
+      border-radius: 12px;
+      padding: 1.5rem;
+      height: 100%;
+      transition: all 0.3s ease;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .benefit-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+    }
+    
+    .benefit-icon {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #0328EE;
+      background: rgba(3, 40, 238, 0.1);
+      width: 60px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+    }
+    
+    .benefit-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    
+    /* Stats counter styling */
+    .stats-section {
+      background: linear-gradient(145deg, #051042, #0a1956);
+      border-radius: 12px;
+      padding: 2rem;
+      margin-bottom: 2rem;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .stat-item {
+      text-align: center;
+      padding: 1rem;
+    }
+    
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      background: linear-gradient(90deg, #0328EE, #00ffcc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    
+    .stat-label {
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: rgba(255, 255, 255, 0.8);
+    }
+    
+    /* Call to action button */
+    .cta-button {
+      background: linear-gradient(to right, #0328EE, #00ffcc);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      font-weight: 600;
+      border-radius: 50px;
+      box-shadow: 0 5px 15px rgba(3, 40, 238, 0.3);
+      transition: all 0.3s ease;
+      margin-bottom: 2rem;
+    }
+    
+    .cta-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(3, 40, 238, 0.4);
+      color: white;
+    }
+    
+    /* Section headers */
+    .section-header {
+      margin-bottom: 1.5rem;
+      position: relative;
+      display: inline-block;
+    }
+    
+    .section-header:after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(to right, #0328EE, #00ffcc);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar - Preserving your friend's changes -->
   <nav class="navbar navbar-expand-md navbar-dark fixed-top custom-navbar py-3">
     <div class="container">
       <a href="/" class="logo text-decoration-none d-flex align-items-center">
@@ -48,81 +253,219 @@
     </div>
   </nav>
   
-<body>
   <div class="container py-5">
     <h1 class="mt-5 text-center mb-4">Goal-Based Investment Planning</h1>
     
-    <!-- Add Goal Button -->
-    <div class="mb-4" id="add-goal-button-container">
-      <button class="btn btn-primary w-100" id="add-goal-button">
-        <i class="bi bi-plus-lg me-2"></i> Add New Financial Goal
-      </button>
-    </div>
-    
-    <!-- Add Goal Form (initially hidden) -->
-    <div class="card mb-4 d-none" id="add-goal-form">
-      <div class="card-header">
-        <h5 class="card-title mb-0">Add New Financial Goal</h5>
-      </div>
-      <div class="card-body">
-        <form id="goal-form">
-          <div class="mb-3">
-            <label for="goal-name" class="form-label">Goal Name</label>
-            <input type="text" class="form-control" id="goal-name" placeholder="e.g., Retirement, House Down Payment" required>
-          </div>
-          
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="target-amount" class="form-label">Target Amount</label>
-              <div class="input-group">
-                <span class="input-group-text">$</span>
-                <input type="number" class="form-control" id="target-amount" placeholder="50000" required>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <label for="current-amount" class="form-label">Current Savings (Optional)</label>
-              <div class="input-group">
-                <span class="input-group-text">$</span>
-                <input type="number" class="form-control" id="current-amount" placeholder="0">
-              </div>
-            </div>
-          </div>
-          
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <label for="category" class="form-label">Category</label>
-              <select class="form-select" id="category" required>
-                <option value="" selected disabled>Select category</option>
-                <option value="retirement">Retirement</option>
-                <option value="housing">Housing</option>
-                <option value="education">Education</option>
-                <option value="travel">Travel</option>
-                <option value="emergency">Emergency Fund</option>
-                <option value="other">Other</option>
-              </select>
-            </div>
-            <div class="col-md-6">
-              <label for="target-date" class="form-label">Target Date</label>
-              <input type="date" class="form-control" id="target-date" required>
-            </div>
-          </div>
-          
-          <div class="mb-3">
-            <label for="description" class="form-label">Description (Optional)</label>
-            <textarea class="form-control" id="description" rows="3" placeholder="Describe your financial goal..."></textarea>
-          </div>
-          
-          <div class="d-flex justify-content-between">
-            <button type="button" class="btn btn-outline-secondary" id="cancel-add-goal">Cancel</button>
-            <button type="submit" class="btn btn-primary">Add Goal</button>
-          </div>
-        </form>
+    <!-- Quote Carousel -->
+    <div id="quoteCarousel" class="carousel slide quote-carousel" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="quote-text">The best time to plant a tree was 20 years ago. The second best time is now. The same applies to your financial goals.</div>
+          <div class="quote-author">— Warren Buffett</div>
+        </div>
+        <div class="carousel-item">
+          <div class="quote-text">Setting goals is the first step in turning the invisible into the visible.</div>
+          <div class="quote-author">— Tony Robbins</div>
+        </div>
+        <div class="carousel-item">
+          <div class="quote-text">Financial freedom is available to those who learn about it and work for it.</div>
+          <div class="quote-author">— Robert Kiyosaki</div>
+        </div>
       </div>
     </div>
     
-    <!-- Goals List Container -->
-    <div id="goals-container">
-      <!-- Goals will be added here dynamically -->
+    <!-- Benefits Section -->
+    <div class="benefits-section">
+      <h2 class="section-header">Why Goal-Based Planning Works</h2>
+      <div class="row g-4">
+        <div class="col-md-4">
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <i class="bi bi-bullseye"></i>
+            </div>
+            <h3 class="benefit-title">Clear Direction</h3>
+            <p>Setting specific financial goals gives you a clear path forward and helps you make better financial decisions.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <i class="bi bi-graph-up-arrow"></i>
+            </div>
+            <h3 class="benefit-title">Measurable Progress</h3>
+            <p>Track your progress visually and stay motivated as you watch your investments grow toward your targets.</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="benefit-card">
+            <div class="benefit-icon">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <h3 class="benefit-title">Reduced Risk</h3>
+            <p>Align your investment strategy with your specific goals and timeframes to optimize returns while managing risk.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Stats Section -->
+    <div class="stats-section">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="stat-item">
+            <div class="stat-number">78%</div>
+            <div class="stat-label">Higher Success Rate</div>
+            <p class="small text-muted">People who set specific financial goals are 78% more likely to achieve financial independence</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-item">
+            <div class="stat-number">42%</div>
+            <div class="stat-label">Higher Returns</div>
+            <p class="small text-muted">Goal-based investors see 42% better returns compared to those without clear objectives</p>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="stat-item">
+            <div class="stat-number">3.5x</div>
+            <div class="stat-label">More Savings</div>
+            <p class="small text-muted">Goal-oriented savers accumulate 3.5 times more wealth over their lifetime</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- CTA Button -->
+    <div class="text-center mb-5">
+      <a href="#goals" class="btn cta-button">Start Planning Your Financial Future</a>
+    </div>
+    
+    <!-- Goals Section -->
+    <div id="goals">
+      <h2 class="section-header mb-4">Your Financial Goals</h2>
+      
+      <!-- Add Goal Button -->
+      <div class="mb-4" id="add-goal-button-container">
+        <button class="btn btn-primary w-100" id="add-goal-button">
+          <i class="bi bi-plus-lg me-2"></i> Add New Financial Goal
+        </button>
+      </div>
+      
+      <!-- Add Goal Form (initially hidden) -->
+      <div class="card mb-4 d-none" id="add-goal-form">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Add New Financial Goal</h5>
+        </div>
+        <div class="card-body">
+          <form id="goal-form">
+            <div class="mb-3">
+              <label for="goal-name" class="form-label">Goal Name</label>
+              <input type="text" class="form-control" id="goal-name" placeholder="e.g., Retirement, House Down Payment" required>
+            </div>
+            
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="target-amount" class="form-label">Target Amount</label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input type="number" class="form-control" id="target-amount" placeholder="50000" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <label for="current-amount" class="form-label">Current Savings (Optional)</label>
+                <div class="input-group">
+                  <span class="input-group-text">$</span>
+                  <input type="number" class="form-control" id="current-amount" placeholder="0">
+                </div>
+              </div>
+            </div>
+            
+            <div class="row mb-3">
+              <div class="col-md-6">
+                <label for="category" class="form-label">Category</label>
+                <select class="form-select" id="category" required>
+                  <option value="" selected disabled>Select category</option>
+                  <option value="retirement">Retirement</option>
+                  <option value="housing">Housing</option>
+                  <option value="education">Education</option>
+                  <option value="travel">Travel</option>
+                  <option value="emergency">Emergency Fund</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="target-date" class="form-label">Target Date</label>
+                <input type="date" class="form-control" id="target-date" required>
+              </div>
+            </div>
+            
+            <div class="mb-3">
+              <label for="description" class="form-label">Description (Optional)</label>
+              <textarea class="form-control" id="description" rows="3" placeholder="Describe your financial goal..."></textarea>
+            </div>
+            
+            <div class="d-flex justify-content-between">
+              <button type="button" class="btn btn-outline-secondary" id="cancel-add-goal">Cancel</button>
+              <button type="submit" class="btn btn-primary">Add Goal</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Goals List Container -->
+      <div id="goals-container">
+        <!-- Goals will be added here dynamically -->
+      </div>
+    </div>
+    
+    <!-- Tips Section -->
+    <div class="mt-5 mb-4">
+      <h2 class="section-header">Financial Planning Tips</h2>
+      <div class="card">
+        <div class="card-body">
+          <div id="tipCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+              <div class="carousel-item active">
+                <h5><i class="bi bi-lightbulb me-2 text-warning"></i> Start Early</h5>
+                <p>The power of compound interest means that even small amounts invested early can grow significantly over time.</p>
+              </div>
+              <div class="carousel-item">
+                <h5><i class="bi bi-lightbulb me-2 text-warning"></i> Diversify Your Investments</h5>
+                <p>Don't put all your eggs in one basket. Spread your investments across different asset classes to reduce risk.</p>
+              </div>
+              <div class="carousel-item">
+                <h5><i class="bi bi-lightbulb me-2 text-warning"></i> Review Regularly</h5>
+                <p>Review your financial goals and progress at least once a year to make necessary adjustments.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Footer with Resources -->
+    <div class="mt-5 pt-4 border-top border-secondary">
+      <div class="row">
+        <div class="col-md-6">
+          <h4 class="mb-3">Helpful Resources</h4>
+          <ul class="list-unstyled">
+            <li class="mb-2"><a href="https://drive.google.com/file/d/1wujKGG_fAgZkFiS2EXMfVganuUcWDyYL/view?usp=sharing" class="text-decoration-none text-info"><i class="bi bi-file-earmark-text me-2"></i>Beginner's Guide to Investment Planning</a></li>
+            <li class="mb-2"><a href="https://www.calculator.net/retirement-calculator.html" class="text-decoration-none text-info"><i class="bi bi-calculator me-2"></i>Retirement Calculator</a></li>
+            <li class="mb-2"><a href="https://www.troweprice.com/personal-investing/resources/insights/your-financial-checklist-for-new-year.html" class="text-decoration-none text-info"><i class="bi bi-journal-text me-2"></i>Financial Planning Checklist</a></li>
+          </ul>
+        </div>
+        <div class="col-md-6">
+          <h4 class="mb-3">Need Help?</h4>
+          <p>Our financial advisors are ready to assist you with your investment planning needs.</p>
+          <div class="d-flex gap-2 flex-wrap">
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=tanyeefong20040921@gmail.com" class="btn btn-outline-info"><i class="bi bi-envelope me-2"></i>Email Support</a>
+            <a href="#" class="btn btn-outline-info"><i class="bi bi-file-text me-2"></i>View FAQ</a>
+          </div>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <p class="small text-muted">© 2025 5NANCE. All rights reserved.</p>
+      </div>
     </div>
   </div>
   
@@ -222,6 +565,39 @@
   <!-- SortableJS for drag and drop -->
   <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
   <!-- Custom JavaScript -->
-  <script src="/5nance/frontend/js/Goal_Based_Investment_Planning.js"></script>
+  <script src="/frontend/js/Goal_Based_Investment_Planning.js"></script>
+  
+  <script>
+    // Initialize all carousels
+    document.addEventListener('DOMContentLoaded', function() {
+      // Quote carousel
+      new bootstrap.Carousel(document.getElementById('quoteCarousel'), {
+        interval: 6000
+      });
+      
+      // Tips carousel
+      new bootstrap.Carousel(document.getElementById('tipCarousel'), {
+        interval: 5000
+      });
+      
+      // Smooth scroll for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          if(targetId === '#') return;
+          
+          const targetElement = document.querySelector(targetId);
+          if(targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 100,
+              behavior: 'smooth'
+            });
+          }
+        });
+      });
+    });
+  </script>
 </body>
 </html>

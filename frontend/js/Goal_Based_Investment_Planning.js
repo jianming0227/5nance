@@ -47,6 +47,8 @@ const saveSavingsButton = document.getElementById('save-savings');
 const editGoalModalElement = document.getElementById('editGoalModal');
 const addSavingsModalElement = document.getElementById('addSavingsModal');
 
+const bootstrap = window.bootstrap; // Declaring bootstrap variable
+
 const editGoalModal = new bootstrap.Modal(editGoalModalElement);
 const addSavingsModal = new bootstrap.Modal(addSavingsModalElement);
 
@@ -128,6 +130,7 @@ function renderGoals() {
     const goalCard = document.createElement('div');
     goalCard.className = 'goal-card';
     goalCard.dataset.id = goal.id;
+    goalCard.style.animationDelay = `${index * 0.1}s`;
     goalCard.innerHTML = `
       <div class="card">
         <div class="drag-handle">
@@ -151,36 +154,36 @@ function renderGoals() {
           </div>
         </div>
         <div class="card-body">
-          <p class="goal-description small mb-3">${goal.description || ''}</p>
+          <p class="goal-description">${goal.description || ''}</p>
           
           <div class="row mb-3">
             <div class="col-6">
-              <div class="d-flex align-items-center">
-                <i class="bi bi-currency-dollar me-2 text-muted"></i>
+              <div class="info-row">
+                <i class="bi bi-currency-dollar info-icon"></i>
                 <div>
-                  <small class="text-muted d-block">Target</small>
-                  <span class="amount-display">${formatCurrency(goal.targetAmount)}</span>
+                  <div class="info-label">Target</div>
+                  <div class="info-value">${formatCurrency(goal.targetAmount)}</div>
                 </div>
               </div>
             </div>
             <div class="col-6">
-              <div class="d-flex align-items-center">
-                <i class="bi bi-calendar me-2 text-muted"></i>
+              <div class="info-row">
+                <i class="bi bi-calendar info-icon"></i>
                 <div>
-                  <small class="text-muted d-block">Target Date</small>
-                  <span class="amount-display">${formatDate(goal.targetDate)}</span>
+                  <div class="info-label">Target Date</div>
+                  <div class="info-value">${formatDate(goal.targetDate)}</div>
                 </div>
               </div>
             </div>
           </div>
           
           <!-- Move buttons - Positioned below the target amount -->
-          <div class="d-flex justify-content-end mb-2">
-            <button class="btn btn-sm btn-outline-secondary move-up me-1" ${!canMoveUp ? 'disabled' : ''} data-id="${goal.id}" title="Move Up">
+          <div class="move-buttons">
+            <button class="btn btn-sm move-up" ${!canMoveUp ? 'disabled' : ''} data-id="${goal.id}" title="Move Up">
               <i class="bi bi-arrow-up"></i>
               <span class="visually-hidden">Move Up</span>
             </button>
-            <button class="btn btn-sm btn-outline-secondary move-down" ${!canMoveDown ? 'disabled' : ''} data-id="${goal.id}" title="Move Down">
+            <button class="btn btn-sm move-down" ${!canMoveDown ? 'disabled' : ''} data-id="${goal.id}" title="Move Down">
               <i class="bi bi-arrow-down"></i>
               <span class="visually-hidden">Move Down</span>
             </button>
@@ -188,8 +191,8 @@ function renderGoals() {
           
           <div class="mb-3">
             <div class="d-flex justify-content-between align-items-center mb-1">
-              <span class="small fw-medium text-white">Progress</span>
-              <span class="small fw-medium text-white">${progressPercentage}%</span>
+              <span class="small fw-medium">Progress</span>
+              <span class="small fw-medium progress-percentage">${progressPercentage}%</span>
             </div>
             <div class="progress">
               <div class="progress-bar" role="progressbar" style="width: ${progressPercentage}%" 
