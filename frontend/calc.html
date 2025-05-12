@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,240 +11,408 @@
     <link rel="stylesheet" href="/5nance/frontend/css/calculator.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Swiper CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- AOS Animation Library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Tippy.js for tooltips -->
+    <link rel="stylesheet" href="https://unpkg.com/tippy.js@6/animations/scale.css" />
+    <!-- noUiSlider for range sliders -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
 </head>
+
 <body>
- <!-- Navbar -->
- <nav class="navbar navbar-expand-md navbar-dark fixed-top custom-navbar py-3">
-    <div class="container">
-      <a href="/" class="logo text-decoration-none d-flex align-items-center">
-        <span class="logo-number">5</span>NANCE
-      </a>
-  
-      <!-- Hamburger Toggle -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-  
-      <!-- Collapsible Links -->
-      <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
-        <ul class="navbar-nav ms-md-5 gap-md-4">
-          <li class="nav-item">
-            <a class="nav-link active" href="index.html">HOME</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/services">SERVICES</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">ABOUT</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/contact">CONTACT US</a>
-          </li>
-        </ul>
-        <div class="d-none d-md-block">
-          <i class="bi bi-person-circle fs-4 text-white"></i>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top custom-navbar py-3">
+        <div class="container">
+            <a href="/" class="logo text-decoration-none d-flex align-items-center">
+                <span class="logo-number">5</span>NANCE
+            </a>
+
+            <!-- Hamburger Toggle -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Collapsible Links -->
+            <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+                <ul class="navbar-nav ms-md-5 gap-md-4">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="index.html">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/services">SERVICES</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">ABOUT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/contact">CONTACT US</a>
+                    </li>
+                </ul>
+                <div class="d-none d-md-block">
+                    <i class="bi bi-person-circle fs-4 text-white"></i>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </nav>
+    </nav>
 
     <!-- Main Content -->
     <main class="container py-5">
         <!-- Hero Section -->
-        <section style="margin-top: 50px"></section> 
-            <h1 class="display-4 fw-bold gap-2">ROI Calculator</h1>
-            <span class="move-down"></span>
-            <p class="text-white" style="margin-bottom: 50px">Compare and visualize potential returns for your investments.</p>
-            
-        </section>
-
-        <!-- Features Section -->
-        <section class="mb-5">
-            <h2 class="fw-bold mb-4">Why use our ROI Calculator?</h2>
-            <div class="row g-4">
-                <!-- Feature 1 -->
-                <div class="col-md-6">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <h3 class="feature-title">SMART INPUT FORM</h3>
-                        <p class="feature-text">
-                            A user-friendly, responsive form where users can enter a few attributes like initial investment,
-                            interest rate, duration, and additional contributions.
-                        </p>
+        <section class="hero-section" style="margin-top: 100px" data-aos="fade-up">
+            <div class="row align-items-center">
+                <div class="col-lg-7">
+                    <h1 class="display-4 fw-bold gap-2">ROI Calculator</h1>
+                    <span class="move-down"></span>
+                    <p class="text-white mb-4">Compare and visualize potential returns for your investments.</p>
+                    <div class="d-flex gap-3">
+                        <button id="scroll-to-calculator" class="btn btn-primary px-4 rounded-pill">
+                            <i class="fas fa-calculator me-2"></i> Start Calculating
+                        </button>
+                        <button id="show-tutorial" class="btn btn-outline-primary px-4 rounded-pill">
+                            <i class="fas fa-play-circle me-2"></i> How It Works
+                        </button>
                     </div>
                 </div>
-
-                <!-- Feature 2 -->
-                <div class="col-md-6">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-pie"></i>
-                        </div>
-                        <h3 class="feature-title">VISUAL ROI BREAKDOWN & ANALYTICS</h3>
-                        <p class="feature-text">
-                            ROI summary cards showing CAGR, effective annual rate, total interest earned, and final amount.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Feature 3 -->
-                <div class="col-md-6">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-file-alt"></i>
-                        </div>
-                        <h3 class="feature-title">EXPORT & REPORTING OPTIONS</h3>
-                        <p class="feature-text">
-                            Export results as PDF or generate a print-friendly report.
-                        </p>
-                    </div>
-                </div>
-
-                <!-- Feature 4 -->
-                <div class="col-md-6">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="fas fa-code"></i>
-                        </div>
-                        <h3 class="feature-title">BASIC FORMULA GUIDE</h3>
-                        <p class="feature-text">
-                            Explain the usage of the formula
-                        </p>
+                <div class="col-lg-5 d-none d-lg-block">
+                    <dotlottie-player src="https://lottie.host/c8f4f117-bf40-4dba-a158-6401b9865b67/BpuMqGgegc.lottie"
+                        background="transparent" speed="1" style="width: 300px; height: 300px" loop
+                        autoplay></dotlottie-player>
+                    <div class="hero-animation">
+                        <lottie-player src="https://lottie.host/c8f4f117-bf40-4dba-a158-6401b9865b67/BpuMqGgegc.lottie"
+                            background="transparent" speed="1" style="width: 200%; height: 400px;" loop
+                            autoplay></lottie-player>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Marquee Features Section -->
+        <section class="mb-5 mt-5" data-aos="" data-aos-delay="100">
+            <h2 class="fw-bold mb-4">Why use our ROI Calculator?</h2>
+            <div class="swiper feature-swiper">
+                <div class="swiper-wrapper">
+                    <!-- Slide 1 -->
+                    <div class="swiper-slide feature-card">
+                        <div class="feature-icon"><i class="fas fa-users"></i></div>
+                        <h3 class="feature-title">SMART INPUT FORM</h3>
+                        <p class="feature-text">A user-friendly, responsive form where users can enter a few attributes
+                            like initial investment, interest rate, duration, and additional contributions.</p>
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="swiper-slide feature-card">
+                        <div class="feature-icon"><i class="fas fa-chart-pie"></i></div>
+                        <h3 class="feature-title">VISUAL ROI BREAKDOWN & ANALYTICS</h3>
+                        <p class="feature-text">ROI summary cards showing CAGR, effective annual rate, total interest
+                            earned, and final amount.</p>
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="swiper-slide feature-card">
+                        <div class="feature-icon"><i class="fas fa-file-alt"></i></div>
+                        <h3 class="feature-title">EXPORT & REPORTING OPTIONS</h3>
+                        <p class="feature-text">Export results as PDF or generate a print-friendly report.</p>
+                    </div>
+                    <!-- Slide 4 -->
+                    <div class="swiper-slide feature-card">
+                        <div class="feature-icon"><i class="fas fa-code"></i></div>
+                        <h3 class="feature-title">BASIC FORMULA GUIDE</h3>
+                        <p class="feature-text">Explain the usage of the formula</p>
+                    </div>
+                </div>
+
+                <!-- Pagination & Arrows -->
+                <div class="swiper-pagination"></div>
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+        </section>
+
         <!-- Calculator Section -->
-        <section class="mb-5" style="margin-top: 100px;">
+        <section id="calculator-section" class="mb-5 mt-5" data-aos="fade-up" data-aos-delay="200">
             <h2 class="fw-bold mb-4">Calculate your ROI 🙂</h2>
             <div class="row g-4">
                 <div class="col-lg-6">
-                    <form id="roi-form">
+                    <form id="roi-form" class="calculator-form">
                         <!-- Initial Investment -->
                         <div class="mb-4">
-                            <label for="initial-investment" class="form-label fw-medium">Initial Investment</label>
-                            <input type="number" class="form-control" id="initial-investment" placeholder="Enter amount" required>
+                            <label for="initial-investment" class="form-label fw-medium">
+                                Initial Investment
+                                <i class="fas fa-info-circle ms-1 text-primary"
+                                    data-tippy-content="The amount you plan to invest at the beginning"></i>
+                            </label>
+                            <div class="input-group">
+                                <span class="input-group-text">RM</span>
+                                <input type="number" class="form-control" id="initial-investment"
+                                    placeholder="Enter amount" required>
+                            </div>
+                            <div id="initial-investment-slider" class="mt-2"></div>
+                            <div class="d-flex justify-content-between mt-1">
+                                <small class="text-muted">RM 1,000</small>
+                                <small class="text-muted">RM 1,000,000</small>
+                            </div>
                         </div>
 
                         <!-- Annual Interest Rate -->
                         <div class="mb-4">
-                            <label for="interest-rate" class="form-label fw-medium">Annual Interest Rate (%)</label>
-                            <input type="number" class="form-control" id="interest-rate" placeholder="Enter rate" step="0.01" required>
+                            <label for="interest-rate" class="form-label fw-medium">
+                                Annual Interest Rate (%)
+                                <i class="fas fa-info-circle ms-1 text-primary"
+                                    data-tippy-content="The expected annual return on your investment"></i>
+                            </label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="interest-rate" placeholder="Enter rate"
+                                    step="0.01" required>
+                                <span class="input-group-text">%</span>
+                            </div>
+                            <div id="interest-rate-slider" class="mt-2"></div>
+                            <div class="d-flex justify-content-between mt-1">
+                                <small class="text-muted">1%</small>
+                                <small class="text-muted">20%</small>
+                            </div>
                         </div>
 
                         <!-- Investment Duration -->
                         <div class="mb-4">
-                            <label for="duration" class="form-label fw-medium">Investment Duration (Years)</label>
-                            <input type="number" class="form-control" id="duration" placeholder="Enter years" required>
+                            <label for="duration" class="form-label fw-medium">
+                                Investment Duration (Years)
+                                <i class="fas fa-info-circle ms-1 text-primary"
+                                    data-tippy-content="How long you plan to keep your investment"></i>
+                            </label>
+                            <div class="input-group">
+                                <input type="number" class="form-control" id="duration" placeholder="Enter years"
+                                    required>
+                                <span class="input-group-text">years</span>
+                            </div>
+                            <div id="duration-slider" class="mt-2"></div>
+                            <div class="d-flex justify-content-between mt-1">
+                                <small class="text-muted">1 year</small>
+                                <small class="text-muted">30 years</small>
+                            </div>
                         </div>
 
                         <!-- Additional Contributions -->
                         <div class="mb-4">
-                            <label class="form-label fw-medium">Additional Contributions</label>
-                            <div class="d-flex">
-                                <div class="form-check me-4">
-                                    <input class="form-check-input" type="radio" name="contribution-frequency" id="monthly" value="monthly">
-                                    <label class="form-check-label" for="monthly">Monthly</label>
+                            <label class="form-label fw-medium">
+                                Additional Contributions
+                                <i class="fas fa-info-circle ms-1 text-primary"
+                                    data-tippy-content="Regular contributions you plan to make to your investment"></i>
+                            </label>
+                            <div class="contribution-toggle">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="enable-contributions">
+                                    <label class="form-check-label" for="enable-contributions">Enable additional
+                                        contributions</label>
                                 </div>
-                                <div class="form-check">
-                                    <input class="form-check-input" type="radio" name="contribution-frequency" id="yearly" value="yearly">
-                                    <label class="form-check-label" for="yearly">Yearly</label>
+                            </div>
+                            <div id="contribution-options" class="mt-3" style="display: none;">
+                                <div class="d-flex mb-3">
+                                    <div class="form-check me-4">
+                                        <input class="form-check-input" type="radio" name="contribution-frequency"
+                                            id="monthly" value="monthly">
+                                        <label class="form-check-label" for="monthly">Monthly</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="contribution-frequency"
+                                            id="yearly" value="yearly">
+                                        <label class="form-check-label" for="yearly">Yearly</label>
+                                    </div>
+                                </div>
+                                <div id="contribution-amount-container" style="display: none;">
+                                    <label for="contribution-amount" class="form-label fw-medium">Contribution
+                                        Amount</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">RM</span>
+                                        <input type="number" class="form-control" id="contribution-amount"
+                                            placeholder="Enter amount">
+                                    </div>
+                                    <div id="contribution-amount-slider" class="mt-2"></div>
+                                    <div class="d-flex justify-content-between mt-1">
+                                        <small class="text-muted">RM 100</small>
+                                        <small class="text-muted">RM 10,000</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Contribution Amount (conditionally shown) -->
-                        <div class="mb-4" id="contribution-amount-container" style="display: none;">
-                            <label for="contribution-amount" class="form-label fw-medium">Contribution Amount</label>
-                            <input type="number" class="form-control" id="contribution-amount" placeholder="Enter amount">
+                        <!-- Inflation Rate (Optional) -->
+                        <div class="mb-4">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="enable-inflation">
+                                <label class="form-check-label" for="enable-inflation">
+                                    Account for inflation
+                                    <i class="fas fa-info-circle ms-1 text-primary"
+                                        data-tippy-content="Adjust your returns for the effects of inflation"></i>
+                                </label>
+                            </div>
+                            <div id="inflation-container" class="mt-3" style="display: none;">
+                                <label for="inflation-rate" class="form-label fw-medium">Inflation Rate (%)</label>
+                                <div class="input-group">
+                                    <input type="number" class="form-control" id="inflation-rate" value="2.5"
+                                        step="0.1">
+                                    <span class="input-group-text">%</span>
+                                </div>
+                                <div id="inflation-rate-slider" class="mt-2"></div>
+                                <div class="d-flex justify-content-between mt-1">
+                                    <small class="text-muted">0%</small>
+                                    <small class="text-muted">10%</small>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Buttons -->
                         <div class="d-flex gap-3">
-                            <button type="submit" class="btn btn-primary px-4 rounded-pill">CALCULATE</button>
-                            <button type="button" id="export-btn" class="btn btn-outline-primary px-4 rounded-pill">EXPORT</button>
+                            <button type="submit" class="btn btn-primary px-4 rounded-pill">
+                                <i class="fas fa-calculator me-2"></i> CALCULATE
+                            </button>
+                            <button type="button" id="export-btn" class="btn btn-outline-primary px-4 rounded-pill">
+                                <i class="fas fa-file-export me-2"></i> EXPORT
+                            </button>
+                            <button type="button" id="reset-btn" class="btn btn-outline-secondary px-4 rounded-pill">
+                                <i class="fas fa-redo me-2"></i> RESET
+                            </button>
                         </div>
                     </form>
                 </div>
                 <div class="col-lg-6 d-flex align-items-center justify-content-center">
-                    <img src="images/finance_illustration.png" alt="Financial illustration" class="img-fluid" style="max-height: 400px;">
+                    <div class="calculator-illustration" data-aos="zoom-in" data-aos-delay="300">
+                        <lottie-player src="https://assets5.lottiefiles.com/packages/lf20_qp1q7mct.json"
+                            background="transparent" speed="1" style="width: 100%; height: 400px;" loop
+                            autoplay></lottie-player>
+                    </div>
                 </div>
             </div>
         </section>
 
         <!-- Results Section -->
-        <section id="results-section" style="display: none; margin-top: 100px;">
+        <section id="results-section" style="display: none; margin-top: 100px;" data-aos="fade-up">
+            <div class="results-header mb-4">
+                <h2 class="fw-bold">Your Investment Results</h2>
+                <p class="text-white">Based on your inputs, here's how your investment could grow over time.</p>
+            </div>
+
             <div class="row g-4 mb-5">
                 <!-- Final Value -->
-                <div class="col-md-6">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
                     <div class="result-card">
-                        <h3 class="result-title">Final Value (Total Portfolio Value)</h3>
+                        <div class="result-icon"><i class="fas fa-sack-dollar"></i></div>
+                        <h3 class="result-title">Final Value</h3>
                         <p id="final-value" class="result-value text-success">RM 0</p>
+                        <div class="result-change">
+                            <span id="final-value-percent" class="badge bg-success">+0%</span>
+                            <span class="text-muted">from initial</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Total Contributions -->
-                <div class="col-md-6">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="200">
                     <div class="result-card">
+                        <div class="result-icon"><i class="fas fa-coins"></i></div>
                         <h3 class="result-title">Total Contributions</h3>
-                        <p id="total-contributions" class="result-value">RM 0 <i class="fas fa-arrow-up-right text-success ms-2"></i></p>
+                        <p id="total-contributions" class="result-value">RM 0</p>
+                        <div class="result-change">
+                            <span class="text-muted">Principal + Additional</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Total Interest Earned -->
-                <div class="col-md-6">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="300">
                     <div class="result-card">
-                        <h3 class="result-title">Total Interest Earned (Total Returns)</h3>
-                        <div class="formula-box">
-                            ROI=Total Contributions/Returns×100
+                        <div class="result-icon"><i class="fas fa-chart-line"></i></div>
+                        <h3 class="result-title">Total Interest Earned</h3>
+                        <div class="formula-tooltip">
+                            <i class="fas fa-info-circle"
+                                data-tippy-content="ROI = (Total Returns / Total Contributions) × 100"></i>
                         </div>
-                        <p id="total-interest" class="result-value">RM 0 <i class="fas fa-arrow-up-right text-success ms-2"></i></p>
+                        <p id="total-interest" class="result-value">RM 0</p>
+                        <div class="result-change">
+                            <span id="roi-percent" class="badge bg-success">+0% ROI</span>
+                        </div>
                     </div>
                 </div>
 
                 <!-- CAGR -->
-                <div class="col-md-6">
+                <div class="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="400">
                     <div class="result-card">
-                        <h3 class="result-title">CAGR / Effective Annual Rate</h3>
-                        <div class="formula-box">
-                            CAGR=(Initial Investment/Final Value)^(1/t)-1
+                        <div class="result-icon"><i class="fas fa-percentage"></i></div>
+                        <h3 class="result-title">CAGR / Effective Rate</h3>
+                        <div class="formula-tooltip">
+                            <i class="fas fa-info-circle"
+                                data-tippy-content="CAGR = (Final Value / Initial Investment)^(1/years) - 1"></i>
                         </div>
-                        <p id="cagr" class="result-value">0% <i class="fas fa-arrow-up-right text-success ms-2"></i></p>
+                        <p id="cagr" class="result-value">0%</p>
+                        <div class="result-change">
+                            <span id="inflation-adjusted-cagr" class="text-muted">0% after inflation</span>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Charts Section -->
-            <div class="charts-section" style="margin-top: 100px;">
-                <h3 class="fw-bold mb-4">Investment Visualization</h3>
-                
-                <!-- Growth Chart -->
-                <div class="chart-container mb-5">
-                    <h4 class="chart-title">Investment Growth Over Time</h4>
-                    <div class="chart-wrapper">
-                        <canvas id="growthChart"></canvas>
-                    </div>
+            <div class="charts-section" data-aos="fade-up" data-aos-delay="500">
+                <div class="chart-tabs mb-4">
+                    <ul class="nav nav-pills" id="chart-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="growth-tab" data-bs-toggle="pill"
+                                data-bs-target="#growth-chart-tab" type="button" role="tab">Growth</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="breakdown-tab" data-bs-toggle="pill"
+                                data-bs-target="#breakdown-chart-tab" type="button" role="tab">Breakdown</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="yearly-tab" data-bs-toggle="pill"
+                                data-bs-target="#yearly-chart-tab" type="button" role="tab">Yearly</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="table-tab" data-bs-toggle="pill"
+                                data-bs-target="#data-table-tab" type="button" role="tab">Data Table</button>
+                        </li>
+                    </ul>
                 </div>
-                
-                <div class="row g-4">
-                    <!-- Breakdown Chart -->
-                    <div class="col-md-6">
-                        <div class="chart-container">
-                            <h4 class="chart-title">Investment Breakdown</h4>
+
+                <div class="tab-content" id="chart-tabContent">
+                    <!-- Growth Chart Tab -->
+                    <div class="tab-pane fade show active" id="growth-chart-tab" role="tabpanel">
+                        <div class="chart-container mb-4">
+                            <h4 class="chart-title">Investment Growth Over Time</h4>
                             <div class="chart-wrapper">
-                                <canvas id="breakdownChart"></canvas>
+                                <canvas id="growthChart"></canvas>
                             </div>
                         </div>
                     </div>
-                    
-                    <!-- Yearly Comparison Chart -->
-                    <div class="col-md-6">
+
+                    <!-- Breakdown Chart Tab -->
+                    <div class="tab-pane fade" id="breakdown-chart-tab" role="tabpanel">
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="chart-container">
+                                    <h4 class="chart-title">Investment Breakdown</h4>
+                                    <div class="chart-wrapper">
+                                        <canvas id="breakdownChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="chart-container">
+                                    <h4 class="chart-title">Growth Composition</h4>
+                                    <div class="chart-wrapper">
+                                        <canvas id="compositionChart"></canvas>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Yearly Chart Tab -->
+                    <div class="tab-pane fade" id="yearly-chart-tab" role="tabpanel">
                         <div class="chart-container">
                             <h4 class="chart-title">Yearly Comparison</h4>
                             <div class="chart-wrapper">
@@ -251,10 +420,158 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Data Table Tab -->
+                    <div class="tab-pane fade" id="data-table-tab" role="tabpanel">
+                        <div class="table-container">
+                            <h4 class="chart-title">Year-by-Year Breakdown</h4>
+                            <div class="table-responsive">
+                                <table class="table table-hover" id="data-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Year</th>
+                                            <th>Starting Balance</th>
+                                            <th>Contributions</th>
+                                            <th>Interest Earned</th>
+                                            <th>Ending Balance</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="data-table-body">
+                                        <!-- Table rows will be added dynamically -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Tool Section -->
+        <section id="comparison-section" style="display: none; margin-top: 100px;" data-aos="fade-up">
+            <h2 class="fw-bold mb-4">Compare Investment Scenarios</h2>
+            <p class="text-white mb-4">See how different variables affect your investment outcomes.</p>
+
+            <div class="comparison-controls mb-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <label class="form-label">Compare by:</label>
+                        <select id="comparison-type" class="form-select">
+                            <option value="interest">Interest Rate</option>
+                            <option value="duration">Investment Duration</option>
+                            <option value="contribution">Contribution Amount</option>
+                        </select>
+                    </div>
+                    <div class="col-md-8">
+                        <label class="form-label">Values to compare:</label>
+                        <div id="comparison-values" class="d-flex gap-2">
+                            <!-- Will be populated dynamically -->
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <button id="run-comparison" class="btn btn-primary">Run Comparison</button>
+                </div>
+            </div>
+
+            <div class="chart-container">
+                <h4 class="chart-title">Comparison Results</h4>
+                <div class="chart-wrapper">
+                    <canvas id="comparisonChart"></canvas>
                 </div>
             </div>
         </section>
     </main>
+
+    <!-- Tutorial Modal -->
+    <div class="modal fade" id="tutorialModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">How to Use the ROI Calculator</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id="tutorialCarousel" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-indicators">
+                            <button type="button" data-bs-target="#tutorialCarousel" data-bs-slide-to="0"
+                                class="active"></button>
+                            <button type="button" data-bs-target="#tutorialCarousel" data-bs-slide-to="1"></button>
+                            <button type="button" data-bs-target="#tutorialCarousel" data-bs-slide-to="2"></button>
+                            <button type="button" data-bs-target="#tutorialCarousel" data-bs-slide-to="3"></button>
+                        </div>
+                        <div class="carousel-inner">
+                            <div class="carousel-item active">
+                                <div class="tutorial-slide">
+                                    <h3>Step 1: Enter Your Initial Investment</h3>
+                                    <p>Start by entering the amount you plan to invest initially. You can either type
+                                        the amount or use the slider to select a value.</p>
+                                    <div class="tutorial-image">
+                                        <i class="fas fa-money-bill-wave fa-5x text-primary"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="tutorial-slide">
+                                    <h3>Step 2: Set Interest Rate & Duration</h3>
+                                    <p>Enter the expected annual interest rate and how long you plan to keep your
+                                        investment.</p>
+                                    <div class="tutorial-image">
+                                        <i class="fas fa-percentage fa-5x text-primary"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="tutorial-slide">
+                                    <h3>Step 3: Add Contributions (Optional)</h3>
+                                    <p>If you plan to make regular contributions to your investment, enable this option
+                                        and specify the amount and frequency.</p>
+                                    <div class="tutorial-image">
+                                        <i class="fas fa-coins fa-5x text-primary"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="carousel-item">
+                                <div class="tutorial-slide">
+                                    <h3>Step 4: View & Export Results</h3>
+                                    <p>Click Calculate to see detailed results with interactive charts. You can export
+                                        the results as a PDF report.</p>
+                                    <div class="tutorial-image">
+                                        <i class="fas fa-chart-line fa-5x text-primary"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#tutorialCarousel"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#tutorialCarousel"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="start-calculating">Start
+                        Calculating</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loading-overlay" style="display: none;">
+        <div class="spinner-container">
+            <div class="spinner-border text-primary" role="status">
+                <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="mt-3 text-white">Calculating your investment...</p>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="py-4 text-center">
@@ -267,7 +584,23 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- jsPDF for PDF export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- html2canvas for PDF export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <!-- Swiper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <!-- Tippy.js for tooltips -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://unpkg.com/tippy.js@6"></script>
+    <!-- noUiSlider for range sliders -->
+    <script src="https://cdn.jsdelivr.net/npm/nouislider@15.7.1/dist/nouislider.min.js"></script>
+    <!-- Lottie Player for animations -->
+    <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
+    <!-- CountUp.js for animated number counting -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.5.0/countUp.min.js"></script>
     <!-- Custom JS -->
     <script src="/5nance/frontend/js/calculator.js"></script>
 </body>
+
 </html>
