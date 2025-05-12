@@ -1,72 +1,17 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>About Us | 5nance</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
-  <style>
-    body {
-      background-color: #010725;
-      color: #ffffff;
-      font-family: 'DM Sans', sans-serif;
-    }
+  <meta charset="UTF-8">
+  <title>5nance</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/about.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
-    /* Custom Navbar Background */
-.custom-navbar {
-    background-color: #010725;
-  }
-  
-  /* Logo Styling */
-  .logo {
-    color: #0328EE;
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-  
-  .logo-number {
-    font-size: 2.5rem;
-  }
-  
-  /* Navbar Links */
-  .navbar-nav .nav-link {
-    color: #ffffff;
-    transition: color 0.2s ease;
-    text-transform: uppercase;
-  }
-  
-  /* Hover + Active Effect */
-  .navbar-nav .nav-link:hover,
-  .navbar-nav .nav-link.active {
-    color: #0328EE;
-  }
-  
-  /* Hamburger Icon */
-  .navbar-toggler {
-    border: none;
-  }
-  
-  .navbar-toggler:focus {
-    box-shadow: none;
-  }  
-
-    .section-dark {
-      background-color: #010725;
-      padding: 80px 0;
-    }
-
-    footer {
-      background-color: #010725;
-      padding: 30px 0;
-      text-align: center;
-      color: #ffffff;
-      font-size: 0.9rem;
-    }
-  </style>
 </head>
-<body>
-
- <!-- Navbar -->
+<body style="background-color: #010725; color: white; font-family: 'DM Sans', 'Inter', sans-serif;">
+  
+  <!-- Navbar -->
 <nav class="navbar navbar-expand-md navbar-dark fixed-top custom-navbar py-3">
     <div class="container">
       <a href="/" class="logo text-decoration-none d-flex align-items-center">
@@ -85,14 +30,20 @@
           <li class="nav-item">
             <a class="nav-link active" href="index.html">HOME</a>
           </li>
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            SERVICES
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="servicesDropdown" id="services-menu">
+            <!-- Populated dynamically via navbar.js -->
+          </ul>
+        </li>
           <li class="nav-item">
-            <a class="nav-link" href="/services">SERVICES</a>
+            <a class="nav-link" href="about.html">ABOUT</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/about">ABOUT</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/contact">CONTACT US</a>
+            <a class="nav-link" href="contact.html">CONTACT US</a>
           </li>
         </ul>
         <div class="d-none d-md-block">
@@ -102,93 +53,156 @@
     </div>
   </nav>
 
+
   <!-- About Section -->
-  <section class="section-dark text-center mt-5">
+<section class="section-dark mt-5 text-center about-section">
+  <div class="container">
+    <h1 class="about-heading" style="margin-bottom: 3rem;">About Us</h1>
+    <p class="lead text-light">
+      At <span class="text-warning fw-bold">5nance</span>, we believe everyone deserves financial freedom—no jargon, no overwhelm, just actionable tools to turn goals into reality.
+      Founded in 2025 by <strong>5nance</strong>, our platform empowers young professionals, busy families, and aspiring investors to take control of their money with confidence.
+    </p>
+  </div>
+</section>
+
+<!-- Mission Section -->
+ <section class="section-dark text-center">
     <div class="container">
-      <h1 class="text-white fw-bold mb-4">About Us</h1>
-      <p class="lead text-light px-lg-5">
-        At <span class="text-warning">5nance</span>, we believe everyone deserves financial freedom—no jargon, no overwhelm, just actionable tools to turn goals into reality.
-        Founded in 2025 by <strong>5nance</strong>, our platform empowers young professionals, busy families, and aspiring investors to take control of their money with confidence.
-      </p>
-    </div>
-  </section>
-
-  <!-- Our Mission Section -->
-<section class="section-dark text-center">
-    <div class="container">
-      <h2 class="text-white fw-bold mb-4">Our Mission</h2>
-      <p class="lead text-light px-3 px-lg-5">
-        Our mission is simple: <span class="text-warning">make personal finance simple, smart, and accessible for all</span>.
-        We strive to break down barriers to financial literacy through intuitive tools, expert guidance, and transparent systems that put your financial future first.
-      </p>
-    </div>
-  </section>
-  
-  <!-- Our Team Section -->
-  <section class="section-dark text-center">
-    <div class="container">
-      <h2 class="text-white fw-bold mb-5">Meet the Team</h2>
-      <div class="row justify-content-center">
-        <!-- Team Member 1 -->
-        <div class="col-10 col-sm-6 col-md-4 col-lg-3 mb-4">
-          <div class="card bg-dark border-0 text-white h-100 shadow-sm">
-            <img src="" class="card-img-top rounded-circle mx-auto mt-4" alt="Team Member 1" style="width:150px; height:150px; object-fit:cover;">
-            <div class="card-body">
-              <h5 class="card-title">Leong Jian Ming (Team Lead)</h5>
-            </div>
-          </div>
+      <h2 class="text-white fw-bold" style="margin-bottom: 3rem;">Our Mission</h2>
+      <div class="col-md-12 mb-4">
+        <div class="value-block">
+          <p class="lead text-light px-3 px-lg-5">
+            Our mission is simple: <span class="text-warning fw-bold">make personal finance simple, smart, and accessible for all</span>.
+            We strive to break down barriers to financial literacy through intuitive tools, expert guidance, and transparent systems that put your financial future first.
+          </p>
         </div>
-        <!-- Team Member 2 -->
-        <div class="col-10 col-sm-6 col-md-4 col-lg-3 mb-4">
-          <div class="card bg-dark border-0 text-white h-100 shadow-sm">
-            <img src="" class="card-img-top rounded-circle mx-auto mt-4" alt="Team Member 2" style="width:150px; height:150px; object-fit:cover;">
-            <div class="card-body">
-              <h5 class="card-title">Ooi Kwong Yang</h5>
-            </div>
-          </div>
-        </div>
-        <!-- Team Member 3 -->
-        <div class="col-10 col-sm-6 col-md-4 col-lg-3 mb-4">
-          <div class="card bg-dark border-0 text-white h-100 shadow-sm">
-            <img src="" class="card-img-top rounded-circle mx-auto mt-4" alt="Team Member 3" style="width:150px; height:150px; object-fit:cover;">
-            <div class="card-body">
-              <h5 class="card-title">Tan Yee Fong</h5>
-            </div>
-          </div>
-        </div>
-
-        <!-- Team Member 4 -->
-        <div class="col-10 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <div class="card bg-dark border-0 text-white h-100 shadow-sm">
-              <img src="images/ng hui shan - photo.jpg" class="card-img-top rounded-circle mx-auto mt-4" alt="Team Member 3" style="width:150px; height:150px; object-fit:cover;">
-              <div class="card-body">
-                <h5 class="card-title">Ng Hui Shan</h5>
-              </div>
-            </div>
-          </div>
-
-        <!-- Team Member 5 -->
-        <div class="col-10 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <div class="card bg-dark border-0 text-white h-100 shadow-sm">
-              <img src="" class="card-img-top rounded-circle mx-auto mt-4" alt="Team Member 3" style="width:150px; height:150px; object-fit:cover;">
-              <div class="card-body">
-                <h5 class="card-title">Lee Jing Jie</h5>
-              </div>
-            </div>
-          </div>
-
-        <!-- Team Member 6 -->
-        <div class="col-10 col-sm-6 col-md-4 col-lg-3 mb-4">
-            <div class="card bg-dark border-0 text-white h-100 shadow-sm">
-              <img src="" class="card-img-top rounded-circle mx-auto mt-4" alt="Team Member 3" style="width:150px; height:150px; object-fit:cover;">
-              <div class="card-body">
-                <h5 class="card-title">Queh Qian Yu</h5>
-              </div>
-            </div>
-          </div>
       </div>
     </div>
   </section>
+
+
+  <!-- Vision Section -->
+  <section class="banner-section text-center">
+    <div class="container">
+      <h2 class="text-white fw-bold" style="margin-bottom: 3rem;">Our Vision</h2>
+      <div class="col-md-12 mb-4">
+        <div class="value-block">
+          <p>A world where <span class="text-warning fw-bold">financial peace of mind is not a luxury, but a basic right.</span> We envision a future where every person can confidently make informed decisions, achieve their financial goals, and live with greater freedom and security.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Values Section -->
+  <section class="section-dark" id="values">
+  <div class="container text-center">
+    <h2 class="text-white fw-bold" style="margin-bottom: 3rem;">Our Values</h2>
+    <div class="row">
+      <div class="col-md-3 mb-4">
+        <div class="value-block">
+          <h4 class="fw-bold">Transparency</h4>
+          <p>We believe in clear, honest communication. From how we present information to how our tools work—what you see is what you get.</p>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4">
+        <div class="value-block">
+          <h4 class="fw-bold">Simplicity</h4>
+          <p>Finance can be complex, but your experience shouldn’t be. We design intuitive features that are easy to use and understand, even if you're just getting started.</p>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4">
+        <div class="value-block">
+          <h4 class="fw-bold">Empowerment</h4>
+          <p>You’re in control. We provide the guidance and tools, but you make the calls—because your goals, needs, and values matter most.</p>
+        </div>
+      </div>
+      <div class="col-md-3 mb-4">
+        <div class="value-block">
+          <h4 class="fw-bold">Progress</h4>
+          <p>Whether it’s a small saving habit or a big investment move, every step counts. We're here to help you track, grow, and celebrate your progress along the way.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  
+  <!-- Our Team Section -->
+<section class="banner-section text-center">
+  <div class="container">
+    <h2 class="text-white fw-bold" style="margin-bottom: 3rem;">Meet the Team</h2>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4 justify-content-center">
+      
+      <!-- Team Member 1 -->
+      <div class="col">
+        <div class="value-block text-white text-center">
+          <img src="images/jianming - photo.jpg" alt="Leong Jian Ming" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+          <h5 class="fw-semibold">Leong Jian Ming</h5>
+          <a href="https://www.linkedin.com/in/jian-ming-leong?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" class="text-info small">
+            <i class="bi bi-linkedin"></i> Connect on LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <!-- Team Member 2 -->
+      <div class="col">
+        <div class="value-block text-white text-center">
+          <img src="images/ky - photo.jfif" alt="Ooi Kwong Yang" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+          <h5 class="fw-semibold">Ooi Kwong Yang</h5>
+          <a href="https://www.linkedin.com/in/ooiky0625/" target="_blank" class="text-info small">
+            <i class="bi bi-linkedin"></i> Connect on LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <!-- Team Member 3 -->
+      <div class="col">
+        <div class="value-block text-white text-center">
+          <img src="images/yeefong - photo.jfif" alt="Tan Yee Fong" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+          <h5 class="fw-semibold">Tan Yee Fong</h5>
+          <a href="https://www.linkedin.com/in/yeefongtan/" target="_blank" class="text-info small">
+            <i class="bi bi-linkedin"></i> Connect on LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <!-- Team Member 4 -->
+      <div class="col">
+        <div class="value-block text-white text-center">
+          <img src="images/ng hui shan - photo.jpg" alt="Ng Hui Shan" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+          <h5 class="fw-semibold">Ng Hui Shan</h5>
+          <a href="https://www.linkedin.com/in/hui-shan-ng-6973ab309?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=ios_app" target="_blank" class="text-info small">
+            <i class="bi bi-linkedin"></i> Connect on LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <!-- Team Member 5 -->
+      <div class="col">
+        <div class="value-block text-white text-center">
+          <img src="images/jj - photo.JPG" alt="Lee Jing Jie" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+          <h5 class="fw-semibold">Lee Jing Jie</h5>
+          <a href="https://www.linkedin.com/in/lee-jing-jie-900b86297/" target="_blank" class="text-info small">
+            <i class="bi bi-linkedin"></i> Connect on LinkedIn
+          </a>
+        </div>
+      </div>
+
+      <!-- Team Member 6 -->
+      <div class="col">
+        <div class="value-block text-white text-center">
+          <img src="images/qianyu - photo.jpg" alt="Queh Qian Yu" class="rounded-circle mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+          <h5 class="fw-semibold">Queh Qian Yu</h5>
+          <a href="http://linkedin.com/in/qian-yu-queh-954302307" target="_blank" class="text-info small">
+            <i class="bi bi-linkedin"></i> Connect on LinkedIn
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
   
   <!-- Footer -->
   <footer>
@@ -199,5 +213,6 @@
     document.getElementById("year").textContent = new Date().getFullYear();
   </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/navbar.js"></script>
 </body>
 </html>

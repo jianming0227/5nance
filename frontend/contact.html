@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>5nance</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/contact.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+</head>
+
+<body style="background-color: #010725; color: white; font-family: 'DM Sans', 'Inter', sans-serif;">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top custom-navbar py-3">
+    <div class="container">
+      <a href="/" class="logo text-decoration-none d-flex align-items-center">
+        <span class="logo-number">5</span>NANCE
+      </a>
+  
+      <!-- Hamburger Toggle -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <!-- Collapsible Links -->
+      <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+        <ul class="navbar-nav ms-md-5 gap-md-4">
+          <li class="nav-item">
+            <a class="nav-link active" href="index.html">HOME</a>
+          </li>
+          <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            SERVICES
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="servicesDropdown" id="services-menu">
+            <!-- Populated dynamically via navbar.js -->
+          </ul>
+        </li>
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">ABOUT</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">CONTACT US</a>
+          </li>
+        </ul>
+        <div class="d-none d-md-block">
+          <i class="bi bi-person-circle fs-4 text-white"></i>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Decorative Banner Below Navbar -->
+  <div class="banner-bg">
+    <h1 class="fw-bold">Contact Us</h1>
+    <p class="lead text-light">Questions, bug reports, feedback — we're here for it all.</p>
+  </div>
+
+
+  <!-- Feedback Section -->
+  <section class="feedback-section py-5">
+    <div class="container">
+      <div class="feedback-box shadow p-4 rounded bg-white">
+      <form action="/submit-feedback" method="POST" enctype="multipart/form-data">
+        <div class="mb-3">
+          <label for="userName" class="form-label">Name</label>
+          <input type="text" class="form-control" id="userName" name="userName" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="userEmail" class="form-label">Email</label>
+          <input type="email" class="form-control" id="userEmail" name="userEmail" required>
+        </div>
+
+        <div class="mb-3">
+          <label for="feedback" class="form-label">What's On Your Mind</label>
+          <textarea class="form-control" id="feedback" name="feedback" rows="4" required></textarea>
+        </div>
+
+        <div class="mb-3">
+          <label for="fileAttachment" class="form-label">Attach File (Optional)</label>
+          <input type="file" class="form-control" id="fileAttachment" name="fileAttachment" accept=".jpg,.png,.jpeg,.pdf,.docx,.txt">
+          <small class="form-text text-muted">Max size: 5MB. Supported formats: .jpg, .png, .pdf, .docx</small>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Thank You Modal -->
+<div class="modal fade" id="thankYouModal" tabindex="-1" aria-labelledby="thankYouModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-dark">
+      <div class="modal-header">
+        <h5 class="modal-title" id="thankYouModalLabel">Form Submitted</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Thank you for your message! We'll get back to you as soon as possible.
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelector("form").addEventListener("submit", function (e) {
+    e.preventDefault(); // stop actual submission
+    const thankYouModal = new bootstrap.Modal(document.getElementById("thankYouModal"));
+    thankYouModal.show();
+    this.reset(); // optional: reset form fields
+  });
+</script>
+
+  <!-- Footer -->
+  <footer class="text-center py-3 text-white" style="background-color: #010725;">
+    &copy; copyright 5nance <span id="year"></span>
+  </footer>
+  
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+
+  <!-- JS Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/navbar.js"></script>
+  
+</body>
+</html>

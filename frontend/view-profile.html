@@ -36,7 +36,7 @@
           <a class="nav-link" href="about.html">ABOUT</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="/contact">CONTACT US</a>
+          <a class="nav-link" href="contact.html">CONTACT US</a>
         </li>
       </ul>
       <div class="d-none d-md-block">
@@ -59,13 +59,13 @@
                         <div class="form-group">
                             <label class="form-label">NAME</label>
                             <div class="input-container readonly">
-                                <div class="readonly-value">Ali</div>
+                                <div class="readonly-value readonly-name">-</div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">EMAIL ADDRESS</label>
                             <div class="input-container readonly">
-                                <div class="readonly-value">ali2004@gmail.com</div>
+                                <div class="readonly-value readonly-email">-</div>
                             </div>
                         </div>
                     </div>
@@ -74,13 +74,13 @@
                         <div class="form-group">
                             <label class="form-label">CONTACT NUMBER</label>
                             <div class="input-container readonly">
-                                <div class="readonly-value">+60123456789</div>
+                                <div class="readonly-value readonly-phone">-</div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">DATE OF BIRTH</label>
                             <div class="input-container readonly">
-                                <div class="readonly-value">2004/01/01</div>
+                                <div class="readonly-value readonly-dob">-</div>
                             </div>
                         </div>
                     </div>
@@ -89,12 +89,12 @@
                     <div class="form-group">
                         <label class="form-label">ADDRESS DETAILS</label>
                         <div class="input-container readonly">
-                            <div class="readonly-value">University Malaya Wilayah Persekutuan</div>
+                            <div class="readonly-value readonly-address1">-</div>
                         </div>
                     </div>
                     <div class="form-group address-line-2">
                         <div class="input-container readonly">
-                            <div class="readonly-value">Kolej Kediaman Kinabalu</div>
+                            <div class="readonly-value readonly-address-2">-</div>
                         </div>
                     </div>
 
@@ -102,13 +102,13 @@
                         <div class="form-group">
                             <label class="form-label">POSTCODE</label>
                             <div class="input-container readonly">
-                                <div class="readonly-value">50603</div>
+                                <div class="readonly-value readonly-postcode">-</div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">STATE</label>
                             <div class="input-container readonly">
-                                <div class="readonly-value">WP KUALA LUMPUR</div>
+                                <div class="readonly-value readonly-state">-</div>
                             </div>
                         </div>
                     </div>
@@ -117,13 +117,13 @@
                         <div class="form-group">
                             <label class="form-label">CITY</label>
                             <div class="input-container readonly">
-                                <div class="readonly-value">WP KUALA LUMPUR</div>
+                                <div class="readonly-value readonly-city">-</div>
                             </div>
                         </div>
                         <div class="form-group">
                             <label class="form-label">COUNTRY</label>
                             <div class="input-container readonly">
-                                <div class="readonly-value">MALAYSIA</div>
+                                <div class="readonly-value readonly-country">-</div>
                             </div>
                         </div>
                     </div>
@@ -133,9 +133,8 @@
                         <label for="password" class="form-label">PASSWORD</label>
                         <div class="password-container">
                             <div class="input-container password-field">
-                                <input id="password" type="password" value="password" class="form-input" required>
+                                <input id="password" type="password" value="password" class="form-input" readonly>
                             </div>
-                            <!-- <button type="button" class="reset-password-button">RESET PASSWORD</button> -->
                             <div class="reset-password">
                                 <a href="forgot-password.html" class="reset-password-button">RESET PASSWORD</a>
                             </div>
@@ -145,13 +144,14 @@
 
                     <!-- Delete Account -->
                     <div class="delete-account">
-                        <a href="delete-account.html" class="delete-button">DELETE ACCOUNT</a>
+                        <a href="delete-account.html?from=view-profile" class="delete-button">Delete Account</a>
                     </div>
                 </div>
 
                 <div class="profile-image">
                     <div class="avatar-container">
-                        <img src="images/profile-pic.png" alt="Profile Avatar" class="avatar">
+                        <!-- default image -->
+                        <img id="view-profile-img" src="images/profile-pic.png" alt="Profile Avatar" class="avatar">
                     </div>
                 </div>
             </div>
@@ -162,5 +162,28 @@
             <p>©COPYRIGHT 5NANCE 2025</p>
         </footer>
     </div>
+
+    <script>
+    window.onload = function() {
+        const data = JSON.parse(localStorage.getItem("profileData"));
+        if (data) {
+        document.querySelector(".readonly-name").textContent = data.name || "-";
+        document.querySelector(".readonly-email").textContent = data.email || "-";
+        document.querySelector(".readonly-phone").textContent = data.contact || "-";
+        document.querySelector(".readonly-dob").textContent = data.dob || "-";
+        document.querySelector(".readonly-address1").textContent = data.address1 || "-";
+        document.querySelector(".readonly-address-2").textContent = data.address2 || "-";
+        document.querySelector(".readonly-postcode").textContent = data.postcode || "-";
+        document.querySelector(".readonly-state").textContent = data.state || "-";
+        document.querySelector(".readonly-city").textContent = data.city || "-";
+        document.querySelector(".readonly-country").textContent = data.country || "-";
+        document.getElementById("password").value = "********";
+        if (data.avatar) {
+            document.getElementById("view-profile-img").src = data.avatar;
+        }
+        }
+    };
+    </script>
+
 </body>
 </html>

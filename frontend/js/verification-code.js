@@ -36,29 +36,46 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Handle keydown events for navigation and deletion
         input.addEventListener('keydown', function(e) {
-            // Move to previous input on backspace if current input is empty
             if (e.key === 'Backspace') {
-                if (this.value === '' && index > 0) {
+                e.preventDefault(); // Stop default delete
+
+                if (this.value !== '') {
+                    this.value = ''; // Clear current value
+                } else if (index > 0) {
+                    // Move to previous and clear that
                     codeInputs[index - 1].focus();
+                    codeInputs[index - 1].value = '';
                     codeInputs[index - 1].select();
-                    e.preventDefault();
                 }
             }
-            
-            // Move to next input on right arrow
-            if (e.key === 'ArrowRight' && index < codeInputs.length - 1) {
-                codeInputs[index + 1].focus();
-                codeInputs[index + 1].select();
-                e.preventDefault();
-            }
-            
-            // Move to previous input on left arrow
+
+            // Navigation
             if (e.key === 'ArrowLeft' && index > 0) {
                 codeInputs[index - 1].focus();
                 codeInputs[index - 1].select();
                 e.preventDefault();
             }
+
+            if (e.key === 'ArrowRight' && index < codeInputs.length - 1) {
+                codeInputs[index + 1].focus();
+                codeInputs[index + 1].select();
+                e.preventDefault();
+            }
         });
+
+    input.addEventListener('input', function() {
+        // If one digit entered, move to next
+        if (this.value.length === 1 && index < codeInputs.length - 1) {
+            codeInputs[index + 1].focus();
+        }
+    });
+
+    // Optional: Update active class on focus for styling
+    input.addEventListener('focus', () => {
+        codeInputs.forEach(i => i.classList.remove('active-input'));
+        input.classList.add('active-input');
+    });
+
         
         // Handle paste event to distribute digits across inputs
         input.addEventListener('paste', function(e) {
