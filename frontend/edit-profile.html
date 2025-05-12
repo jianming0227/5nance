@@ -155,7 +155,7 @@
 
                     <!-- Delete Account -->
                     <div class="delete-account">
-                        <a href="delete-account.html" class="delete-button">DELETE ACCOUNT</a>
+                        <a href="delete-account.html?from=edit-profile" class="delete-button">Delete Account</a>
                     </div>
                 </form>
 
@@ -174,16 +174,6 @@
                       </label>
                     </div>
                 </div>
-                
-                <script>
-                    document.getElementById('avatar-upload').addEventListener('change', function (e) {
-                      const file = e.target.files[0];
-                      if (file) {
-                        const imgPreview = document.getElementById('profile-preview');
-                        imgPreview.src = URL.createObjectURL(file);
-                      }
-                    });
-                  </script>
             </div>
         </main>
 

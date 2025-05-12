@@ -51,10 +51,10 @@
 
         <!-- Main Content -->
         <main>
-            <h1 class="welcome">Welcome Back!</h1>
+            <h1 class="welcome" style="margin-top: 80px;">Welcome Back!</h1>
             <div class="login-box">
                 <h2>Enter your Credentials to access your account</h2>
-                <form>
+                <form onsubmit="return login();">
                     <div class="form-group">
                         <label>Email</label>
                         <input type="email" placeholder="email@example.com" required>
@@ -82,9 +82,10 @@
                     </div>
                 
                     <div class="button-group">
-                        <a href="#" class="cancel">CANCEL</a>
-                        <a href="index.html" class="login">LOG IN</a>
-                      </div>
+                        <a href="index.html" class="cancel">CANCEL</a>
+                        <!-- <a href="index.html" class="login">LOG IN</a> -->
+                         <button type="submit" class="login">LOG IN</button>
+                    </div>
                 
                     <div class="form-group">
                         <p class="signup-text">
