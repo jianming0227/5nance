@@ -6,74 +6,31 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="css/home.css" rel="stylesheet">
   <link href="css/styles.css" rel="stylesheet">
+  <link href="css/nav.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 </head>
 <body style="background-color: #010725; color: white; font-family: 'DM Sans', 'Inter', sans-serif;">
-  
-<!-- Navbar -->
-<nav class="navbar navbar-expand-md navbar-dark fixed-top custom-navbar py-3">
-  <div class="container">
-    <a href="/" class="logo text-decoration-none d-flex align-items-center">
-      <span class="logo-number">5</span>NANCE
-    </a>
 
-     <!-- Hamburger Toggle  -->
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-      aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+  <!-- Navbar -->
+  <div id="navbar-placeholder"></div>
 
-     <!-- Collapsible Links  -->
-    <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
-      <ul class="navbar-nav ms-md-5 gap-md-4">
-        <li class="nav-item">
-          <a class="nav-link active" href="index.html">HOME</a>
-        </li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown"
-            aria-expanded="false">
-            SERVICES
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="servicesDropdown" id="services-menu">
-            <!-- Populated dynamically via navbar.js -->
-          </ul>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="about.html">ABOUT</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="contact.html">CONTACT US</a>
-        </li>
-      </ul>
-      <div class="d-none d-md-block">
-          <a href="view-profile.html" class="text-white text-decoration-none">
-            <i class="bi bi-person-circle fs-4"></i>
-          </a>
-      </div>
-    </div>
-  </div>
-</nav>
-
-<script src="js/navbar.js"></script>
-
-<!-- Welcoming Page / Hero Section -->
-
+  <!-- Welcoming Page / Hero Section -->
   <section class="hero-section d-flex align-items-center justify-content-center text-center p-5">
     <div class="overlay"></div>
     <div class="content position-relative text-white">
       <h1 class="display-4 fw-bold">
-        Your <span class="text-warning">Financial Freedom</span> Starts Here
+        Your <span class="blur-on-load text-warning">Financial Freedom</span> Starts Here
       </h1>
       <p class="mb-4">Plan, track, and optimize your investments with our intuitive tools—all in one place.</p>
   
-      <button class="btn btn-warning btn-md mb-3 fw-bold custom-btn">
+      <a href="sign-up-page.html" class="btn btn-warning btn-md mb-3 fw-bold custom-btn">
         CREATE AN ACCOUNT
-      </button>      
+      </a>    
   
       <div class="d-flex justify-content-center align-items-center gap-2">
         <p class="mb-0">Already a user?</p>
-        <a href="#" class="text-warning">Login</a>
+        <a href="log-in-page.html" class="text-warning login-link">Login</a>
       </div>
     </div>
   </section>
@@ -81,7 +38,7 @@
 
   <!-- Financial Wisdom Section -->
 
-  <section class="quote-section section-dark py-5">
+  <section class="scroll-fade-up quote-section section-dark py-5">
     <div class="container text-center">
   
        <!-- Heading above  -->
@@ -107,7 +64,7 @@
 
 
   <!-- Importance Section -->
-<section class="section-dark py-5">
+<section class="scroll-fade-up section-dark py-5">
   <div class="container">
     <h2 class="text-white mb-4">Why Financial Planning Matters</h2>
     <div class="row g-4 justify-content-center">
@@ -163,7 +120,7 @@
 
 <!-- How Our Platform Helps Section -->
 
-<section class="section-dark py-5">
+<section class="scroll-fade-up section-dark py-5">
   <div class="container">
     <h2 class="text-white mb-4">How Our Platform Helps</h2>
     <div class="row g-4 justify-content-center">
@@ -223,7 +180,7 @@
 
 <!-- FAQ Section -->
 
- <section id="faq" class="section-dark py-5">
+ <section id="faq" class="scroll-fade-up section-dark py-5">
   <div class="container">
     <h2 class="text-white mb-4">Frequently Asked Questions</h2>
     <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -349,22 +306,43 @@
 <!-- CTA Section -->
 <section class="cta-section text-center d-flex flex-column justify-content-center align-items-center py-5 ">
   <div class="container">
-    <h1 class="text-white fw-bold mb-4">Ready to start your journey?</h1>
+    <h1 class="scroll-fade-up text-white fw-bold mb-4" style="animation-delay: 0.3s;">Ready to start your journey?</h1>
     
-    <button class="btn btn-warning btn-md mb-3 fw-bold custom-btn">
+    <a href="sign-up-page.html" class="btn btn-warning btn-md mb-3 fw-bold custom-btn">
       CREATE AN ACCOUNT
-    </button>      
+    </a>
 
     <div class="d-flex justify-content-center align-items-center gap-2">
       <p class="mb-0">Already a user?</p>
-      <a href="log-in-page.html" class="text-warning">Login</a>
+      <a href="log-in-page.html" class="text-warning login-link">Login</a>
     </div>
   </div>
 </section>
-  
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/quotes.js"></script>
   <script src="js/scripts.js"></script>
+
+  <script>
+  const floatElements = document.querySelectorAll('.scroll-fade-up');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        // Remove observer if you want it to animate only once
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  floatElements.forEach(el => observer.observe(el));
+</script>
+  <script src="js/navbar.js"></script>
+
 </body>
 
 <footer class="text-center py-3 text-white" style="background-color: #010725;">
