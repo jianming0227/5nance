@@ -97,6 +97,29 @@ body {
     overflow: hidden;
     }
 
+    /* Float-up animation */
+@keyframes floatUp {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Initial state before animation */
+.scroll-fade-up {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.6s ease-out;
+}
+
+/* When in view */
+.scroll-fade-up.active {
+  animation: floatUp 0.8s ease-out forwards;
+}
 
     .about-heading {
         display: inline-block;
@@ -129,6 +152,11 @@ body {
         box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         transition: transform 0.3s ease, box-shadow 0.3s ease;
         height: 100%;
+    }
+
+    .value-block:hover{
+      transform: translateY(-10px);
+      box-shadow: 0 12px 24px rgba(255, 208, 0, 0.2);
     }
 
     .banner-section {

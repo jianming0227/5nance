@@ -60,7 +60,7 @@
 
 
   <!-- Feedback Section -->
-  <section class="feedback-section py-5">
+  <section class="scroll-fade-up feedback-section py-5">
     <div class="container">
       <div class="feedback-box shadow p-4 rounded bg-white">
       <form action="/submit-feedback" method="POST" enctype="multipart/form-data">
@@ -127,6 +127,22 @@
   <!-- JS Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/navbar.js"></script>
-  
+  <script>
+  const floatElements = document.querySelectorAll('.scroll-fade-up');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        // Remove observer if you want it to animate only once
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  floatElements.forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
