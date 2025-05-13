@@ -14,44 +14,6 @@ body {
     font-family: 'DM Sans', 'Inter', sans-serif;
 }
 
-/* Custom Navbar Background */
-.custom-navbar {
-    background-color: #010725;
-}
-
-/* Logo Styling */
-.logo {
-    color: #0328EE;
-    font-size: 1.5rem;
-    font-weight: 700;
-}
-
-.logo-number {
-    font-size: 2.5rem;
-}
-
-/* Navbar Links */
-.navbar-nav .nav-link {
-    color: #ffffff;
-    transition: color 0.2s ease;
-    text-transform: uppercase;
-}
-
-/* Hover + Active Effect */
-.navbar-nav .nav-link:hover,
-.navbar-nav .nav-link.active {
-    color: #0328EE;
-}
-
-/* Hamburger Icon */
-.navbar-toggler {
-    border: none;
-}
-
-.navbar-toggler:focus {
-    box-shadow: none;
-}
-
 /* Main Content */
 .main-heading {
     font-size: 3.5rem;

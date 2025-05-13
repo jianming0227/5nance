@@ -1,84 +1,4 @@
 
-/* Custom Navbar Background */
-.custom-navbar {
-    background-color: #010725;
-  }
-  
-  /* Logo Styling */
-  .logo {
-    color: #0328EE;
-    font-size: 1.5rem;
-    font-weight: 700;
-  }
-  
-  .logo-number {
-    font-size: 2.5rem;
-  }
-  
-  /* Navbar Links */
-  .navbar-nav .nav-link {
-    color: #ffffff;
-    transition: color 0.2s ease;
-    text-transform: uppercase;
-  }
-  
-  /* Hover + Active Effect */
-  .navbar-nav .nav-link:hover,
-  .navbar-nav .nav-link.active {
-    color: #0328EE;
-  }
-  
-  /* Hamburger Icon */
-  .navbar-toggler {
-    border: none;
-  }
-  
-  .navbar-toggler:focus {
-    box-shadow: none;
-  }  
-
-  /* For the dropdown trigger (nav link) */
-.nav-item .nav-link {
-  color: #ffffff;  /* Text color */
-  transition: color 0.3s ease-in-out;  /* Smooth color transition */
-}
-
-.nav-item .nav-link:hover {
-  color: #0328EE;  /* Highlighted color when hovering */
-}
-
-/* For the dropdown menu */
-#services-menu {
-  background-color: white;  
-  border-radius: 5px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);  /* Subtle shadow effect */
-  margin-top: 5px;
-}
-
-#services-menu li {
-  padding: 10px 20px;
-  border-bottom: 1px solid #9f9f9f;  /* Add a border between items */
-}
-
-#services-menu li:last-child {
-  border-bottom: none;  /* Remove bottom border for the last item */
-}
-
-#services-menu li a {
-  color: rgba(128, 128, 128, 0.5)#ffffff;  /* Text color */
-  text-decoration: none;  /* Remove underline */
-  transition: background-color 0.3s ease, color 0.3s ease;  /* Smooth transition on hover */
-  display: block;
-}
-
-/* Hover effect for dropdown links */
-#services-menu li a:hover,
-#services-menu li a:focus {
-  color: #0328EE;
-  background-color: transparent;
-}
-
-
 /* Hero Section */
 .hero-section {
     position: relative;
@@ -106,9 +26,25 @@
   }
 
   .custom-btn {
+    background-color: #FFD000;
+    color: #010725;
     font-size: 0.9rem;      
-    border-radius: 80px;     
-    padding: 0.5rem 1.5rem;  
+    border-radius: 80px; 
+    padding: 0.5rem 1.5rem;
+    transition: transform 0.3s ease;
+  }
+
+  .custom-btn:hover{
+    transform: translateY(-4px);
+  }
+
+  .login-link {
+    display: inline;
+    transition: transform 0.3s ease;
+  }
+
+  .login-link:hover {
+    transform: translateY(-4px);
   }
 
   .quote-section {
@@ -215,7 +151,7 @@
   
   .info-widget:hover {
     transform: translateY(-10px);
-    box-shadow: 0 12px 24px rgba(255, 208, 0, 0.2); /* soft golden glow */
+    box-shadow: 0 12px 24px rgba(255, 208, 0, 0.2); 
   }
 
   .cta-section {
