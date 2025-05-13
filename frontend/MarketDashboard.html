@@ -15,18 +15,20 @@
 </head>
 
 <body>
+
 <!-- Navbar -->
 <div id="navbar-placeholder"></div>
 
 
-        <!-- Main Content -->
-        <main class="container py-5">
-            <h1 class="mt-5 main-heading mb-4">Market Insights Dashboard</h1>
-            <h6 class="h6">Central hub to track, analyze, and stay updated on financial markets in real time.</h6>
+    <!-- Main Content -->
+    <main class="container py-5">
+        <h1 class="mt-5 main-heading mb-4">Market Insights Dashboard</h1>
+        <h6 class="h6">Central hub to track, analyze, and stay updated on financial markets in real time.</h6>
 
-            <!-- Horizontal Scrolling Container -->
-            <div class="articles-container">
-                <!-- Individual Article Thumbnails -->
+        <section class="articles-container">
+            <button class="carousel-control-prev" type="button" id="prevButton">&#10094;</button>
+
+            <div class="articles-wrapper" id="articlesWrapper">
                 <a href="/article1.html" class="article-thumbnail">
                     <img src="images/thumbnail1.webp" alt="Article 1">
                 </a>
@@ -37,284 +39,389 @@
                     <img src="images/thumbnail3.webp" alt="Article 3">
                 </a>
                 <a href="/article4.html" class="article-thumbnail">
-                    <img src="images/thumbnail4.webp" alt="Article 3">
+                    <img src="images/thumbnail4.webp" alt="Article 4">
                 </a>
                 <a href="/article5.html" class="article-thumbnail">
-                    <img src="images/thumbnail5.jpg" alt="Article 3">
+                    <img src="images/thumbnail5.jpg" alt="Article 5">
                 </a>
                 <a href="/article6.html" class="article-thumbnail">
-                    <img src="images/thumbnail6.jpg" alt="Article 3">
+                    <img src="images/thumbnail6.jpg" alt="Article 6">
                 </a>
             </div>
 
-            <!-- Watchlist -->
-            <section class="watchlist-section mt-5">
-                <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 70px;">
-                    <h3 class="watchlist-heading">Watchlist</h3>
-                    <select id="watchlist-dropdown" class="form-select w-auto">
-                        <option value="stock">Stock</option>
-                        <option value="etf">ETF</option>
-                        <option value="crypto">Cryptocurrency</option>
-                    </select>
-                </div>
+            <button class="carousel-control-next" type="button" id="nextButton">&#10095;</button>
+        </section>
 
-                <!-- Tables and Charts (initially show only stock) -->
-                <div id="watchlist-content">
-                    <!-- Stock -->
-                    <div class="watchlist-group" id="stock-group">
-                        <table class="custom-table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Symbol</th>
-                                    <th>Price</th>
-                                    <th>Change</th>
-                                    <th>Volume</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Apple</td>
-                                    <td>AAPL</td>
-                                    <td>$180.45</td>
-                                    <td>+0.23%</td>
-                                    <td>1.37m</td>
-                                </tr>
-                                <tr>
-                                    <td>Google</td>
-                                    <td>GOOG</td>
-                                    <td>$130.12</td>
-                                    <td>−0.11%</td>
-                                    <td>10.02m</td>
-                                </tr>
-                                <tr>
-                                    <td>NVIDIA</td>
-                                    <td>NVI</td>
-                                    <td>$21.97</td>
-                                    <td>-0.03%</td>
-                                    <td>81.82m</td>
-                                </tr>
-                                <tr>
-                                    <td>Samsung</td>
-                                    <td>SSG</td>
-                                    <td>$281.01</td>
-                                    <td>+1.01%</td>
-                                    <td>251.14m</td>
-                                </tr>
-                                <tr>
-                                    <td>Microsoft</td>
-                                    <td>MSF</td>
-                                    <td>$48.99</td>
-                                    <td>+0.23%</td>
-                                    <td>65.86m</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <h5 class="mt-4 mb-2" style="color: white;">Stock Chart</h5>
-                        <img src="images/stock-chart.png" alt="Stock Chart" class="chart-img">
-                    </div>
 
-                    <!-- ETF -->
-                    <div class="watchlist-group d-none" id="etf-group">
-                        <table class="custom-table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Symbol</th>
-                                    <th>Last</th>
-                                    <th>% Change</th>
-                                    <th>Volume</th>
-                                    <th>Time</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>iShares Russell 2000</td>
-                                    <td>IWM</td>
-                                    <td>182.74</td>
-                                    <td>-2.01%</td>
-                                    <td>26.02M</td>
-                                    <td>21/04</td>
-                                </tr>
-                                <tr>
-                                    <td>SPDR S&P 500</td>
-                                    <td>SPY</td>
-                                    <td>513.88</td>
-                                    <td>-2.38%</td>
-                                    <td>69.37M</td>
-                                    <td>21/04</td>
-                                </tr>
-                                <tr>
-                                    <td>Invesco DB Dollar Index Bullish</td>
-                                    <td>UUP</td>
-                                    <td>27.04</td>
-                                    <td>+1.11%</td>
-                                    <td>1.88M</td>
-                                    <td>21/04</td>
-                                </tr>
-                                <tr>
-                                    <td>iShares Year Treasury Bond</td>
-                                    <td>TLT</td>
-                                    <td>86.00</td>
-                                    <td>-1.75%</td>
-                                    <td>39.34M</td>
-                                    <td>21/04</td>
-                                </tr>
-                                <tr>
-                                    <td>ProShares UltraShort Treasury</td>
-                                    <td>TBT</td>
-                                    <td>37.30</td>
-                                    <td>+3.52%</td>
-                                    <td>530.15k</td>
-                                    <td>21/04</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <h5 class="mt-4 mb-2" style="color: white;">ETF Chart</h5>
-                        <img src="images/etf-chart.png" alt="ETF Chart" class="chart-img">
-                    </div>
-
-                    <!-- Cryptocurrency -->
-                    <div class="watchlist-group d-none" id="crypto-group">
-                        <table class="custom-table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Price</th>
-                                    <th>24H Change</th>
-                                    <th>24H Volume</th>
-                                    <th>Market Cap</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>Bitcoin</td>
-                                    <td>$88,570.85</td>
-                                    <td>+2.08%</td>
-                                    <td>$37.51B</td>
-                                    <td>$1,757.55B</td>
-                                </tr>
-                                <tr>
-                                    <td>Ethereum</td>
-                                    <td>$1,630.17</td>
-                                    <td>+0.49%</td>
-                                    <td>$15.8B</td>
-                                    <td>$196.75B</td>
-                                </tr>
-                                <tr>
-                                    <td>Shiba Inu</td>
-                                    <td>$0.00001256</td>
-                                    <td>-0.15%</td>
-                                    <td>$149.1M</td>
-                                    <td>$7.4B</td>
-                                </tr>
-                                <tr>
-                                    <td>Cronos</td>
-                                    <td>$0.08216</td>
-                                    <td>-1.01%</td>
-                                    <td>$19.78M</td>
-                                    <td>$2.25B</td>
-                                </tr>
-                                <tr>
-                                    <td>Dogecoin</td>
-                                    <td>$0.1639</td>
-                                    <td>+2.03%</td>
-                                    <td>$968.73M</td>
-                                    <td>$24.44B</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <h5 class="mt-4 mb-2" style="color: white;">Cryptocurrency Chart</h5>
-                        <img src="images/crypto-chart.png" alt="Crypto Chart" class="chart-img">
-                    </div>
-                </div>
-            </section>
-
-            <!-- Economic Calandar -->
-            <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 70px;">
-                <h3 class="watchlist-heading">Economic Calandar</h3>
+        <!-- Watchlist -->
+        <section class="watchlist-section mt-5">
+            <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 30px;">
+                <h3 class="watchlist-heading">Watchlist</h3>
+                <select id="watchlist-dropdown" class="form-select">
+                    <option value="stock">Stock</option>
+                    <option value="etf">ETF</option>
+                    <option value="crypto">Cryptocurrency</option>
+                </select>
             </div>
 
-            <!-- Economic Calandar Table -->
-            <table class="custom-table">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Currency</th>
-                        <th>Details</th>
-                        <th>Actual</th>
-                        <th>Forecast</th>
-                        <th>Previous</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>April 22 (Tues)</td>
-                        <td>3:00pm</td>
-                        <td>JPY</td>
-                        <td>Prelim Machine Tool Orders y/y</td>
-                        <td>-11.6%</td>
-                        <td>0.5%</td>
-                        <td>-3.8%</td>
-                    </tr>
-                    <tr>
-                        <td>April 22 (Tues)</td>
-                        <td>2:58pm</td>
-                        <td>EUR</td>
-                        <td>German Final CPI m/m</td>
-                        <td>0.5%</td>
-                        <td>0.5%</td>
-                        <td>0.5%</td>
-                    </tr>
-                    <tr>
-                        <td>April 22 (Tues)</td>
-                        <td>12:23pm</td>
-                        <td>EUR</td>
-                        <td>ECOFIN Meetings</td>
-                        <td>-1.1%</td>
-                        <td>-0.9%</td>
-                        <td>+0.2%</td>
-                    </tr>
-                    <tr>
-                        <td>April 22 (Tues)</td>
-                        <td>10:00am</td>
-                        <td>CAD</td>
-                        <td>Wholesale Sales m/m</td>
-                        <td>0.5%</td>
-                        <td>0.2%</td>
-                        <td>-0.1%</td>
-                    </tr>
-                    <tr>
-                        <td>April 21 (Mon)</td>
-                        <td>5:17pm</td>
-                        <td>GBP</td>
-                        <td>10-y Bond Auction</td>
-                        <td>4.07|3.5</td>
-                        <td>0.1%</td>
-                        <td>4.37|3.1</td>
-                    </tr>
-                    <tr>
-                        <td>April 21 (Mon)</td>
-                        <td>5:10pm</td>
-                        <td>USD</td>
-                        <td>Crude Oil Inventories</td>
-                        <td>+2.5M</td>
-                        <td>-0.4M</td>
-                        <td>-1.4M</td>
-                    </tr>
-                    <tr>
-                        <td>April 21 (Mon)</td>
-                        <td>3:28pm</td>
-                        <td>USD</td>
-                        <td>CB Leading Index m/m</td>
-                        <td>0.1%</td>
-                        <td>0.1%</td>
-                        <td>+0.1%</td>
-                    </tr>
-                </tbody>
-            </table>
-    </div>
+            <!-- Tables and Charts (initially show only stock) -->
+            <div id="watchlist-content">
+
+                <!-- Stock -->
+                <div class="watchlist-group" id="stock-group">
+
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Symbol</th>
+                                <th>Price</th>
+                                <th>Change</th>
+                                <th>Volume</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Apple</td>
+                                <td>AAPL</td>
+                                <td>$180.45</td>
+                                <td>+0.23%</td>
+                                <td>1.37m</td>
+                            </tr>
+                            <tr>
+                                <td>Google</td>
+                                <td>GOOG</td>
+                                <td>$130.12</td>
+                                <td>−0.11%</td>
+                                <td>10.02m</td>
+                            </tr>
+                            <tr>
+                                <td>NVIDIA</td>
+                                <td>NVI</td>
+                                <td>$21.97</td>
+                                <td>-0.03%</td>
+                                <td>81.82m</td>
+                            </tr>
+                            <tr>
+                                <td>Samsung</td>
+                                <td>SSG</td>
+                                <td>$281.01</td>
+                                <td>+1.01%</td>
+                                <td>251.14m</td>
+                            </tr>
+                            <tr>
+                                <td>Microsoft</td>
+                                <td>MSF</td>
+                                <td>$48.99</td>
+                                <td>+0.23%</td>
+                                <td>65.86m</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="charts-container">
+                        <div class="chart-box mb-0.5">
+                            <div style="padding-bottom: 20px;">
+                                <h5 class="text-white text-center " style="font-weight: bold">Stock Allocation</h5>
+                            </div>
+                            <div style="position: relative;
+                            width: 100%; 
+                            padding: 10px;
+                            width: 100;
+                            height: 400px;">
+                                <canvas id="stockPieChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-box bar-chart-box">
+                            <div style="padding-bottom: 20px;">
+                                <h5 class="text-white text-center" style="font-weight: bold">Stock Price (USD)</h5>
+                            </div>
+                            <div class="chart-canvas-wrapper">
+                                <canvas id="stockBarChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-box line-chart-box mb-4">
+                            <div style="padding-bottom: 20px;">
+                              <h5 class="text-white text-center mb-10" style="font-weight: bold">Stock Chart</h5>
+                            </div>
+                            <div class="line-chart-wrapper">
+                              <canvas id="stockLineChart"></canvas>
+                            </div>
+                          </div>                  
+                        
+                    </div>
+
+                </div>
+
+                <!-- ETF -->
+                <div class="watchlist-group d-none" id="etf-group">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Symbol</th>
+                                <th>Last</th>
+                                <th>% Change</th>
+                                <th>Volume</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>iShares Russell 2000</td>
+                                <td>IWM</td>
+                                <td>182.74</td>
+                                <td>-2.01%</td>
+                                <td>26.02M</td>
+                                <td>21/04</td>
+                            </tr>
+                            <tr>
+                                <td>SPDR S&P 500</td>
+                                <td>SPY</td>
+                                <td>513.88</td>
+                                <td>-2.38%</td>
+                                <td>69.37M</td>
+                                <td>21/04</td>
+                            </tr>
+                            <tr>
+                                <td>Invesco DB Dollar Index Bullish</td>
+                                <td>UUP</td>
+                                <td>27.04</td>
+                                <td>+1.11%</td>
+                                <td>1.88M</td>
+                                <td>21/04</td>
+                            </tr>
+                            <tr>
+                                <td>iShares Year Treasury Bond</td>
+                                <td>TLT</td>
+                                <td>86.00</td>
+                                <td>-1.75%</td>
+                                <td>39.34M</td>
+                                <td>21/04</td>
+                            </tr>
+                            <tr>
+                                <td>ProShares UltraShort Treasury</td>
+                                <td>TBT</td>
+                                <td>37.30</td>
+                                <td>+3.52%</td>
+                                <td>530.15k</td>
+                                <td>21/04</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="charts-container">
+                        <div class="chart-box mb-0.5">
+                            <div style="padding-bottom: 20px;">
+                                <h5 class="text-white text-center" style="font-weight: bold">ETF Volume Distribution</h5>
+                            </div>
+                            <div style="position: relative;
+                            width: 100%; 
+                            padding: 10px;
+                            width: 100;
+                            height: 400px;">
+                                <canvas id="etfPieChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-box bar-chart-box">
+                            <div style="padding-bottom: 20px;">
+                                <h5 class="text-white text-center" style="font-weight: bold">ETF Price (USD)</h5>
+                            </div>
+                            <div class="chart-canvas-wrapper">
+                                <canvas id="etfBarChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-box line-chart-box mb-4">
+                            <div style="padding-bottom: 20px;">
+                              <h5 class="text-white text-center mb-10" style="font-weight: bold">ETF % Change</h5>
+                            </div>
+                            <div class="line-chart-wrapper">
+                              <canvas id="etfLineChart"></canvas>
+                            </div>
+                          </div>                  
+                        
+                    </div>
+                    
+                </div>
+
+                <!-- Cryptocurrency -->
+                <div class="watchlist-group d-none" id="crypto-group">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>24H Change</th>
+                                <th>24H Volume</th>
+                                <th>Market Cap</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Bitcoin</td>
+                                <td>$88,570.85</td>
+                                <td>+2.08%</td>
+                                <td>$37.51B</td>
+                                <td>$1,757.55B</td>
+                            </tr>
+                            <tr>
+                                <td>Ethereum</td>
+                                <td>$1,630.17</td>
+                                <td>+0.49%</td>
+                                <td>$15.8B</td>
+                                <td>$196.75B</td>
+                            </tr>
+                            <tr>
+                                <td>Shiba Inu</td>
+                                <td>$0.00001256</td>
+                                <td>-0.15%</td>
+                                <td>$149.1M</td>
+                                <td>$7.4B</td>
+                            </tr>
+                            <tr>
+                                <td>Cronos</td>
+                                <td>$0.08216</td>
+                                <td>-1.01%</td>
+                                <td>$19.78M</td>
+                                <td>$2.25B</td>
+                            </tr>
+                            <tr>
+                                <td>Dogecoin</td>
+                                <td>$0.1639</td>
+                                <td>+2.03%</td>
+                                <td>$968.73M</td>
+                                <td>$24.44B</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    
+                    <div class="charts-container">
+                        <div class="chart-box mb-0.5">
+                            <div style="padding-bottom: 20px;">
+                                <h5 class="text-white text-center" style="font-weight: bold">Crypto Market Cap Distribution</h5>
+                            </div>
+                            <div style="position: relative;
+                            width: 100%; 
+                            padding: 10px;
+                            width: 100;
+                            height: 400px;">
+                                <canvas id="cryptoPieChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-box bar-chart-box">
+                            <div style="padding-bottom: 20px;">
+                                <h5 class="text-white text-center" style="font-weight: bold">Crypto Price (USD)</h5>
+                            </div>
+                            <div class="chart-canvas-wrapper">
+                                <canvas id="cryptoBarChart"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="chart-box line-chart-box mb-4">
+                            <div style="padding-bottom: 20px;">
+                              <h5 class="text-white text-center mb-10" style="font-weight: bold">Crypto Price Trends</h5>
+                            </div>
+                            <div class="line-chart-wrapper">
+                              <canvas id="cryptoLineChart"></canvas>
+                            </div>
+                          </div>                  
+                        
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Economic Calandar -->
+        <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 10px;">
+            <h3 class="watchlist-heading">Economic Calandar</h3>
+        </div>
+
+        <!-- Economic Calandar Table -->
+        <table class="custom-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Currency</th>
+                    <th>Details</th>
+                    <th>Actual</th>
+                    <th>Forecast</th>
+                    <th>Previous</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>April 22 (Tues)</td>
+                    <td>3:00pm</td>
+                    <td>JPY</td>
+                    <td>Prelim Machine Tool Orders y/y</td>
+                    <td>-11.6%</td>
+                    <td>0.5%</td>
+                    <td>-3.8%</td>
+                </tr>
+                <tr>
+                    <td>April 22 (Tues)</td>
+                    <td>2:58pm</td>
+                    <td>EUR</td>
+                    <td>German Final CPI m/m</td>
+                    <td>0.5%</td>
+                    <td>0.5%</td>
+                    <td>0.5%</td>
+                </tr>
+                <tr>
+                    <td>April 22 (Tues)</td>
+                    <td>12:23pm</td>
+                    <td>EUR</td>
+                    <td>ECOFIN Meetings</td>
+                    <td>-1.1%</td>
+                    <td>-0.9%</td>
+                    <td>+0.2%</td>
+                </tr>
+                <tr>
+                    <td>April 22 (Tues)</td>
+                    <td>10:00am</td>
+                    <td>CAD</td>
+                    <td>Wholesale Sales m/m</td>
+                    <td>0.5%</td>
+                    <td>0.2%</td>
+                    <td>-0.1%</td>
+                </tr>
+                <tr>
+                    <td>April 21 (Mon)</td>
+                    <td>5:17pm</td>
+                    <td>GBP</td>
+                    <td>10-y Bond Auction</td>
+                    <td>4.07|3.5</td>
+                    <td>0.1%</td>
+                    <td>4.37|3.1</td>
+                </tr>
+                <tr>
+                    <td>April 21 (Mon)</td>
+                    <td>5:10pm</td>
+                    <td>USD</td>
+                    <td>Crude Oil Inventories</td>
+                    <td>+2.5M</td>
+                    <td>-0.4M</td>
+                    <td>-1.4M</td>
+                </tr>
+                <tr>
+                    <td>April 21 (Mon)</td>
+                    <td>3:28pm</td>
+                    <td>USD</td>
+                    <td>CB Leading Index m/m</td>
+                    <td>0.1%</td>
+                    <td>0.1%</td>
+                    <td>+0.1%</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
 
 
     </main>
@@ -322,5 +429,6 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/MarketDashboard.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="js/navbar.js"></script>
 </body>

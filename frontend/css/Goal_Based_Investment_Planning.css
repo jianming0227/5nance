@@ -2,7 +2,7 @@
 body {
   background-color: #010725;
   color: #ffffff;
-  font-family: 'DM Sans', 'Inter', sans-serif;
+  font-family: "DM Sans", "Inter", sans-serif;
   padding-top: 76px; /* Account for fixed navbar */
   transition: background-color 0.3s ease;
 }
@@ -15,14 +15,19 @@ body {
 }
 
 /* Heading styling with gradient */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   color: #ffffff;
 }
 
 h1.text-center {
   font-size: 2.5rem;
   margin-bottom: 2rem;
-  background: linear-gradient(90deg, #0328EE, #5e9eff);
+  background: linear-gradient(90deg, #0328ee, #5e9eff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 0 20px rgba(3, 40, 238, 0.2);
@@ -74,7 +79,8 @@ h1.text-center {
 }
 
 /* Form controls with improved styling */
-.form-control, .form-select {
+.form-control,
+.form-select {
   background-color: rgba(10, 25, 86, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.2);
   color: #ffffff;
@@ -82,7 +88,8 @@ h1.text-center {
   transition: all 0.3s ease;
 }
 
-.form-control:focus, .form-select:focus {
+.form-control:focus,
+.form-select:focus {
   background-color: rgba(15, 35, 100, 0.8);
   border-color: #3949ab;
   box-shadow: 0 0 0 0.25rem rgba(57, 73, 171, 0.25);
@@ -103,7 +110,7 @@ h1.text-center {
 
 /* Button styling with hover effects */
 .btn-primary {
-  background: linear-gradient(to right, #0328EE, #0b5ed7);
+  background: linear-gradient(to right, #0328ee, #0b5ed7);
   border: none;
   box-shadow: 0 4px 15px rgba(3, 40, 238, 0.3);
   transition: all 0.3s ease;
@@ -119,7 +126,7 @@ h1.text-center {
 
 .btn-outline-primary {
   color: #ffffff;
-  border: 2px solid #0328EE;
+  border: 2px solid #0328ee;
   background: transparent;
   transition: all 0.3s ease;
   font-weight: 500;
@@ -127,7 +134,7 @@ h1.text-center {
 }
 
 .btn-outline-primary:hover {
-  background: linear-gradient(to right, #0328EE, #0b5ed7);
+  background: linear-gradient(to right, #0328ee, #0b5ed7);
   color: #ffffff;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(3, 40, 238, 0.4);
@@ -159,7 +166,7 @@ h1.text-center {
 }
 
 .progress-bar {
-  background: linear-gradient(to right, #0328EE, #5e9eff);
+  background: linear-gradient(to right, #0328ee, #5e9eff);
   box-shadow: 0 0 10px rgba(3, 40, 238, 0.5);
   transition: width 1s ease-in-out;
   animation: progressAnimation 1.5s ease-out;
@@ -351,7 +358,7 @@ h1.text-center {
 /* Add Savings button */
 .add-savings {
   color: #ffffff;
-  border-color: #0328EE;
+  border-color: #0328ee;
   background: transparent;
   transition: all 0.3s ease;
   border-radius: 8px;
@@ -362,7 +369,7 @@ h1.text-center {
 }
 
 .add-savings:before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: -100%;
@@ -380,7 +387,7 @@ h1.text-center {
 .add-savings:hover {
   background-color: rgba(3, 40, 238, 0.2);
   color: #ffffff;
-  border-color: #0328EE;
+  border-color: #0328ee;
   box-shadow: 0 4px 15px rgba(3, 40, 238, 0.3);
 }
 
@@ -401,9 +408,8 @@ h1.text-center {
   background: linear-gradient(145deg, #041038, #071550);
   border-radius: 10px;
   padding: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), 
-              inset 1px 1px 1px rgba(255, 255, 255, 0.1),
-              inset -1px -1px 1px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3), inset 1px 1px 1px rgba(255, 255, 255, 0.1), inset -1px -1px 1px
+    rgba(0, 0, 0, 0.3);
   border: 1px solid rgba(255, 255, 255, 0.05);
   transform: perspective(500px) rotateX(5deg);
   transition: all 0.3s ease;
@@ -411,9 +417,8 @@ h1.text-center {
 
 .info-row:hover {
   transform: perspective(500px) rotateX(0deg);
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), 
-              inset 1px 1px 1px rgba(255, 255, 255, 0.15),
-              inset -1px -1px 1px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4), inset 1px 1px 1px rgba(255, 255, 255, 0.15), inset -1px -1px 1px
+    rgba(0, 0, 0, 0.4);
 }
 
 .info-icon {
@@ -446,79 +451,132 @@ h1.text-center {
 
 /* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideUp {
-  from { 
+  from {
     opacity: 0;
     transform: translateY(20px);
   }
-  to { 
+  to {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
 @keyframes progressAnimation {
-  from { 
+  from {
     width: 0;
     opacity: 0.5;
   }
-  to { 
+  to {
     opacity: 1;
   }
 }
 
 /* Glowing effect for main heading */
 @keyframes glow {
-  0% { text-shadow: 0 0 10px rgba(3, 40, 238, 0.2); }
-  50% { text-shadow: 0 0 20px rgba(3, 40, 238, 0.4); }
-  100% { text-shadow: 0 0 10px rgba(3, 40, 238, 0.2); }
+  0% {
+    text-shadow: 0 0 10px rgba(3, 40, 238, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 20px rgba(3, 40, 238, 0.4);
+  }
+  100% {
+    text-shadow: 0 0 10px rgba(3, 40, 238, 0.2);
+  }
 }
 
 /* Add animation to cards */
-.goal-card:nth-child(1) { animation-delay: 0.1s; }
-.goal-card:nth-child(2) { animation-delay: 0.2s; }
-.goal-card:nth-child(3) { animation-delay: 0.3s; }
-.goal-card:nth-child(4) { animation-delay: 0.4s; }
-.goal-card:nth-child(5) { animation-delay: 0.5s; }
+.goal-card:nth-child(1) {
+  animation-delay: 0.1s;
+}
+.goal-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.goal-card:nth-child(3) {
+  animation-delay: 0.3s;
+}
+.goal-card:nth-child(4) {
+  animation-delay: 0.4s;
+}
+.goal-card:nth-child(5) {
+  animation-delay: 0.5s;
+}
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .goal-card .card-body {
     padding-left: 3rem;
   }
-  
+
   h1.text-center {
     font-size: 2rem;
   }
-  
+
   .card-title {
     font-size: 1.3rem;
   }
-  
+
   .navbar-collapse {
     background-color: #010725;
     padding: 1rem;
     margin: 0 -1rem;
   }
-  
+
   .navbar-nav {
     padding-top: 0.5rem;
   }
-  
+
   body {
     padding-top: 62px; /* Adjust for smaller navbar on mobile */
   }
-  
+
   .info-row {
     transform: perspective(500px) rotateX(3deg);
     padding: 0.75rem;
   }
-  
+
   .info-value {
     font-size: 1.1rem;
   }
+}
+
+/* CTA Section styling */
+.cta-section {
+  background: linear-gradient(to bottom, rgba(128, 128, 128, 0.5), rgba(1, 7, 37, 0));
+  width: 100%;
+  height: 300px;
+  margin-top: 3rem;
+}
+
+.custom-btn {
+  font-size: 0.9rem;
+  border-radius: 80px;
+  padding: 0.5rem 1.5rem;
+  background-color: #ffd000;
+  border-color: #ffd000;
+  color: #000;
+}
+
+.custom-btn:hover {
+  background-color: #e6bc00;
+  border-color: #e6bc00;
+}
+
+.text-warning {
+  color: #ffd000 !important;
+}
+
+footer {
+  background-color: #010725;
+  padding: 1rem 0;
+  margin-top: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
