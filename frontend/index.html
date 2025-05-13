@@ -324,23 +324,6 @@
   <script src="js/quotes.js"></script>
   <script src="js/scripts.js"></script>
 
-  <script>
-  const floatElements = document.querySelectorAll('.scroll-fade-up');
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('active');
-        // Remove observer if you want it to animate only once
-        observer.unobserve(entry.target);
-      }
-    });
-  }, {
-    threshold: 0.1
-  });
-
-  floatElements.forEach(el => observer.observe(el));
-</script>
   <script src="js/navbar.js"></script>
 
 </body>
