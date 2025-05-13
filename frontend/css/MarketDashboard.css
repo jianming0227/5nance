@@ -20,37 +20,37 @@ body {
 }
 
 /* Logo Styling */
-  .logo {
+.logo {
     color: #0328EE;
     font-size: 1.5rem;
     font-weight: 700;
 }
 
-  .logo-number {
+.logo-number {
     font-size: 2.5rem;
 }
 
 /* Navbar Links */
-  .navbar-nav .nav-link {
+.navbar-nav .nav-link {
     color: #ffffff;
     transition: color 0.2s ease;
     text-transform: uppercase;
 }
 
 /* Hover + Active Effect */
-  .navbar-nav .nav-link:hover,
-  .navbar-nav .nav-link.active {
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
     color: #0328EE;
 }
 
 /* Hamburger Icon */
-  .navbar-toggler {
+.navbar-toggler {
     border: none;
 }
 
-  .navbar-toggler:focus {
+.navbar-toggler:focus {
     box-shadow: none;
-}  
+}
 
 /* Main Content */
 .main-heading {
@@ -64,60 +64,80 @@ body {
     /* Regular weight */
 }
 
+.h5 {
+    padding-left: 0%;
+}
+
 /* Style for the horizontal scrolling container */
 .articles-container {
     display: flex;
-    overflow-x: scroll;
-    gap: 16px;
-    /* Space between thumbnails */
+    justify-content: center;
+    position: relative;
     padding: 20px 0;
-    /* Padding on top and bottom */
-    scroll-snap-type: x mandatory;
-    /* Ensures snapping for smooth scroll */
 }
 
-/* Style for each article thumbnail */
+.articles-wrapper {
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.articles-wrapper::-webkit-scrollbar {
+    display: none;
+}
+
 .article-thumbnail {
     flex-shrink: 0;
-    /* Prevents shrinking of the thumbnail */
-    width: 600px;
-    height: 320px;
+    width: 900px;
+    height: 500px;
+    margin: 0 16px;
+    /* Space between thumbnails */
     border-radius: 8px;
     overflow: hidden;
-    /* Ensures the image stays inside the container */
 }
+
+.article-thumbnail:first-child {
+    margin-left: 0;
+}
+
+.article-thumbnail:last-child {
+    margin-right: 0;
+}
+
 
 .article-thumbnail img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Ensures the image covers the area without distortion */
 }
 
-/* Adds scrolling effect on hover */
-/* .articles-container:hover {
-    scrollbar-color: #aaa #ccc;
-} */
-
-.articles-container::-webkit-scrollbar {
-    height: 7px;
-    /* Height of the scrollbar */
-    border-radius: 10px;
-    /* Rounded corners for the scrollbar */
+.carousel-control-prev,
+.carousel-control-next {
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    font-size: 50px;
+    cursor: pointer;
+    z-index: 1;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.articles-container::-webkit-scrollbar-thumb {
-    background-color: #888;
-    /* Scrollbar thumb color */
-    border-radius: 10px;
-    /* Rounded corners for the thumb */
+.carousel-control-prev {
+    left: 5px;
 }
 
-.articles-container::-webkit-scrollbar-track {
-    background-color: #ccc;
-    /* Scrollbar track color */
-    border-radius: 10px;
-    /* Rounded corners for the track */
+.carousel-control-next {
+    right: 5px;
 }
 
 /* Watchlist */
@@ -143,17 +163,26 @@ body {
 
 /* Watchlist Dropdown */
 #watchlist-dropdown {
-    background-color: #010D50;
-    /* Set background color */
+    background-color: #010d50;
     color: white;
-    /* Optional: set text color to white for better visibility */
-    border: 1px solid #010D50;
-    /* Optional: change the border color to match */
+    border: 1px solid #010d50;
+    width: 200px;
     padding: 8px 18px;
-    /* Optional: adjust padding for better visual appearance */
     font-size: 16px;
-    /* Optional: adjust the font size */
     cursor: pointer;
+    /* White dropdown arrow - Method 1: Using background image */
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='white' class='bi bi-chevron-down' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 16px 12px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+/* Remove default arrow in IE */
+#watchlist-dropdown::-ms-expand {
+    display: none;
 }
 
 /* Table */
@@ -193,4 +222,61 @@ body {
 .custom-table td {
     padding: 0.5rem;
     text-align: left;
+}
+
+/* Chart container */
+.charts-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    padding: 35px 0;
+    /* Only top and bottom padding */
+    max-width: 100%;
+    flex-wrap: wrap;
+    box-sizing: border-box;
+}
+
+.chart-box {
+    background-color: #071247;
+    padding: 20px;
+    border-radius: 12px;
+    height: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1 1 45%;
+    min-width: 300px;
+    box-sizing: border-box;
+}
+
+.bar-chart-box {
+    flex: 1 1 50%;
+}
+
+.chart-box canvas {
+    flex: 1;
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    box-sizing: border-box;
+}
+
+.chart-canvas-wrapper {
+    flex: 1;
+    height: 100%;
+}
+
+.line-chart-box {
+    height: 600px;
+    /* same as others */
+    flex: 1 1 100%;
+}
+
+.line-chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    /* take full height of chart-box */
+    overflow: hidden;
+    box-sizing: border-box;
 }
