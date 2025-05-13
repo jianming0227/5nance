@@ -1,3 +1,4 @@
+
 /* Hero Section */
 .hero-section {
     position: relative;
@@ -25,9 +26,25 @@
   }
 
   .custom-btn {
+    background-color: #FFD000;
+    color: #010725;
     font-size: 0.9rem;      
-    border-radius: 80px;     
-    padding: 0.5rem 1.5rem;  
+    border-radius: 80px; 
+    padding: 0.5rem 1.5rem;
+    transition: transform 0.3s ease;
+  }
+
+  .custom-btn:hover{
+    transform: translateY(-4px);
+  }
+
+  .login-link {
+    display: inline;
+    transition: transform 0.3s ease;
+  }
+
+  .login-link:hover {
+    transform: translateY(-4px);
   }
 
   .quote-section {
@@ -134,7 +151,7 @@
   
   .info-widget:hover {
     transform: translateY(-10px);
-    box-shadow: 0 12px 24px rgba(255, 208, 0, 0.2); /* soft golden glow */
+    box-shadow: 0 12px 24px rgba(255, 208, 0, 0.2); 
   }
 
   .cta-section {
