@@ -21,27 +21,40 @@
 //   }
 // });
 
-document.addEventListener('DOMContentLoaded', () => {
-  const servicesMenu = document.getElementById('services-menu');
+document.addEventListener("DOMContentLoaded", function() {
+  fetch('nav.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('navbar-placeholder').innerHTML = data;
+      
+      // Now that the navbar is loaded, run navbar.js code
+      const servicesMenu = document.getElementById('services-menu');
+      
+      // Log the element to check if it's found
+      console.log(servicesMenu);  // Check if the services-menu element is found
 
-  // Define your service items here
-  const serviceItems = [
-    { name: 'Investment Strategy Recommendation', link: 'AI.html' },
-    { name: 'ROI Calculator', link: 'calc.html' },
-    { name: 'Goal-Based Planner', link: 'Goal_Based_Investment_Planning.html' },
-    { name: 'Market Insight Dashboard', link: 'MarketDashboard.html' }
-  ];
+      if (!servicesMenu) {
+        console.error("Couldn't find the services-menu element!");
+        return;  // Exit early if the element doesn't exist
+      }
 
-  // Generate dropdown items
-  serviceItems.forEach(item => {
-    const li = document.createElement('li');
-    const a = document.createElement('a');
-    a.classList.add('dropdown-item');
-    a.href = item.link;
-    a.textContent = item.name;
-    li.appendChild(a);
-    servicesMenu.appendChild(li);
-  });
+      // Define your service items here
+      const serviceItems = [
+        { name: 'Investment Strategy Recommendation', link: 'AI.html' },
+        { name: 'ROI Calculator', link: 'calc.html' },
+        { name: 'Goal-Based Planner', link: 'Goal_Based_Investment_Planning.html' },
+        { name: 'Market Insight Dashboard', link: 'MarketDashboard.html' }
+      ];
+
+      // Generate dropdown items
+      serviceItems.forEach(item => {
+        const li = document.createElement('li');
+        const a = document.createElement('a');
+        a.classList.add('dropdown-item');
+        a.href = item.link;
+        a.textContent = item.name;
+        li.appendChild(a);
+        servicesMenu.appendChild(li);
+      });
+    });
 });
-
-
