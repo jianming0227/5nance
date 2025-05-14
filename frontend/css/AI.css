@@ -10,6 +10,35 @@
     --star-active: #ffc107;
   }
   
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(0.8);
+      opacity: 0.3;
+    }
+    50% {
+      transform: scale(1.2);
+      opacity: 0.1;
+    }
+    100% {
+      transform: scale(0.8);
+      opacity: 0.3;
+    }
+  }
+  
+  html {
+    overflow-y: scroll;
+  }
   body {
     background-color: var(--background);
     color: var(--foreground);
@@ -17,6 +46,9 @@
   }
   
   /* Main Content */
+  main {
+    animation: fadeIn 1s ease-out;
+  }
   .main-heading {
     font-size: 3.5rem;
     font-weight: 700;
@@ -210,21 +242,6 @@
     animation: pulse 2s infinite 0.3s;
   }
   
-  @keyframes pulse {
-    0% {
-      transform: scale(0.8);
-      opacity: 0.3;
-    }
-    50% {
-      transform: scale(1.2);
-      opacity: 0.1;
-    }
-    100% {
-      transform: scale(0.8);
-      opacity: 0.3;
-    }
-  }
-  
   /* Strategy Detail Overlay */
   .strategy-detail-overlay {
     position: fixed;
@@ -356,10 +373,4 @@
       left: 0;
       right: auto;
     }
-
-    body.scroll-lock {
-    overflow: hidden;
-    padding-right: 15px; /* Compensate for scrollbar width */
-    }
-
 }
