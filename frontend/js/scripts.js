@@ -233,9 +233,10 @@ function login() {
 function showToast(message, callback) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
-  toast.className = "toast show";
+  toast.classList.add("show"); // Add 'show' class to make it visible
+  
   setTimeout(() => {
-    toast.className = toast.className.replace("show", "");
-    if (callback) callback();
+    toast.classList.remove("show"); // Remove 'show' class after 2 seconds
+    if (callback) callback(); // If a callback is provided, call it
   }, 2000); // Toast shows for 2 seconds
 }

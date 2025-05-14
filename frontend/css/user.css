@@ -1,3 +1,7 @@
+html {
+  overflow-y: scroll;
+}
+
 body {
     background-color: #050726;
     color: white;
@@ -213,8 +217,7 @@ body {
   
   .divider-text {
     padding: 0.5rem 0.5rem;
-    background-color: white;
-    color: black;
+    color: white;
   }
   
   /* Google Sign In Button */
@@ -364,29 +367,6 @@ body {
     background-color: rgba(3, 40, 238, 0.9);
     color: white;
   }
-  
-  .toast {
-  visibility: hidden;
-  min-width: 250px;
-  margin-left: -125px;
-  background-color: #4b5563;
-  color: white;
-  text-align: center;
-  border-radius: 8px;
-  padding: 16px;
-  position: fixed;
-  z-index: 1000;
-  left: 50%;
-  bottom: 30px;
-  font-size: 16px;
-  opacity: 0;
-  transition: opacity 0.5s ease-in-out, bottom 0.5s ease-in-out;
-}
-.toast.show {
-  visibility: visible;
-  opacity: 1;
-  bottom: 50px;
-}
 
   .signup-text {
     font-size: 0.85rem;

@@ -7,13 +7,6 @@ body {
   transition: background-color 0.3s ease;
 }
 
-/* Container styling */
-.container {
-  background-color: #010725;
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
 /* Heading styling with gradient */
 h1, h2, h3, h4, h5, h6 {
   color: #ffffff;
@@ -197,29 +190,6 @@ h1.text-center {
 .modal-footer {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding: 1.5rem;
-}
-
-/* Dropdown menu */
-.dropdown-menu {
-  background: linear-gradient(145deg, #051042, #0a1956);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-  padding: 0.5rem;
-  animation: fadeIn 0.2s ease-out;
-}
-
-.dropdown-item {
-  color: #ffffff;
-  border-radius: 6px;
-  transition: all 0.2s ease;
-  padding: 0.6rem 1rem;
-}
-
-.dropdown-item:hover {
-  background-color: rgba(255, 255, 255, 0.1);
-  color: #ffffff;
-  transform: translateX(5px);
 }
 
 /* Goal card styles */

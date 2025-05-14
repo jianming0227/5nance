@@ -1,3 +1,6 @@
+function sha256(str) {
+  return CryptoJS.SHA256(str).toString();
+}
 
 //select country, state and city for sign-up-page.html
 const stateOptions = {
@@ -89,6 +92,7 @@ function saveSignUpData() {
   };
 
   localStorage.setItem("profileData", JSON.stringify(userData));
+  
   showToast("Sign-up successful!", () => {
     window.location.href = "login.html";
   });
@@ -97,14 +101,13 @@ function saveSignUpData() {
 function showToast(message, callback) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
-  toast.className = "toast show";
+  toast.classList.add("show"); // Add 'show' class to make it visible
+  
   setTimeout(() => {
-    toast.className = toast.className.replace("show", "");
-    if (callback) callback();
+    toast.classList.remove("show"); // Remove 'show' class after 2 seconds
+    if (callback) callback(); // If a callback is provided, call it
   }, 2000); // Toast shows for 2 seconds
 }
-
-
 
 window.onload = function () {
     populateCountries();
