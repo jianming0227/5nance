@@ -72,77 +72,89 @@ function updateCity() {
     }
 }
 
-// Prefill form with saved profile data
 function prefillProfileForm() {
-    const data = JSON.parse(localStorage.getItem("profileData"));
-    if (data) {
-        document.getElementById("name").value = data.name || "";
-        document.getElementById("email").value = data.email || "";
-        document.getElementById("contact").value = data.contact?.replace(/^\+?\d{1,3}/, "") || "";
-        document.getElementById("dob").value = data.dob || "";
-        document.getElementById("address1").value = data.address1 || "";
-        document.getElementById("address2").value = data.address2 || "";
-        document.getElementById("postcode").value = data.postcode || "";
+  const data = JSON.parse(localStorage.getItem("profileData"));
+  if (data) {
+    document.getElementById("name").value = data.name || "";
+    document.getElementById("email").value = data.email || "";
+    document.getElementById("contact").value = data.contact?.replace(/^\+\d{1,3}/, "") || "";
+    document.getElementById("dob").value = data.dob || "";
+    document.getElementById("address1").value = data.address1 || "";
+    document.getElementById("address2").value = data.address2 || "";
+    document.getElementById("postcode").value = data.postcode || "";
+    document.getElementById("country").value = data.country || "";
+    updateState();
+    document.getElementById("state").value = data.state || "";
+    updateCity();
+    document.getElementById("city").value = data.city || "";
+    document.getElementById("password").value = data.password || "";
+    document.getElementById("profile-preview").src = data.avatar || "images/profile-pic.png";
 
-        document.getElementById("country").value = data.country || "";
-        updateState(); // populate states
-        document.getElementById("state").value = data.state || "";
-        updateCity(); // populate cities
-        document.getElementById("city").value = data.city || "";
-
-        document.getElementById("profile-preview").src = data.avatar || "images/profile-pic.png";
+    const countryCodeMatch = data.contact?.match(/^\+(\d{1,3})/);
+    if (countryCodeMatch) {
+      document.getElementById("country-code").value = `+${countryCodeMatch[1]}`;
     }
+  }
 }
 
-// Handle form submission
 function handleFormSubmit() {
-    document.querySelector('.profile-form').addEventListener('submit', function(e) {
-        e.preventDefault();
-
-        const updatedData = {
-            name: document.getElementById('name').value,
-            email: document.getElementById('email').value,
-            contact: `${document.getElementById('country-code').value}${document.getElementById('contact').value}`,
-            dob: document.getElementById('dob').value,
-            address1: document.getElementById('address1').value,
-            address2: document.getElementById('address2').value,
-            postcode: document.getElementById('postcode').value,
-            state: document.getElementById('state').value,
-            city: document.getElementById('city').value,
-            country: document.getElementById('country').value,
-            avatar: document.getElementById('profile-preview').src
-        };
-
-        const existingData = JSON.parse(localStorage.getItem('profileData'));
-        if (existingData?.password) {
-            updatedData.password = existingData.password;
-        }
-
-        localStorage.setItem('profileData', JSON.stringify(updatedData));
-        alert("Profile updated successfully!");
-        window.location.href = 'view-profile.html';
-    });
+  document.querySelector('.profile-form')?.addEventListener('submit', function (e) {
+    e.preventDefault();
+    const updatedData = {
+      name: document.getElementById("name").value,
+      email: document.getElementById("email").value,
+      contact: `${document.getElementById("country-code").value}${document.getElementById("contact").value}`,
+      dob: document.getElementById("dob").value,
+      address1: document.getElementById("address1").value,
+      address2: document.getElementById("address2").value,
+      postcode: document.getElementById("postcode").value,
+      state: document.getElementById("state").value,
+      city: document.getElementById("city").value,
+      country: document.getElementById("country").value,
+      password: document.getElementById("password").value,
+      avatar: document.getElementById("profile-preview").src
+    };
+    localStorage.setItem("profileData", JSON.stringify(updatedData));
+    alert("Profile updated successfully!");
+    window.location.href = "view-profile.html";
+  });
 }
 
-// Handle avatar upload
 function setupAvatarUpload() {
-    document.getElementById('avatar-upload').addEventListener('change', function(event) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            document.getElementById('profile-preview').src = e.target.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    });
+  document.getElementById("avatar-upload")?.addEventListener("change", function (event) {
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      document.getElementById("profile-preview").src = e.target.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+  });
 }
 
-// Final combined window.onload
-window.onload = function() {
-    populateCountries();
-    prefillProfileForm();
-    handleFormSubmit();
-    setupAvatarUpload();
-};
+function populateViewProfile() {
+  const data = JSON.parse(localStorage.getItem("profileData"));
+  if (data) {
+    document.querySelector(".readonly-name").textContent = data.name || "-";
+    document.querySelector(".readonly-email").textContent = data.email || "-";
+    document.querySelector(".readonly-phone").textContent = data.contact || "-";
+    document.querySelector(".readonly-dob").textContent = data.dob || "-";
+    document.querySelector(".readonly-address-1").textContent = data.address1 || "-";
+    document.querySelector(".readonly-address-2").textContent = data.address2 || "-";
+    document.querySelector(".readonly-postcode").textContent = data.postcode || "-";
+    document.querySelector(".readonly-city").textContent = data.city || "-";
+    document.querySelector(".readonly-state").textContent = data.state || "-";
+    document.querySelector(".readonly-country").textContent = data.country || "-";
+    document.getElementById("password").value = data.password || "";
+    document.getElementById("view-avatar")?.setAttribute("src", data.avatar || "images/profile-pic.png");
+  }
+}
 
+window.onload = function () {
+  populateCountries();
+  prefillProfileForm();
+  handleFormSubmit();
+  setupAvatarUpload();
+  populateViewProfile();
+};
 
 
 
@@ -212,7 +224,18 @@ function login() {
         return false;
     }
 
-    alert("Login successful!");
-    window.location.href = "dashboard.html";
+  showToast("Login successful!", () => {
+    window.location.href = "index.html";
+  });
     return false; // prevent form submission default
+}
+
+function showToast(message, callback) {
+  const toast = document.getElementById("toast");
+  toast.textContent = message;
+  toast.className = "toast show";
+  setTimeout(() => {
+    toast.className = toast.className.replace("show", "");
+    if (callback) callback();
+  }, 2000); // Toast shows for 2 seconds
 }

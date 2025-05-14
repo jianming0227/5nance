@@ -1,53 +1,62 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>5NANCE - Log In</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/user.css">
+  <meta charset="UTF-8">
+  <title>5nance</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="css/home.css" rel="stylesheet">
+  <link href="css/user.css" rel="stylesheet">
+  <link href="css/styles.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 </head>
-<body>
-    <div class="container">
-         <!-- Navbar -->
- <nav class="navbar navbar-expand-md navbar-dark fixed-top custom-navbar py-3">
-    <div class="container">
-      <a href="/" class="logo text-decoration-none d-flex align-items-center">
-        <span class="logo-number">5</span>NANCE
-      </a>
+<body style="background-color: #010725; color: white; font-family: 'DM Sans', 'Inter', sans-serif;">
   
-      <!-- Hamburger Toggle -->
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-        aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-  
-      <!-- Collapsible Links -->
-      <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
-        <ul class="navbar-nav ms-md-5 gap-md-4">
-          <li class="nav-item">
-            <a class="nav-link active" href="index.html">HOME</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="/services">SERVICES</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="about.html">ABOUT</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="contact.html">CONTACT US</a>
-          </li>
-    
-        </ul>
-        <div class="d-none d-md-block">
-          <i class="bi bi-person-circle fs-4 text-white"></i>
-        
-        </div>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-md navbar-dark fixed-top custom-navbar py-3">
+  <div class="container">
+    <a href="/" class="logo text-decoration-none d-flex align-items-center">
+      <span class="logo-number">5</span>NANCE
+    </a>
+
+     <!-- Hamburger Toggle  -->
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+      aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+     <!-- Collapsible Links  -->
+    <div class="collapse navbar-collapse justify-content-between" id="navbarContent">
+      <ul class="navbar-nav ms-md-5 gap-md-4">
+        <li class="nav-item">
+          <a class="nav-link active" href="index.html">HOME</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="servicesDropdown" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            SERVICES
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="servicesDropdown" id="services-menu">
+            <!-- Populated dynamically via navbar.js -->
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="about.html">ABOUT</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="contact.html">CONTACT US</a>
+        </li>
+      </ul>
+      <div class="d-none d-md-block">
+          <a href="view-profile.html" class="text-white text-decoration-none">
+            <i class="bi bi-person-circle fs-4"></i>
+          </a>
       </div>
     </div>
-  </nav>
-  
+  </div>
+</nav>
+
+<script src="js/navbar.js"></script>
 
         <!-- Main Content -->
         <main>
@@ -83,12 +92,23 @@
                 
                     <div class="button-group">
                         <a href="index.html" class="cancel">CANCEL</a>
-                        <!-- <a href="index.html" class="login">LOG IN</a> -->
                          <button type="submit" class="login">LOG IN</button>
                     </div>
+
+                    <!-- Google Sign In -->
+                    <button class="google-signin">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="google-icon">
+                            <path fill="#EA4335" d="M5.26620003,9.76452941 C6.19878754,6.93863203 8.85444915,4.90909091 12,4.90909091 C13.6909091,4.90909091 15.2181818,5.50909091 16.4181818,6.49090909 L19.9090909,3 C17.7818182,1.14545455 15.0545455,0 12,0 C7.27006974,0 3.1977497,2.69829785 1.23999023,6.65002441 L5.26620003,9.76452941 Z"/>
+                            <path fill="#34A853" d="M16.0407269,18.0125889 C14.9509167,18.7163016 13.5660892,19.0909091 12,19.0909091 C8.86648613,19.0909091 6.21911939,17.076871 5.27698177,14.2678769 L1.23746264,17.3349879 C3.19279051,21.2970142 7.26500293,24 12,24 C14.9328362,24 17.7353462,22.9573905 19.834192,20.9995801 L16.0407269,18.0125889 Z"/>
+                            <path fill="#4A90E2" d="M19.834192,20.9995801 C22.0291676,18.9520994 23.4545455,15.903663 23.4545455,12 C23.4545455,11.2909091 23.3454545,10.5272727 23.1818182,9.81818182 L12,9.81818182 L12,14.4545455 L18.4363636,14.4545455 C18.1187732,16.013626 17.2662994,17.2212117 16.0407269,18.0125889 L19.834192,20.9995801 Z"/>
+                            <path fill="#FBBC05" d="M5.27698177,14.2678769 C5.03832634,13.556323 4.90909091,12.7937589 4.90909091,12 C4.90909091,11.2182781 5.03443647,10.4668121 5.26620003,9.76452941 L1.23999023,6.65002441 C0.43658717,8.26043162 0,10.0753848 0,12 C0,13.9195484 0.444780743,15.7301709 1.23746264,17.3349879 L5.27698177,14.2678769 Z"/>
+                        </svg>
+                        
+                        <span style="font-weight: 500;">Log in with Google</span>
+                    </button>
                 
                     <div class="form-group">
-                        <p class="signup-text">
+                        <p class="signup-text" style="margin-top: 16px;">
                             Don’t have an account? <a href="sign-up-page.html" class="signup-link">Sign Up</a>
                         </p>
                     </div>
@@ -103,6 +123,7 @@
     </div>
 
     <script src="js/scripts.js"></script>
+    <!-- <div id="toast" class="toast">Message</div> -->
 
 </body>
 </html>
