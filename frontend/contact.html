@@ -92,7 +92,7 @@
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
-        // Remove observer if you want it to animate only once
+        // Remove observer if want it to animate only once
         observer.unobserve(entry.target);
       }
     });
