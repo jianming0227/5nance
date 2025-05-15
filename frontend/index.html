@@ -325,7 +325,22 @@
   <script src="js/scripts.js"></script>
 
   <script src="js/navbar.js"></script>
+  <script>
+  const floatElements = document.querySelectorAll('.scroll-fade-up');
 
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  floatElements.forEach(el => observer.observe(el));
+</script>
 </body>
 
 <footer class="text-center py-3 text-white" style="background-color: #010725;">
