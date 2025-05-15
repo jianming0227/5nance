@@ -94,7 +94,7 @@ function saveSignUpData() {
   localStorage.setItem("profileData", JSON.stringify(userData));
   
   showToast("Sign-up successful!", () => {
-    window.location.href = "login.html";
+    window.location.href = "log-in-page.html";
   });
 }
 
