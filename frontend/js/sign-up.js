@@ -94,9 +94,28 @@ function saveSignUpData() {
   localStorage.setItem("profileData", JSON.stringify(userData));
   
   showToast("Sign-up successful!", () => {
-    window.location.href = "login.html";
+    window.location.href = "log-in-page.html";
   });
 }
+
+const mongoose = require('mongoose');
+
+const mongoURI = 'mongodb+srv://admin:5Nance2025@financialcluster.om5z5pu.mongodb.net/investmentDB?retryWrites=true&w=majority';
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect(mongoURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('MongoDB connected successfully');
+  } catch (error) {
+    console.error('MongoDB connection error:', error.message);
+    process.exit(1); // Exit process with failure
+  }
+};
+
+module.exports = connectDB;
 
 function showToast(message, callback) {
   const toast = document.getElementById("toast");
