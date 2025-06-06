@@ -79,7 +79,7 @@
     e.preventDefault(); // stop actual submission
     const thankYouModal = new bootstrap.Modal(document.getElementById("thankYouModal"));
     thankYouModal.show();
-    this.reset(); // optional: reset form fields
+    this.reset(); // reset form fields
   });
 </script>
   
@@ -97,7 +97,6 @@
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('active');
-        // Remove observer if want it to animate only once
         observer.unobserve(entry.target);
       }
     });

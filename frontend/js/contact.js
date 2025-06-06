@@ -5,5 +5,7 @@ function sendMail(){
         feedback: document.getElementById("feedback").value,
     }
 
-    emailjs.send("service_zyojtkc", "template_fdyhu63", params).then(alert("Email Sent!"));
+    emailjs.send("service_zyojtkc", "template_fdyhu63", params);
+    this.reset(); // reset form fields
 }
+
