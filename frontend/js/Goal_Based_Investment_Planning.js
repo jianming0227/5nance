@@ -1,136 +1,252 @@
-// Initial goals data
-let goals = [
-  {
-    id: "1",
-    name: "Retirement",
-    targetAmount: 500000,
-    currentAmount: 150000,
-    targetDate: "2050-01-01",
-    priority: 1,
-    description: "Save for comfortable retirement",
-    category: "retirement"
-  },
-  {
-    id: "2",
-    name: "Down Payment for House",
-    targetAmount: 100000,
-    currentAmount: 35000,
-    targetDate: "2026-06-30",
-    priority: 2,
-    description: "Save for 20% down payment on a house",
-    category: "housing"
-  },
-  {
-    id: "3",
-    name: "College Fund",
-    targetAmount: 120000,
-    currentAmount: 15000,
-    targetDate: "2035-08-01",
-    priority: 3,
-    description: "Save for children's education",
-    category: "education"
-  }
-];
+// API Configuration
+const API_BASE_URL = "http://localhost:5000/api"
+let USERNAME = "guest" // This will be replaced with actual userId from login
+
+// Global variables
+let goals = []
 
 // DOM elements
-const addGoalButton = document.getElementById('add-goal-button');
-const addGoalForm = document.getElementById('add-goal-form');
-const addGoalButtonContainer = document.getElementById('add-goal-button-container');
-const cancelAddGoalButton = document.getElementById('cancel-add-goal');
-const goalForm = document.getElementById('goal-form');
-const goalsContainer = document.getElementById('goals-container');
-const editGoalForm = document.getElementById('edit-goal-form');
-const saveEditGoalButton = document.getElementById('save-edit-goal');
-const saveSavingsButton = document.getElementById('save-savings');
+const addGoalButton = document.getElementById("add-goal-button")
+const addGoalForm = document.getElementById("add-goal-form")
+const addGoalButtonContainer = document.getElementById("add-goal-button-container")
+const cancelAddGoalButton = document.getElementById("cancel-add-goal")
+const goalForm = document.getElementById("goal-form")
+const goalsContainer = document.getElementById("goals-container")
+const editGoalForm = document.getElementById("edit-goal-form")
+const saveEditGoalButton = document.getElementById("save-edit-goal")
+const saveSavingsButton = document.getElementById("save-savings")
 
 // Bootstrap modals
-const editGoalModalElement = document.getElementById('editGoalModal');
-const addSavingsModalElement = document.getElementById('addSavingsModal');
+const editGoalModalElement = document.getElementById("editGoalModal")
+const addSavingsModalElement = document.getElementById("addSavingsModal")
 
-const bootstrap = window.bootstrap; // Declaring bootstrap variable
+const bootstrap = window.bootstrap
+const editGoalModal = new bootstrap.Modal(editGoalModalElement)
+const addSavingsModal = new bootstrap.Modal(addSavingsModalElement)
 
-const editGoalModal = new bootstrap.Modal(editGoalModalElement);
-const addSavingsModal = new bootstrap.Modal(addSavingsModalElement);
+// API Functions
+class GoalAPI {
+  static async getAllGoals() {
+    try {
+      const response = await fetch(`${API_BASE_URL}/goals?username=${USERNAME}`)
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
+      return await response.json()
+    } catch (error) {
+      console.error("Error fetching goals:", error)
+      throw error
+    }
+  }
+
+  static async createGoal(goalData) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/goals`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...goalData, username: USERNAME }),
+      })
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
+      return await response.json()
+    } catch (error) {
+      console.error("Error creating goal:", error)
+      throw error
+    }
+  }
+
+  static async updateGoal(goalId, goalData) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/goals/${goalId}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(goalData),
+      })
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
+      return await response.json()
+    } catch (error) {
+      console.error("Error updating goal:", error)
+      throw error
+    }
+  }
+
+  static async deleteGoal(goalId) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/goals/${goalId}`, {
+        method: "DELETE",
+      })
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
+      return await response.json()
+    } catch (error) {
+      console.error("Error deleting goal:", error)
+      throw error
+    }
+  }
+
+  static async addSavings(goalId, amount) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/goals/${goalId}/add-savings`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount }),
+      })
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
+      return await response.json()
+    } catch (error) {
+      console.error("Error adding savings:", error)
+      throw error
+    }
+  }
+
+  static async reorderGoals(goalIds) {
+    try {
+      const response = await fetch(`${API_BASE_URL}/goals/reorder?username=${USERNAME}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ goalIds }),
+      })
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
+      return await response.json()
+    } catch (error) {
+      console.error("Error reordering goals:", error)
+      throw error
+    }
+  }
+}
 
 // Event listeners
-document.addEventListener('DOMContentLoaded', () => {
-  renderGoals();
-  setupSortable();
-  
+document.addEventListener("DOMContentLoaded", async () => {
+  await loadGoals()
+  setupSortable()
+
   // Add goal button
-  addGoalButton.addEventListener('click', () => {
-    addGoalButtonContainer.classList.add('d-none');
-    addGoalForm.classList.remove('d-none');
-  });
-  
+  addGoalButton.addEventListener("click", () => {
+    addGoalButtonContainer.classList.add("d-none")
+    addGoalForm.classList.remove("d-none")
+  })
+
   // Cancel add goal
-  cancelAddGoalButton.addEventListener('click', () => {
-    addGoalButtonContainer.classList.remove('d-none');
-    addGoalForm.classList.add('d-none');
-    goalForm.reset();
-  });
-  
+  cancelAddGoalButton.addEventListener("click", () => {
+    addGoalButtonContainer.classList.remove("d-none")
+    addGoalForm.classList.add("d-none")
+    goalForm.reset()
+  })
+
   // Submit new goal
-  goalForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    addNewGoal();
-  });
-  
+  goalForm.addEventListener("submit", async (e) => {
+    e.preventDefault()
+    await addNewGoal()
+  })
+
   // Save edited goal
-  saveEditGoalButton.addEventListener('click', saveEditedGoal);
-  
+  saveEditGoalButton.addEventListener("click", saveEditedGoal)
+
   // Save savings
-  saveSavingsButton.addEventListener('click', saveSavingsAmount);
-});
+  saveSavingsButton.addEventListener("click", saveSavingsAmount)
+})
+
+// Load goals from database
+async function loadGoals() {
+  try {
+    showLoading()
+    goals = await GoalAPI.getAllGoals()
+    renderGoals()
+  } catch (error) {
+    showError("Failed to load goals. Please make sure your backend server is running on http://localhost:5000")
+  }
+}
+
+// Show loading state
+function showLoading() {
+  goalsContainer.innerHTML = `
+    <div class="text-center p-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3 text-white">Loading your goals...</p>
+    </div>
+  `
+}
+
+// Show error message
+function showError(message) {
+  goalsContainer.innerHTML = `
+    <div class="alert alert-danger" role="alert">
+      <i class="bi bi-exclamation-triangle me-2"></i>
+      ${message}
+    </div>
+  `
+}
+
+// Show success message
+function showSuccess(message) {
+  const alertDiv = document.createElement("div")
+  alertDiv.className = "alert alert-success alert-dismissible fade show position-fixed"
+  alertDiv.style.cssText = "top: 100px; right: 20px; z-index: 1050; min-width: 300px;"
+  alertDiv.innerHTML = `
+    <i class="bi bi-check-circle me-2"></i>
+    ${message}
+    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+  `
+
+  document.body.appendChild(alertDiv)
+
+  setTimeout(() => {
+    if (alertDiv.parentNode) {
+      alertDiv.remove()
+    }
+  }, 3000)
+}
 
 // Format currency
 function formatCurrency(amount) {
-  return new Intl.NumberFormat('en-US', {
-    style: 'currency',
-    currency: 'USD',
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
     minimumFractionDigits: 0,
     maximumFractionDigits: 0,
-  }).format(amount);
+  }).format(amount)
 }
 
 // Format date
 function formatDate(dateString) {
-  const options = { year: 'numeric', month: 'short', day: 'numeric' };
-  return new Date(dateString).toLocaleDateString('en-US', options);
+  const options = { year: "numeric", month: "short", day: "numeric" }
+  return new Date(dateString).toLocaleDateString("en-US", options)
 }
 
 // Calculate progress percentage
 function calculateProgress(current, target) {
-  return Math.min(Math.round((current / target) * 100), 100);
+  return Math.min(Math.round((current / target) * 100), 100)
 }
 
 // Render all goals
 function renderGoals() {
-  // Sort goals by priority
-  const sortedGoals = [...goals].sort((a, b) => a.priority - b.priority);
-  
   // Clear container
-  goalsContainer.innerHTML = '';
-  
-  if (sortedGoals.length === 0) {
+  goalsContainer.innerHTML = ""
+
+  if (goals.length === 0) {
     goalsContainer.innerHTML = `
-      <div class="text-center p-4 border border-dashed rounded">
-        <p class="text-white">No financial goals yet. Add your first goal to get started!</p>
+      <div class="text-center py-5">
+        <i class="bi bi-target display-1 text-muted mb-3"></i>
+        <h3 class="text-white mb-3">Welcome to Your Financial Journey!</h3>
+        <p class="text-muted mb-4">You haven't set any financial goals yet. Start by creating your first goal to begin planning for your future.</p>
+        <div class="d-flex justify-content-center">
+          <button class="btn btn-primary btn-lg" onclick="document.getElementById('add-goal-button').click()">
+            <i class="bi bi-plus-lg me-2"></i>Create Your First Goal
+          </button>
+        </div>
       </div>
-    `;
-    return;
+    `
+    return
   }
-  
+
   // Add each goal card
-  sortedGoals.forEach((goal, index) => {
-    const progressPercentage = calculateProgress(goal.currentAmount, goal.targetAmount);
-    const canMoveUp = index > 0;
-    const canMoveDown = index < sortedGoals.length - 1;
-    
-    const goalCard = document.createElement('div');
-    goalCard.className = 'goal-card';
-    goalCard.dataset.id = goal.id;
-    goalCard.style.animationDelay = `${index * 0.1}s`;
+  goals.forEach((goal, index) => {
+    const progressPercentage = calculateProgress(goal.currentAmount, goal.targetAmount)
+    const canMoveUp = index > 0
+    const canMoveDown = index < goals.length - 1
+
+    const goalCard = document.createElement("div")
+    goalCard.className = "goal-card"
+    goalCard.dataset.id = goal._id
+    goalCard.style.animationDelay = `${index * 0.1}s`
     goalCard.innerHTML = `
       <div class="card">
         <div class="drag-handle">
@@ -147,14 +263,14 @@ function renderGoals() {
                 <i class="bi bi-three-dots-vertical"></i>
               </button>
               <ul class="dropdown-menu dropdown-menu-end">
-                <li><a class="dropdown-item edit-goal" href="#" data-id="${goal.id}"><i class="bi bi-pencil me-2"></i>Edit</a></li>
-                <li><a class="dropdown-item text-danger delete-goal" href="#" data-id="${goal.id}"><i class="bi bi-trash me-2"></i>Delete</a></li>
+                <li><a class="dropdown-item edit-goal" href="#" data-id="${goal._id}"><i class="bi bi-pencil me-2"></i>Edit</a></li>
+                <li><a class="dropdown-item text-danger delete-goal" href="#" data-id="${goal._id}"><i class="bi bi-trash me-2"></i>Delete</a></li>
               </ul>
             </div>
           </div>
         </div>
         <div class="card-body">
-          <p class="goal-description">${goal.description || ''}</p>
+          <p class="goal-description">${goal.description || ""}</p>
           
           <div class="row mb-3">
             <div class="col-6">
@@ -177,15 +293,12 @@ function renderGoals() {
             </div>
           </div>
           
-          <!-- Move buttons - Positioned below the target amount -->
           <div class="move-buttons">
-            <button class="btn btn-sm move-up" ${!canMoveUp ? 'disabled' : ''} data-id="${goal.id}" title="Move Up">
+            <button class="btn btn-sm move-up" ${!canMoveUp ? "disabled" : ""} data-id="${goal._id}" title="Move Up">
               <i class="bi bi-arrow-up"></i>
-              <span class="visually-hidden">Move Up</span>
             </button>
-            <button class="btn btn-sm move-down" ${!canMoveDown ? 'disabled' : ''} data-id="${goal.id}" title="Move Down">
+            <button class="btn btn-sm move-down" ${!canMoveDown ? "disabled" : ""} data-id="${goal._id}" title="Move Down">
               <i class="bi bi-arrow-down"></i>
-              <span class="visually-hidden">Move Down</span>
             </button>
           </div>
           
@@ -204,233 +317,258 @@ function renderGoals() {
             </div>
           </div>
           
-          <button class="btn btn-outline-primary btn-sm w-100 add-savings" data-id="${goal.id}">
+          <button class="btn btn-outline-primary btn-sm w-100 add-savings" data-id="${goal._id}">
             <i class="bi bi-plus-lg me-1"></i> Add Savings
           </button>
         </div>
       </div>
-    `;
-    
-    goalsContainer.appendChild(goalCard);
-  });
-  
+    `
+
+    goalsContainer.appendChild(goalCard)
+  })
+
   // Add event listeners to buttons
-  addEventListenersToGoalCards();
+  addEventListenersToGoalCards()
 }
 
 // Add event listeners to goal cards
 function addEventListenersToGoalCards() {
   // Edit goal buttons
-  document.querySelectorAll('.edit-goal').forEach(button => {
-    button.addEventListener('click', (e) => {
-      e.preventDefault();
-      const goalId = e.target.dataset.id;
-      openEditGoalModal(goalId);
-    });
-  });
-  
+  document.querySelectorAll(".edit-goal").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      e.preventDefault()
+      const goalId = e.target.dataset.id
+      openEditGoalModal(goalId)
+    })
+  })
+
   // Delete goal buttons
-  document.querySelectorAll('.delete-goal').forEach(button => {
-    button.addEventListener('click', (e) => {
-      e.preventDefault();
-      const goalId = e.target.dataset.id;
-      deleteGoal(goalId);
-    });
-  });
-  
+  document.querySelectorAll(".delete-goal").forEach((button) => {
+    button.addEventListener("click", async (e) => {
+      e.preventDefault()
+      const goalId = e.target.dataset.id
+      await deleteGoal(goalId)
+    })
+  })
+
   // Add savings buttons
-  document.querySelectorAll('.add-savings').forEach(button => {
-    button.addEventListener('click', (e) => {
-      const goalId = e.target.dataset.id;
-      openAddSavingsModal(goalId);
-    });
-  });
-  
+  document.querySelectorAll(".add-savings").forEach((button) => {
+    button.addEventListener("click", (e) => {
+      const goalId = e.target.dataset.id
+      openAddSavingsModal(goalId)
+    })
+  })
+
   // Move up buttons
-  document.querySelectorAll('.move-up').forEach(button => {
-    button.addEventListener('click', (e) => {
-      const goalId = e.target.dataset.id;
-      moveGoalUp(goalId);
-    });
-  });
-  
+  document.querySelectorAll(".move-up").forEach((button) => {
+    button.addEventListener("click", async (e) => {
+      const goalId = e.target.dataset.id
+      await moveGoalUp(goalId)
+    })
+  })
+
   // Move down buttons
-  document.querySelectorAll('.move-down').forEach(button => {
-    button.addEventListener('click', (e) => {
-      const goalId = e.target.dataset.id;
-      moveGoalDown(goalId);
-    });
-  });
+  document.querySelectorAll(".move-down").forEach((button) => {
+    button.addEventListener("click", async (e) => {
+      const goalId = e.target.dataset.id
+      await moveGoalDown(goalId)
+    })
+  })
 }
 
 // Setup sortable for drag and drop
 function setupSortable() {
-  const Sortable = window.Sortable;
-  const sortable = new Sortable(goalsContainer, {
-    animation: 150,
-    handle: '.drag-handle',
-    ghostClass: 'sortable-ghost',
-    onEnd: function(evt) {
-      updateGoalPriorities();
-    },
-  });
+  const Sortable = window.Sortable
+  if (Sortable) {
+    const sortable = new Sortable(goalsContainer, {
+      animation: 150,
+      handle: ".drag-handle",
+      ghostClass: "sortable-ghost",
+      onEnd: async (evt) => {
+        await updateGoalPriorities()
+      },
+    })
+  }
 }
 
 // Update goal priorities after drag and drop
-function updateGoalPriorities() {
-  const goalElements = document.querySelectorAll('.goal-card');
-  const newGoals = [...goals];
-  
-  goalElements.forEach((element, index) => {
-    const goalId = element.dataset.id;
-    const goalIndex = newGoals.findIndex(g => g.id === goalId);
-    
-    if (goalIndex !== -1) {
-      newGoals[goalIndex].priority = index + 1;
-    }
-  });
-  
-  goals = newGoals;
-  renderGoals();
+async function updateGoalPriorities() {
+  try {
+    const goalElements = document.querySelectorAll(".goal-card")
+    const goalIds = Array.from(goalElements).map((element) => element.dataset.id)
+
+    goals = await GoalAPI.reorderGoals(goalIds)
+    renderGoals()
+  } catch (error) {
+    console.error("Error reordering goals:", error)
+    showError("Failed to reorder goals")
+    await loadGoals() // Reload on error
+  }
 }
 
 // Add new goal
-function addNewGoal() {
-  const name = document.getElementById('goal-name').value;
-  const targetAmount = parseFloat(document.getElementById('target-amount').value);
-  const currentAmount = parseFloat(document.getElementById('current-amount').value) || 0;
-  const category = document.getElementById('category').value;
-  const targetDate = document.getElementById('target-date').value;
-  const description = document.getElementById('description').value;
-  
-  const newGoal = {
-    id: Date.now().toString(),
-    name,
-    targetAmount,
-    currentAmount,
-    targetDate,
-    priority: goals.length + 1,
-    description,
-    category
-  };
-  
-  goals.push(newGoal);
-  
-  // Reset and hide form
-  goalForm.reset();
-  addGoalForm.classList.add('d-none');
-  addGoalButtonContainer.classList.remove('d-none');
-  
-  renderGoals();
+async function addNewGoal() {
+  try {
+    const goalData = {
+      name: document.getElementById("goal-name").value,
+      targetAmount: Number.parseFloat(document.getElementById("target-amount").value),
+      currentAmount: Number.parseFloat(document.getElementById("current-amount").value) || 0,
+      category: document.getElementById("category").value,
+      targetDate: document.getElementById("target-date").value,
+      description: document.getElementById("description").value,
+    }
+
+    const newGoal = await GoalAPI.createGoal(goalData)
+    goals.push(newGoal)
+
+    // Reset and hide form
+    goalForm.reset()
+    addGoalForm.classList.add("d-none")
+    addGoalButtonContainer.classList.remove("d-none")
+
+    renderGoals()
+    showSuccess("Goal added successfully!")
+  } catch (error) {
+    showError("Failed to add goal. Please try again.")
+  }
 }
 
 // Open edit goal modal
 function openEditGoalModal(goalId) {
-  const goal = goals.find(g => g.id === goalId);
-  if (!goal) return;
-  
-  document.getElementById('edit-goal-id').value = goal.id;
-  document.getElementById('edit-goal-name').value = goal.name;
-  document.getElementById('edit-target-amount').value = goal.targetAmount;
-  document.getElementById('edit-current-amount').value = goal.currentAmount;
-  document.getElementById('edit-category').value = goal.category;
-  document.getElementById('edit-target-date').value = goal.targetDate;
-  document.getElementById('edit-description').value = goal.description || '';
-  
-  editGoalModal.show();
+  const goal = goals.find((g) => g._id === goalId)
+  if (!goal) return
+
+  document.getElementById("edit-goal-id").value = goal._id
+  document.getElementById("edit-goal-name").value = goal.name
+  document.getElementById("edit-target-amount").value = goal.targetAmount
+  document.getElementById("edit-current-amount").value = goal.currentAmount
+  document.getElementById("edit-category").value = goal.category
+  document.getElementById("edit-target-date").value = goal.targetDate
+  document.getElementById("edit-description").value = goal.description || ""
+
+  editGoalModal.show()
 }
 
 // Save edited goal
-function saveEditedGoal() {
-  const goalId = document.getElementById('edit-goal-id').value;
-  const name = document.getElementById('edit-goal-name').value;
-  const targetAmount = parseFloat(document.getElementById('edit-target-amount').value);
-  const currentAmount = parseFloat(document.getElementById('edit-current-amount').value);
-  const category = document.getElementById('edit-category').value;
-  const targetDate = document.getElementById('edit-target-date').value;
-  const description = document.getElementById('edit-description').value;
-  
-  const goalIndex = goals.findIndex(g => g.id === goalId);
-  if (goalIndex !== -1) {
-    goals[goalIndex] = {
-      ...goals[goalIndex],
-      name,
-      targetAmount,
-      currentAmount,
-      targetDate,
-      description,
-      category
-    };
-    
-    renderGoals();
-    editGoalModal.hide();
+async function saveEditedGoal() {
+  try {
+    const goalId = document.getElementById("edit-goal-id").value
+    const goalData = {
+      name: document.getElementById("edit-goal-name").value,
+      targetAmount: Number.parseFloat(document.getElementById("edit-target-amount").value),
+      currentAmount: Number.parseFloat(document.getElementById("edit-current-amount").value),
+      category: document.getElementById("edit-category").value,
+      targetDate: document.getElementById("edit-target-date").value,
+      description: document.getElementById("edit-description").value,
+    }
+
+    const updatedGoal = await GoalAPI.updateGoal(goalId, goalData)
+    const goalIndex = goals.findIndex((g) => g._id === goalId)
+    if (goalIndex !== -1) {
+      goals[goalIndex] = updatedGoal
+    }
+
+    renderGoals()
+    editGoalModal.hide()
+    showSuccess("Goal updated successfully!")
+  } catch (error) {
+    showError("Failed to update goal. Please try again.")
   }
 }
 
 // Delete goal
-function deleteGoal(goalId) {
-  if (confirm('Are you sure you want to delete this goal?')) {
-    goals = goals.filter(g => g.id !== goalId);
-    
-    // Update priorities
-    goals = goals.map((goal, index) => ({
-      ...goal,
-      priority: index + 1
-    }));
-    
-    renderGoals();
+async function deleteGoal(goalId) {
+  if (!confirm("Are you sure you want to delete this goal?")) {
+    return
+  }
+
+  try {
+    await GoalAPI.deleteGoal(goalId)
+    goals = goals.filter((g) => g._id !== goalId)
+    renderGoals()
+    showSuccess("Goal deleted successfully!")
+  } catch (error) {
+    showError("Failed to delete goal. Please try again.")
   }
 }
 
 // Open add savings modal
 function openAddSavingsModal(goalId) {
-  document.getElementById('savings-goal-id').value = goalId;
-  document.getElementById('savings-amount').value = '';
-  addSavingsModal.show();
+  document.getElementById("savings-goal-id").value = goalId
+  document.getElementById("savings-amount").value = ""
+  addSavingsModal.show()
 }
 
 // Save savings amount
-function saveSavingsAmount() {
-  const goalId = document.getElementById('savings-goal-id').value;
-  const amount = parseFloat(document.getElementById('savings-amount').value);
-  
-  if (isNaN(amount) || amount <= 0) {
-    alert('Please enter a valid amount');
-    return;
-  }
-  
-  const goalIndex = goals.findIndex(g => g.id === goalId);
-  if (goalIndex !== -1) {
-    goals[goalIndex].currentAmount += amount;
-    renderGoals();
-    addSavingsModal.hide();
+async function saveSavingsAmount() {
+  try {
+    const goalId = document.getElementById("savings-goal-id").value
+    const amount = Number.parseFloat(document.getElementById("savings-amount").value)
+
+    if (isNaN(amount) || amount <= 0) {
+      alert("Please enter a valid amount")
+      return
+    }
+
+    const updatedGoal = await GoalAPI.addSavings(goalId, amount)
+    const goalIndex = goals.findIndex((g) => g._id === goalId)
+    if (goalIndex !== -1) {
+      goals[goalIndex] = updatedGoal
+    }
+
+    renderGoals()
+    addSavingsModal.hide()
+    showSuccess(`Added ${formatCurrency(amount)} to your goal!`)
+  } catch (error) {
+    showError("Failed to add savings. Please try again.")
   }
 }
 
 // Move goal up
-function moveGoalUp(goalId) {
-  const goalIndex = goals.findIndex(g => g.id === goalId);
+async function moveGoalUp(goalId) {
+  const goalIndex = goals.findIndex((g) => g._id === goalId)
   if (goalIndex > 0) {
     // Swap with the goal above
-    const temp = goals[goalIndex];
-    goals[goalIndex] = goals[goalIndex - 1];
-    goals[goalIndex - 1] = temp;
-    
-    // Update priorities
-    updateGoalPriorities();
+    ;[goals[goalIndex], goals[goalIndex - 1]] = [goals[goalIndex - 1], goals[goalIndex]]
+
+    // Update priorities in database
+    const goalIds = goals.map((g) => g._id)
+    try {
+      goals = await GoalAPI.reorderGoals(goalIds)
+      renderGoals()
+    } catch (error) {
+      // Revert on error
+      ;[goals[goalIndex], goals[goalIndex - 1]] = [goals[goalIndex - 1], goals[goalIndex]]
+      showError("Failed to reorder goals")
+    }
   }
 }
 
 // Move goal down
-function moveGoalDown(goalId) {
-  const goalIndex = goals.findIndex(g => g.id === goalId);
+async function moveGoalDown(goalId) {
+  const goalIndex = goals.findIndex((g) => g._id === goalId)
   if (goalIndex < goals.length - 1) {
     // Swap with the goal below
-    const temp = goals[goalIndex];
-    goals[goalIndex] = goals[goalIndex + 1];
-    goals[goalIndex + 1] = temp;
-    
-    // Update priorities
-    updateGoalPriorities();
+    ;[goals[goalIndex], goals[goalIndex + 1]] = [goals[goalIndex + 1], goals[goalIndex]]
+
+    // Update priorities in database
+    const goalIds = goals.map((g) => g._id)
+    try {
+      goals = await GoalAPI.reorderGoals(goalIds)
+      renderGoals()
+    } catch (error) {
+      // Revert on error
+      ;[goals[goalIndex], goals[goalIndex + 1]] = [goals[goalIndex + 1], goals[goalIndex]]
+      showError("Failed to reorder goals")
+    }
   }
 }
+
+// Function to set user ID (to be called from login page)
+function setUserId(userId) {
+  USERNAME = userId
+  loadGoals() // Reload goals for the new user
+}
+
+// Export function for use in other modules
+window.setUserId = setUserId

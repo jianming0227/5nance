@@ -18,12 +18,13 @@
 <script src="js/navbar.js"></script>
 
         <!-- Main Content -->
-        <main style="margin-top: 50px;">
-            <h1 class="main-title">Get Started Now</h1>
-            <form id="signup-form" class="signup-form">
+        <main style="margin-top: 40px;">
+            <h1 class="main-title" style="margin-top: 15px; margin-bottom: 0;">Get Started Now</h1>
+            <div class="signup-container">
+                <form id="signup-form" class="signup-form">
                 <!-- Name Field -->
                 <div class="form-group">
-                    <label for="name" class="form-label">NAME*</label>
+                    <label for="name" class="form-label">NAME</label>
                     <div class="input-container">
                         <input id="signup-name" type="text" class="form-input" required>
                     </div>
@@ -31,7 +32,7 @@
 
                 <!-- Email Field -->
                 <div class="form-group">
-                    <label for="email" class="form-label">EMAIL ADDRESS*</label>
+                    <label for="email" class="form-label">EMAIL ADDRESS</label>
                     <div class="input-container">
                         <input id="signup-email" type="email" class="form-input" required>
                     </div>
@@ -39,7 +40,7 @@
 
                 <!-- Contact Number Field -->
                 <div class="form-group">
-                    <label for="contact" class="form-label">CONTACT NUMBER*</label>
+                    <label for="contact" class="form-label">CONTACT NUMBER</label>
                     <div class="input-container contact-input">
                         <select id="signup-country-code" class="country-code">
                             <option value="+60">+60 (MY)</option>
@@ -50,7 +51,7 @@
 
                 <!-- Date of Birth Field -->
                 <div class="form-group">
-                    <label for="dob" class="form-label">DATE OF BIRTH*</label>
+                    <label for="dob" class="form-label">DATE OF BIRTH</label>
                     <div class="input-container">
                       <input id="signup-dob" type="date" class="form-input" required>
                       <button type="button" class="calendar-button" onclick="document.getElementById('signup-dob').showPicker()">
@@ -65,7 +66,7 @@
 
                 <!-- Country Field -->
                 <div class="form-group">
-                    <label for="country" class="form-label">COUNTRY*</label>
+                    <label for="country" class="form-label">COUNTRY</label>
                     <div class="input-container select-container">
                         <select id="signup-country" class="form-input" onchange="updateState()" required>
                             <option value="">--Select Country--</option>
@@ -75,7 +76,7 @@
 
                 <!-- State Field -->
                 <div class="form-group">
-                    <label for="state" class="form-label">STATE*</label>
+                    <label for="state" class="form-label">STATE</label>
                     <div class="input-container select-container">
                         <select id="signup-state" class="form-input" onchange="updateCity()" required>
                             <option value="">--Select State--</option>
@@ -85,7 +86,7 @@
 
                 <!-- City Field -->
                 <div class="form-group">
-                    <label for="city" class="form-label">CITY*</label>
+                    <label for="city" class="form-label">CITY</label>
                     <div class="input-container select-container">
                         <select id="signup-city" class="form-input" required>
                             <option value="">--Select City--</option>
@@ -95,7 +96,7 @@
                 
                 <!-- Password Field -->
                 <div class="form-group">
-                    <label for="password" class="form-label">PASSWORD*</label>
+                    <label for="password" class="form-label">PASSWORD</label>
                     <div class="input-container">
                         <input id="signup-password" type="password" placeholder="@123abc" class="form-input" required>
                     </div>
@@ -127,6 +128,8 @@
                 
                 <span style="font-weight: 500;">Sign in with Google</span>
             </button>
+            </div>
+            
         </main>
     </div>
 
