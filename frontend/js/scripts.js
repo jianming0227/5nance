@@ -1,101 +1,105 @@
 
 //select country, state and city for sign-up-page.html
 const stateOptions = {
-    "Malaysia": [
-        "Selangor", "Pulau Pinang", "Sabah", "Pahang", "Perak",
-        "Perlis", "Terengganu", "Kedah", "Johor", "Kelantan",
-        "Sarawak", "Melaka", "Negeri Sembilan", "Wilayah Persekutuan"
-    ]
+  "Malaysia": [
+    "Selangor", "Pulau Pinang", "Sabah", "Pahang", "Perak",
+    "Perlis", "Terengganu", "Kedah", "Johor", "Kelantan",
+    "Sarawak", "Melaka", "Negeri Sembilan", "Wilayah Persekutuan"
+  ]
 };
 
 const cityOptions = {
-    "Selangor": ["Shah Alam", "Petaling Jaya", "Klang", "Subang Jaya", "Kajang"],
-    "Pulau Pinang": ["George Town", "Butterworth", "Bayan Lepas", "Bukit Mertajam"],
-    "Sabah": ["Kota Kinabalu", "Sandakan", "Tawau", "Lahad Datu", "Keningau"],
-    "Pahang": ["Kuantan", "Temerloh", "Bentong", "Jerantut"],
-    "Perak": ["Ipoh", "Taiping", "Teluk Intan", "Sitiawan"],
-    "Perlis": ["Kangar", "Arau", "Padang Besar"],
-    "Terengganu": ["Kuala Terengganu", "Dungun", "Kemaman", "Marang"],
-    "Kedah": ["Alor Setar", "Sungai Petani", "Kulim", "Langkawi"],
-    "Johor": ["Johor Bahru", "Batu Pahat", "Kluang", "Muar"],
-    "Kelantan": ["Kota Bharu", "Pasir Mas", "Tumpat", "Tanah Merah"],
-    "Sarawak": ["Kuching", "Miri", "Sibu", "Bintulu"],
-    "Melaka": ["Melaka City", "Alor Gajah", "Jasin"],
-    "Negeri Sembilan": ["Seremban", "Port Dickson", "Nilai"],
-    "Wilayah Persekutuan": ["Kuala Lumpur", "Putrajaya", "Labuan"]
+  "Selangor": ["Shah Alam", "Petaling Jaya", "Klang", "Subang Jaya", "Kajang"],
+  "Pulau Pinang": ["George Town", "Butterworth", "Bayan Lepas", "Bukit Mertajam"],
+  "Sabah": ["Kota Kinabalu", "Sandakan", "Tawau", "Lahad Datu", "Keningau"],
+  "Pahang": ["Kuantan", "Temerloh", "Bentong", "Jerantut"],
+  "Perak": ["Ipoh", "Taiping", "Teluk Intan", "Sitiawan"],
+  "Perlis": ["Kangar", "Arau", "Padang Besar"],
+  "Terengganu": ["Kuala Terengganu", "Dungun", "Kemaman", "Marang"],
+  "Kedah": ["Alor Setar", "Sungai Petani", "Kulim", "Langkawi"],
+  "Johor": ["Johor Bahru", "Batu Pahat", "Kluang", "Muar"],
+  "Kelantan": ["Kota Bharu", "Pasir Mas", "Tumpat", "Tanah Merah"],
+  "Sarawak": ["Kuching", "Miri", "Sibu", "Bintulu"],
+  "Melaka": ["Melaka City", "Alor Gajah", "Jasin"],
+  "Negeri Sembilan": ["Seremban", "Port Dickson", "Nilai"],
+  "Wilayah Persekutuan": ["Kuala Lumpur", "Putrajaya", "Labuan"]
 };
 
 function populateCountries() {
-    const countrySelect = document.getElementById('country');
-    // Populate country dropdown dynamically
-    Object.keys(stateOptions).forEach(country => {
-        const opt = document.createElement('option');
-        opt.value = country;
-        opt.textContent = country;
-        countrySelect.appendChild(opt);
-    });
+  const countrySelect = document.getElementById('country');
+  if (!countrySelect) return; // Prevents error
+
+  Object.keys(stateOptions).forEach(country => {
+    const opt = document.createElement('option');
+    opt.value = country;
+    opt.textContent = country;
+    countrySelect.appendChild(opt);
+  });
 }
 
 function updateState() {
-    const country = document.getElementById('country').value;
-    const stateSelect = document.getElementById('state');
-    const citySelect = document.getElementById('city');
+  const country = document.getElementById('country').value;
+  const stateSelect = document.getElementById('state');
+  const citySelect = document.getElementById('city');
+  if (!stateSelect || !citySelect) return;
 
-    // Clear state and city options
-    stateSelect.innerHTML = '<option value="">--Select State--</option>';
-    citySelect.innerHTML = '<option value="">--Select City--</option>';
+  // Clear state and city options
+  stateSelect.innerHTML = '<option value="">--Select State--</option>';
+  citySelect.innerHTML = '<option value="">--Select City--</option>';
 
-    if (stateOptions[country]) {
-        stateOptions[country].forEach(state => {
-            const opt = document.createElement('option');
-            opt.value = state;
-            opt.textContent = state;
-            stateSelect.appendChild(opt);
-        });
-    }
+  if (stateOptions[country]) {
+    stateOptions[country].forEach(state => {
+      const opt = document.createElement('option');
+      opt.value = state;
+      opt.textContent = state;
+      stateSelect.appendChild(opt);
+    });
+  }
 }
 
 function updateCity() {
-    const state = document.getElementById('state').value;
-    const citySelect = document.getElementById('city');
+  const state = document.getElementById('state').value;
+  const citySelect = document.getElementById('city');
+  if (!citySelect) return;
 
-    // Clear city options
-    citySelect.innerHTML = '<option value="">--Select City--</option>';
 
-    if (cityOptions[state]) {
-        cityOptions[state].forEach(city => {
-            const opt = document.createElement('option');
-            opt.value = city;
-            opt.textContent = city;
-            citySelect.appendChild(opt);
-        });
-    }
-}
+  // Clear city options
+  citySelect.innerHTML = '<option value="">--Select City--</option>';
 
-function prefillProfileForm() {
-  const data = JSON.parse(localStorage.getItem("profileData"));
-  if (data) {
-    document.getElementById("name").value = data.name || "";
-    document.getElementById("email").value = data.email || "";
-    document.getElementById("contact").value = data.contact?.replace(/^\+\d{1,3}/, "") || "";
-    document.getElementById("dob").value = data.dob || "";
-    document.getElementById("address1").value = data.address1 || "";
-    document.getElementById("address2").value = data.address2 || "";
-    document.getElementById("postcode").value = data.postcode || "";
-    document.getElementById("country").value = data.country || "";
-    updateState();
-    document.getElementById("state").value = data.state || "";
-    updateCity();
-    document.getElementById("city").value = data.city || "";
-    document.getElementById("password").value = data.password || "";
-    document.getElementById("profile-preview").src = data.avatar || "images/profile-pic.png";
-
-    const countryCodeMatch = data.contact?.match(/^\+(\d{1,3})/);
-    if (countryCodeMatch) {
-      document.getElementById("country-code").value = `+${countryCodeMatch[1]}`;
-    }
+  if (cityOptions[state]) {
+    cityOptions[state].forEach(city => {
+      const opt = document.createElement('option');
+      opt.value = city;
+      opt.textContent = city;
+      citySelect.appendChild(opt);
+    });
   }
 }
+
+// function prefillProfileForm() {
+//   const data = JSON.parse(localStorage.getItem("profileData"));
+//   if (data) {
+//     document.getElementById("name").value = data.name || "";
+//     document.getElementById("email").value = data.email || "";
+//     document.getElementById("contact").value = data.contact?.replace(/^\+\d{1,3}/, "") || "";
+//     document.getElementById("dob").value = data.dob || "";
+//     document.getElementById("address1").value = data.address1 || "";
+//     document.getElementById("address2").value = data.address2 || "";
+//     document.getElementById("postcode").value = data.postcode || "";
+//     document.getElementById("country").value = data.country || "";
+//     updateState();
+//     document.getElementById("state").value = data.state || "";
+//     updateCity();
+//     document.getElementById("city").value = data.city || "";
+//     document.getElementById("password").value = data.password || "";
+//     document.getElementById("profile-preview").src = data.avatar || "images/profile-pic.png";
+
+//     const countryCodeMatch = data.contact?.match(/^\+(\d{1,3})/);
+//     if (countryCodeMatch) {
+//       document.getElementById("country-code").value = `+${countryCodeMatch[1]}`;
+//     }
+//   }
+// }
 
 function handleFormSubmit() {
   document.querySelector('.profile-form')?.addEventListener('submit', function (e) {
@@ -130,9 +134,15 @@ function setupAvatarUpload() {
   });
 }
 
-function populateViewProfile() {
-  const data = JSON.parse(localStorage.getItem("profileData"));
-  if (data) {
+async function populateViewProfile() {
+  const userId = localStorage.getItem("userId");
+  if (!userId) return;
+
+  try {
+    const res = await fetch(`http://localhost:5000/api/profile/${userId}`);
+    if (!res.ok) throw new Error("Failed to fetch profile");
+
+    const data = await res.json();
     document.querySelector(".readonly-name").textContent = data.name || "-";
     document.querySelector(".readonly-email").textContent = data.email || "-";
     document.querySelector(".readonly-phone").textContent = data.contact || "-";
@@ -143,14 +153,15 @@ function populateViewProfile() {
     document.querySelector(".readonly-city").textContent = data.city || "-";
     document.querySelector(".readonly-state").textContent = data.state || "-";
     document.querySelector(".readonly-country").textContent = data.country || "-";
-    document.getElementById("password").value = data.password || "";
-    document.getElementById("view-avatar")?.setAttribute("src", data.avatar || "images/profile-pic.png");
+    document.getElementById("password").value = "********";
+    document.getElementById("view-profile-img").src = data.avatar || "images/profile-pic.png";
+  } catch (error) {
+    console.error("Error loading profile:", error);
   }
 }
 
 window.onload = function () {
   populateCountries();
-  prefillProfileForm();
   handleFormSubmit();
   setupAvatarUpload();
   populateViewProfile();
@@ -160,81 +171,56 @@ window.onload = function () {
 
 //Toggle between password visibility -- log-in-page.html
 function pwVisibility() {
-    var x = document.getElementById("myInput");
-    if (x.type === "password") {
-      x.type = "text";
-    } else {
-      x.type = "password";
-    }
+  var x = document.getElementById("myInput");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
 }
-
-//validate log in
-document.addEventListener("DOMContentLoaded", function () {
-    const loginButton = document.querySelector(".login-button");
-
-    loginButton.addEventListener("click", function (event) {
-        event.preventDefault(); // Prevent form submission
-
-        const email = document.getElementById("email").value.trim();
-        const password = document.getElementById("myInput").value.trim();
-
-        if (!email || !password) {
-            alert("Please enter both email and password.");
-            return;
-        }
-
-        // Get user data from localStorage
-        const storedData = JSON.parse(localStorage.getItem("profileData"));
-
-        if (!storedData) {
-            alert("No user data found. Please sign up first.");
-            return;
-        }
-
-        // Validate email and password
-        if (storedData.email !== email || storedData.password !== password) {
-            alert("Invalid email or password.");
-            return;
-        }
-
-        // Login successful
-        alert("Login successful!");
-        window.location.href = "dashboard.html";
-    });
-});
 
 function login() {
-    const email = document.getElementById("email").value.trim();
-    const password = document.getElementById("myInput").value.trim();
+  const email = document.getElementById("email").value.trim();
+  const password = document.getElementById("myInput").value.trim();
 
-    if (!email || !password) {
-        alert("Please enter both email and password.");
-        return false;
-    }
+  if (!email || !password) {
+    alert("Please enter both email and password.");
+    return false;
+  }
 
-    const storedData = JSON.parse(localStorage.getItem("profileData"));
+  const loginData = { email, password };
 
-    if (!storedData) {
-        alert("No user data found. Please sign up first.");
-        return false;
-    }
+  fetch("http://localhost:5000/api/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(loginData),
+  })
+    .then((res) => {
+      if (!res.ok) {
+        return res.json().then(data => { throw new Error(data.message); });
+      }
+      return res.json();
+    })
+    .then((data) => {
+      localStorage.setItem("userId", data.profile._id); // Just save ID
+      showToast(data.message, () => {
+        window.location.href = "index.html";
+      });
+    })
+    .catch((err) => {
+      showToast("Login failed: " + err.message);
+    });
 
-    if (storedData.email !== email || storedData.password !== password) {
-        alert("Invalid email or password.");
-        return false;
-    }
-
-  showToast("Login successful!", () => {
-    window.location.href = "index.html";
-  });
-    return false; // prevent form submission default
+  return false; // Prevent default form submission
 }
+
+
 
 function showToast(message, callback) {
   const toast = document.getElementById("toast");
   toast.textContent = message;
   toast.classList.add("show"); // Add 'show' class to make it visible
-  
+
   setTimeout(() => {
     toast.classList.remove("show"); // Remove 'show' class after 2 seconds
     if (callback) callback(); // If a callback is provided, call it
