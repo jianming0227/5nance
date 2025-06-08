@@ -23,15 +23,14 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("tippy is not defined. Ensure it is properly imported or included.");
   }
 
-  // Navbar scroll effect
-  /*const navbar = document.querySelector('.custom-navbar');
+  const navbar = document.querySelector('.custom-navbar');
   window.addEventListener('scroll', () => {
     if (window.scrollY > 50) {
       navbar.classList.add('scrolled');
     } else {
       navbar.classList.remove('scrolled');
     }
-  });*/
+  });
 
   // Get form elements
   const roiForm = document.getElementById("roi-form");
@@ -88,8 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
         clickable: true,
       },
       navigation: {
-        nextEl: '.swiper-button-next',
-        prevEl: '.swiper-button-prev',
+        nextEl: '.swiper-button-prev',
+        prevEl: '.swiper-button-next',
       },
       breakpoints: {
         768: {

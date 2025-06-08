@@ -2,9 +2,13 @@ const express = require("express")
 const mongoose = require("mongoose")
 const cors = require("cors")
 const path = require("path")
+const authRoutes = require('./routes/auth');
 
 const app = express()
 const PORT = process.env.PORT || 5000
+
+// Models
+const User = require('./models/user');
 
 // Middleware
 app.use(cors())
@@ -12,6 +16,12 @@ app.use(express.json())
 
 // Serve static files from frontend folder
 app.use(express.static(path.join(__dirname, "frontend")))
+app.use('/api', authRoutes);
+
+//Serve login page
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "log-in-page.html"));
+});
 
 // MongoDB Atlas Connection (removed deprecated options)
 const mongoURI =
@@ -237,3 +247,113 @@ app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`)
   console.log(`📁 Serving frontend files from: ${path.join(__dirname, "frontend")}`)
 })
+
+// User Schema
+
+// const userSchema = new mongoose.Schema({
+//   email: { type: String, required: true, unique: true },
+//   password: { type: String, required: true },
+//   name: { type: String },
+//   contact: { type: String },
+//   dob: { type: String },
+//   postcode: String,
+//   country: String,
+//   state: String,
+//   city: String,
+//   avatar: String,
+// })
+
+// const User = mongoose.model("User", userSchema)
+
+// Login endpoint
+// app.post("/api/login", async (req, res) => {
+//   const { email, password } = req.body;
+
+//   try {
+//     const user = await User.findOne({ email });
+//     if (!user) return res.status(401).json({ message: "User not found" });
+
+//     const isMatch = await bcrypt.compare(password, user.password);
+//     if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
+
+//     // Only return safe fields (not password!)
+//     const userProfile = {
+//       _id: user._id,
+//       name: user.name,
+//       email: user.email,
+//       contact: user.contact,
+//       dob: user.dob,
+//       address1: user.address1,
+//       address2: user.address2,
+//       postcode: user.postcode,
+//       state: user.state,
+//       city: user.city,
+//       country: user.country,
+//       avatar: user.avatar, // optional
+//     };
+
+//     res.status(200).json({ message: "Login successful", profile: userProfile });
+//   } catch (error) {
+//     res.status(500).json({ message: "Server error" });
+//   }
+// });
+
+// Get user by ID
+app.get("/api/users/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id).select("-password"); // exclude password
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching user" });
+  }
+});
+
+
+app.get("/api/profile/:id", async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ message: "Server error" });
+  }
+});
+
+
+// app.post("/api/signup", async (req, res) => {
+//   const {
+//     email, password, name, contact, dob, postcode, country,
+//     state, city, avatar
+//   } = req.body;
+
+//   try {
+//     // Check if user already exists
+//     const existingUser = await User.findOne({ email });
+//     if (existingUser) {
+//       return res.status(400).json({ message: "Email already registered" });
+//     }
+
+//     // Create new user
+//     const newUser = new User({
+//       email,
+//       password, // In production, hash this!
+//       name,
+//       contact,
+//       dob,
+//       postcode,
+//       country,
+//       state,
+//       city,
+//       avatar
+//     });
+
+//     await newUser.save();
+//     res.status(201).json({ message: "User registered successfully", user: newUser });
+//   } catch (error) {
+//     console.error("Sign-up error:", error);
+//     res.status(500).json({ message: "Registration failed", error: error.message });
+//   }
+// });
