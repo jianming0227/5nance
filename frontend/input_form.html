@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Financial Profile Assessment - 5NANCE</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.0/font/bootstrap-icons.css">
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="css/input_form.css">
+</head>
+<body>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-md navbar-dark fixed-top custom-navbar py-3">
+    <div class="container">
+      <a href="#" class="logo text-decoration-none d-flex align-items-center">
+        <span class="logo-number">5</span>NANCE
+      </a>
+      <div class="navbar-text text-white">
+        <i class="bi bi-person-circle me-2"></i>Financial Profile Assessment
+      </div>
+    </div>
+  </nav>
+
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <!-- Header -->
+        <div class="text-center mb-5">
+          <h1 class="main-title">Build Your Financial Profile</h1>
+          <p class="subtitle">Help us understand your financial situation to provide personalized investment recommendations</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-container mb-4">
+          <div class="progress">
+            <div class="progress-bar" id="progressBar" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <div class="progress-text">
+            <span id="progressText">Step 1 of 5</span>
+          </div>
+        </div>
+
+        <!-- Form Container -->
+        <div class="form-container">
+          <form id="financialProfileForm">
+            
+            <!-- Step 1: User Profile -->
+            <div class="form-step active" id="step1">
+              <div class="step-header">
+                <i class="bi bi-person-circle step-icon"></i>
+                <h3>User Profile</h3>
+                <p>Tell us about your current situation</p>
+              </div>
+
+              <div class="row g-4">
+                <div class="col-12">
+                  <label class="form-label">Employment Status</label>
+                  <div class="custom-radio-group">
+                    <input type="radio" id="student" name="employment_status" value="student" class="custom-radio">
+                    <label for="student" class="custom-radio-label">
+                      <i class="bi bi-book"></i>
+                      <span>Student</span>
+                    </label>
+
+                    <input type="radio" id="employed" name="employment_status" value="employed" class="custom-radio">
+                    <label for="employed" class="custom-radio-label">
+                      <i class="bi bi-briefcase"></i>
+                      <span>Employed</span>
+                    </label>
+
+                    <input type="radio" id="self_employed" name="employment_status" value="self_employed" class="custom-radio">
+                    <label for="self_employed" class="custom-radio-label">
+                      <i class="bi bi-person-gear"></i>
+                      <span>Self-Employed</span>
+                    </label>
+
+                    <input type="radio" id="unemployed" name="employment_status" value="unemployed" class="custom-radio">
+                    <label for="unemployed" class="custom-radio-label">
+                      <i class="bi bi-person-x"></i>
+                      <span>Unemployed</span>
+                    </label>
+
+                    <input type="radio" id="retired" name="employment_status" value="retired" class="custom-radio">
+                    <label for="retired" class="custom-radio-label">
+                      <i class="bi bi-house-heart"></i>
+                      <span>Retired</span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Monthly Income</label>
+                  <select class="form-select custom-select" name="monthly_income" required>
+                    <option value="">Select income range</option>
+                    <option value="0">$0</option>
+                    <option value="<5000">Less than $5,000</option>
+                    <option value="5000-10000">$5,000 - $10,000</option>
+                    <option value=">10000">More than $10,000</option>
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Monthly Expenses</label>
+                  <select class="form-select custom-select" name="monthly_expenses" required>
+                    <option value="">Select expense range</option>
+                    <option value="0">$0</option>
+                    <option value="<5000">Less than $5,000</option>
+                    <option value="5000-10000">$5,000 - $10,000</option>
+                    <option value=">10000">More than $10,000</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 2: Financial Goals -->
+            <div class="form-step" id="step2">
+              <div class="step-header">
+                <i class="bi bi-target step-icon"></i>
+                <h3>Financial Goals</h3>
+                <p>What are your top financial priorities? (Select up to 3)</p>
+              </div>
+
+              <div class="row g-4">
+                <div class="col-12">
+                  <label class="form-label">Goal Types (Select 3)</label>
+                  <div class="goal-selection">
+                    <div class="goal-card" data-value="buying_house">
+                      <i class="bi bi-house-door"></i>
+                      <span>Buying House</span>
+                      <div class="goal-check"><i class="bi bi-check"></i></div>
+                    </div>
+                    <div class="goal-card" data-value="retirement">
+                      <i class="bi bi-piggy-bank"></i>
+                      <span>Retirement</span>
+                      <div class="goal-check"><i class="bi bi-check"></i></div>
+                    </div>
+                    <div class="goal-card" data-value="education">
+                      <i class="bi bi-mortarboard"></i>
+                      <span>Education</span>
+                      <div class="goal-check"><i class="bi bi-check"></i></div>
+                    </div>
+                    <div class="goal-card" data-value="vacation">
+                      <i class="bi bi-airplane"></i>
+                      <span>Vacation</span>
+                      <div class="goal-check"><i class="bi bi-check"></i></div>
+                    </div>
+                    <div class="goal-card" data-value="emergency_fund">
+                      <i class="bi bi-shield-check"></i>
+                      <span>Emergency Fund</span>
+                      <div class="goal-check"><i class="bi bi-check"></i></div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Target Amount ($)</label>
+                  <div class="input-group">
+                    <span class="input-group-text">$</span>
+                    <input type="number" class="form-control custom-input" name="target_amount" placeholder="150000" required>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Target Duration (Years)</label>
+                  <input type="number" class="form-control custom-input" name="target_duration" placeholder="10" min="1" max="50" required>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 3: Risk Profile -->
+            <div class="form-step" id="step3">
+              <div class="step-header">
+                <i class="bi bi-graph-up-arrow step-icon"></i>
+                <h3>Risk Profile</h3>
+                <p>Help us understand your investment preferences</p>
+              </div>
+
+              <div class="row g-4">
+                <div class="col-12">
+                  <label class="form-label">Risk Tolerance</label>
+                  <div class="risk-slider-container">
+                    <div class="risk-options">
+                      <div class="risk-option" data-value="low">
+                        <i class="bi bi-shield-check"></i>
+                        <span>Low Risk</span>
+                        <small>Prefer stable, predictable returns</small>
+                      </div>
+                      <div class="risk-option" data-value="moderate">
+                        <i class="bi bi-bar-chart"></i>
+                        <span>Moderate Risk</span>
+                        <small>Balance between growth and stability</small>
+                      </div>
+                      <div class="risk-option" data-value="high">
+                        <i class="bi bi-graph-up"></i>
+                        <span>High Risk</span>
+                        <small>Willing to take risks for higher returns</small>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-12">
+                  <label class="form-label">Investment Experience</label>
+                  <div class="experience-levels">
+                    <input type="radio" id="beginner" name="investment_experience" value="beginner" class="custom-radio">
+                    <label for="beginner" class="experience-label">
+                      <i class="bi bi-star"></i>
+                      <div>
+                        <strong>Beginner</strong>
+                        <small>New to investing</small>
+                      </div>
+                    </label>
+
+                    <input type="radio" id="intermediate" name="investment_experience" value="intermediate" class="custom-radio">
+                    <label for="intermediate" class="experience-label">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <div>
+                        <strong>Intermediate</strong>
+                        <small>Some investment experience</small>
+                      </div>
+                    </label>
+
+                    <input type="radio" id="advanced" name="investment_experience" value="advanced" class="custom-radio">
+                    <label for="advanced" class="experience-label">
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <i class="bi bi-star-fill"></i>
+                      <div>
+                        <strong>Advanced</strong>
+                        <small>Experienced investor</small>
+                      </div>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 4: Existing Financial -->
+            <div class="form-step" id="step4">
+              <div class="step-header">
+                <i class="bi bi-wallet2 step-icon"></i>
+                <h3>Current Financial Status</h3>
+                <p>Tell us about your existing financial situation</p>
+              </div>
+
+              <div class="row g-4">
+                <div class="col-md-6">
+                  <label class="form-label">Current Savings + Investments</label>
+                  <select class="form-select custom-select" name="savings_investment" required>
+                    <option value="">Select amount range</option>
+                    <option value="0">$0</option>
+                    <option value="<5000">Less than $5,000</option>
+                    <option value="5000-10000">$5,000 - $10,000</option>
+                    <option value=">10000">More than $10,000</option>
+                  </select>
+                </div>
+
+                <div class="col-md-6">
+                  <label class="form-label">Existing Debt / Loans</label>
+                  <select class="form-select custom-select" name="existing_loans" required>
+                    <option value="">Select debt range</option>
+                    <option value="0">$0</option>
+                    <option value="<5000">Less than $5,000</option>
+                    <option value="5000-10000">$5,000 - $10,000</option>
+                    <option value=">10000">More than $10,000</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- Step 5: Behavioral Data -->
+            <div class="form-step" id="step5">
+              <div class="step-header">
+                <i class="bi bi-person-check step-icon"></i>
+                <h3>Financial Behavior</h3>
+                <p>How would you describe your financial habits?</p>
+              </div>
+
+              <div class="row g-4">
+                <div class="col-12">
+                  <label class="form-label">Financial Discipline Level</label>
+                  <div class="behavior-options">
+                    <div class="behavior-card" data-value="saver">
+                      <i class="bi bi-piggy-bank-fill"></i>
+                      <h5>Saver</h5>
+                      <p>I prefer to save money and spend carefully</p>
+                    </div>
+                    <div class="behavior-card" data-value="spender">
+                      <i class="bi bi-credit-card-fill"></i>
+                      <h5>Spender</h5>
+                      <p>I enjoy spending money on things I want</p>
+                    </div>
+                    <div class="behavior-card" data-value="balanced">
+                      <i class="bi bi-balance-scale"></i>
+                      <h5>Balanced</h5>
+                      <p>I balance between saving and spending</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="form-navigation">
+              <button type="button" class="btn btn-outline-secondary" id="prevBtn" style="display: none;">
+                <i class="bi bi-arrow-left me-2"></i>Previous
+              </button>
+              <button type="button" class="btn btn-primary" id="nextBtn">
+                Next<i class="bi bi-arrow-right ms-2"></i>
+              </button>
+              <button type="submit" class="btn btn-success" id="submitBtn" style="display: none;">
+                <i class="bi bi-check-circle me-2"></i>Complete Assessment
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+        <!-- Success Message -->
+        <div class="success-container d-none" id="successMessage">
+          <div class="text-center">
+            <i class="bi bi-check-circle-fill success-icon"></i>
+            <h3 class="text-white mb-3">Assessment Complete!</h3>
+            <p class="text-muted mb-4">Thank you for completing your financial profile. We'll use this information to provide personalized investment recommendations.</p>
+            <button class="btn btn-primary" onclick="window.location.reload()">
+              <i class="bi bi-arrow-clockwise me-2"></i>Take Assessment Again
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap Bundle with Popper -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Custom JavaScript -->
+  <script src="js/input_form.js"></script>
+</body>
+</html>
