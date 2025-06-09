@@ -19,19 +19,41 @@ const successMessage = document.getElementById("successMessage")
 
 // Initialize form
 document.addEventListener("DOMContentLoaded", () => {
+
+  console.log("🚀 Form initialized")
   setupEventListeners()
   updateProgress()
   showStep(currentStep)
+  updateNavigationButtons()
 })
 
 // Setup event listeners
 function setupEventListeners() {
+
+  console.log("🔧 Setting up event listeners")
+
   // Navigation buttons
-  nextBtn.addEventListener("click", nextStep)
-  prevBtn.addEventListener("click", prevStep)
+  if (nextBtn) {
+    nextBtn.addEventListener("click", (e) => {
+      console.log("▶️ Next button clicked")
+      e.preventDefault()
+      nextStep()
+    })
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", (e) => {
+      console.log("◀️ Previous button clicked")
+      e.preventDefault()
+      prevStep()
+    })
+  }
 
   // Form submission
-  form.addEventListener("submit", handleSubmit)
+  if (form) {
+    form.addEventListener("submit", handleSubmit)
+  }
+
 
   // Goal selection
   document.querySelectorAll(".goal-card").forEach((card) => {
@@ -53,6 +75,10 @@ function setupEventListeners() {
       selectFinancialDiscipline(this)
     })
   })
+
+
+  console.log("✅ Event listeners set up complete")
+
 }
 
 // Goal selection logic
@@ -73,6 +99,8 @@ function toggleGoalSelection(card) {
     }
   }
 
+
+  console.log("🎯 Selected goals:", selectedGoals)
   updateGoalSelectionDisplay()
 }
 
@@ -96,6 +124,9 @@ function selectRiskTolerance(option) {
   })
   option.classList.add("selected")
   selectedRiskTolerance = option.dataset.value
+
+  console.log("📊 Selected risk tolerance:", selectedRiskTolerance)
+
 }
 
 // Financial discipline selection
@@ -105,23 +136,36 @@ function selectFinancialDiscipline(card) {
   })
   card.classList.add("selected")
   selectedFinancialDiscipline = card.dataset.value
+
+  console.log("💰 Selected financial discipline:", selectedFinancialDiscipline)
+
 }
 
 // Navigation functions
 function nextStep() {
+
+  console.log(`🔍 Validating step ${currentStep}`)
+
   if (validateCurrentStep()) {
+    console.log(`✅ Step ${currentStep} validation passed`)
     if (currentStep < totalSteps) {
       currentStep++
+      console.log(`➡️ Moving to step ${currentStep}`)
       showStep(currentStep)
       updateProgress()
       updateNavigationButtons()
     }
+
+  } else {
+    console.log(`❌ Step ${currentStep} validation failed`)
+
   }
 }
 
 function prevStep() {
   if (currentStep > 1) {
     currentStep--
+    console.log(`⬅️ Moving back to step ${currentStep}`)
     showStep(currentStep)
     updateProgress()
     updateNavigationButtons()
@@ -129,42 +173,61 @@ function prevStep() {
 }
 
 function showStep(step) {
+  console.log(`👁️ Showing step ${step}`)
+
   // Hide all steps
   document.querySelectorAll(".form-step").forEach((stepEl) => {
     stepEl.classList.remove("active")
   })
 
   // Show current step
-  document.getElementById(`step${step}`).classList.add("active")
+
+  const currentStepEl = document.getElementById(`step${step}`)
+  if (currentStepEl) {
+    currentStepEl.classList.add("active")
+  } else {
+    console.error(`❌ Step element not found: step${step}`)
+  }
 }
 
 function updateProgress() {
   const progress = (currentStep / totalSteps) * 100
-  progressBar.style.width = `${progress}%`
-  progressBar.setAttribute("aria-valuenow", progress)
-  progressText.textContent = `Step ${currentStep} of ${totalSteps}`
+  if (progressBar) {
+    progressBar.style.width = `${progress}%`
+    progressBar.setAttribute("aria-valuenow", progress)
+  }
+  if (progressText) {
+    progressText.textContent = `Step ${currentStep} of ${totalSteps}`
+  }
 }
 
 function updateNavigationButtons() {
+  console.log(`🔄 Updating navigation buttons for step ${currentStep}`)
+
   // Previous button
-  if (currentStep === 1) {
-    prevBtn.style.display = "none"
-  } else {
-    prevBtn.style.display = "inline-block"
+  if (prevBtn) {
+    if (currentStep === 1) {
+      prevBtn.style.display = "none"
+    } else {
+      prevBtn.style.display = "inline-block"
+    }
   }
 
   // Next/Submit button
   if (currentStep === totalSteps) {
-    nextBtn.style.display = "none"
-    submitBtn.style.display = "inline-block"
+
+    if (nextBtn) nextBtn.style.display = "none"
+    if (submitBtn) submitBtn.style.display = "inline-block"
   } else {
-    nextBtn.style.display = "inline-block"
-    submitBtn.style.display = "none"
+    if (nextBtn) nextBtn.style.display = "inline-block"
+    if (submitBtn) submitBtn.style.display = "none"
   }
 }
 
 // Validation functions
 function validateCurrentStep() {
+  console.log(`🔍 Validating step ${currentStep}`)
+
   switch (currentStep) {
     case 1:
       return validateStep1()
@@ -182,122 +245,193 @@ function validateCurrentStep() {
 }
 
 function validateStep1() {
+  console.log("🔍 Validating Step 1...")
+
+  // Check employment status
   const employmentStatus = document.querySelector('input[name="employment_status"]:checked')
-  const monthlyIncome = document.querySelector('select[name="monthly_income"]').value
-  const monthlyExpenses = document.querySelector('select[name="monthly_expenses"]').value
+  console.log("Employment status element:", employmentStatus)
+  console.log("Employment status value:", employmentStatus ? employmentStatus.value : "none")
+
+  // Check monthly income
+  const monthlyIncomeSelect = document.querySelector('select[name="monthly_income"]')
+  const monthlyIncome = monthlyIncomeSelect ? monthlyIncomeSelect.value : ""
+  console.log("Monthly income element:", monthlyIncomeSelect)
+  console.log("Monthly income value:", monthlyIncome)
+
+  // Check monthly expenses
+  const monthlyExpensesSelect = document.querySelector('select[name="monthly_expenses"]')
+  const monthlyExpenses = monthlyExpensesSelect ? monthlyExpensesSelect.value : ""
+  console.log("Monthly expenses element:", monthlyExpensesSelect)
+  console.log("Monthly expenses value:", monthlyExpenses)
 
   if (!employmentStatus) {
+    console.log("❌ Employment status not selected")
     showAlert("Please select your employment status", "error")
     return false
   }
 
   if (!monthlyIncome) {
+
+    console.log("❌ Monthly income not selected")
+
     showAlert("Please select your monthly income range", "error")
     return false
   }
 
   if (!monthlyExpenses) {
+    console.log("❌ Monthly expenses not selected")
     showAlert("Please select your monthly expenses range", "error")
     return false
   }
 
+  console.log("✅ Step 1 validation passed")
   return true
 }
 
 function validateStep2() {
-  const targetAmount = document.querySelector('input[name="target_amount"]').value
-  const targetDuration = document.querySelector('input[name="target_duration"]').value
+
+  console.log("🔍 Validating Step 2...")
+
+  const targetAmountInput = document.querySelector('input[name="target_amount"]')
+  const targetAmount = targetAmountInput ? targetAmountInput.value : ""
+
+  const targetDurationInput = document.querySelector('input[name="target_duration"]')
+  const targetDuration = targetDurationInput ? targetDurationInput.value : ""
+
+  console.log("Selected goals:", selectedGoals)
+  console.log("Target amount:", targetAmount)
+  console.log("Target duration:", targetDuration)
 
   if (selectedGoals.length === 0) {
+    console.log("❌ No goals selected")
     showAlert("Please select at least one financial goal", "error")
     return false
   }
 
   if (!targetAmount || targetAmount <= 0) {
+    console.log("❌ Invalid target amount")
     showAlert("Please enter a valid target amount", "error")
     return false
   }
 
   if (!targetDuration || targetDuration <= 0) {
+    console.log("❌ Invalid target duration")
     showAlert("Please enter a valid target duration", "error")
     return false
   }
 
+  console.log("✅ Step 2 validation passed")
   return true
 }
 
 function validateStep3() {
+  console.log("🔍 Validating Step 3...")
+
   const investmentExperience = document.querySelector('input[name="investment_experience"]:checked')
 
+  console.log("Risk tolerance:", selectedRiskTolerance)
+  console.log("Investment experience:", investmentExperience ? investmentExperience.value : "none")
+
   if (!selectedRiskTolerance) {
+    console.log("❌ Risk tolerance not selected")
+
     showAlert("Please select your risk tolerance", "error")
     return false
   }
 
   if (!investmentExperience) {
+    console.log("❌ Investment experience not selected")
     showAlert("Please select your investment experience level", "error")
     return false
   }
 
+  console.log("✅ Step 3 validation passed")
   return true
 }
 
 function validateStep4() {
-  const savingsInvestment = document.querySelector('select[name="savings_investment"]').value
-  const existingLoans = document.querySelector('select[name="existing_loans"]').value
+  console.log("🔍 Validating Step 4...")
+
+  const savingsInvestmentSelect = document.querySelector('select[name="savings_investment"]')
+  const savingsInvestment = savingsInvestmentSelect ? savingsInvestmentSelect.value : ""
+
+  const existingLoansSelect = document.querySelector('select[name="existing_loans"]')
+  const existingLoans = existingLoansSelect ? existingLoansSelect.value : ""
+
+  console.log("Savings investment:", savingsInvestment)
+  console.log("Existing loans:", existingLoans)
 
   if (!savingsInvestment) {
+    console.log("❌ Savings investment not selected")
+
     showAlert("Please select your current savings and investments range", "error")
     return false
   }
 
   if (!existingLoans) {
+    console.log("❌ Existing loans not selected")
     showAlert("Please select your existing debt/loans range", "error")
     return false
   }
+
+
+  console.log("✅ Step 4 validation passed")
 
   return true
 }
 
 function validateStep5() {
+
+  console.log("🔍 Validating Step 5...")
+  console.log("Financial discipline:", selectedFinancialDiscipline)
+
   if (!selectedFinancialDiscipline) {
+    console.log("❌ Financial discipline not selected")
     showAlert("Please select your financial discipline level", "error")
     return false
   }
 
+  console.log("✅ Step 5 validation passed")
   return true
 }
 
 // Form submission
 async function handleSubmit(e) {
   e.preventDefault()
+  console.log("📝 Form submission started")
 
   if (!validateCurrentStep()) {
+    console.log("❌ Final validation failed")
     return
   }
 
   // Show loading state
-  submitBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Submitting...'
-  submitBtn.disabled = true
+  if (submitBtn) {
+    submitBtn.innerHTML = '<i class="bi bi-hourglass-split me-2"></i>Submitting...'
+    submitBtn.disabled = true
+  }
 
   try {
     const formData = collectFormData()
+    console.log("📤 Submitting form data:", formData)
+
     await submitToDatabase(formData)
     showSuccessMessage()
   } catch (error) {
-    console.error("Error submitting form:", error)
-    showAlert("Failed to submit form. Please try again.", "error")
+    console.error("❌ Error submitting form:", error)
+    showAlert("Failed to submit form. Please try again. Error: " + error.message, "error")
 
     // Reset submit button
-    submitBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Complete Assessment'
-    submitBtn.disabled = false
+    if (submitBtn) {
+      submitBtn.innerHTML = '<i class="bi bi-check-circle me-2"></i>Complete Assessment'
+      submitBtn.disabled = false
+    }
   }
 }
 
 function collectFormData() {
   const formData = new FormData(form)
-
-  return {
+  const data = {
     employment_status: formData.get("employment_status"),
     monthly_income: formData.get("monthly_income"),
     monthly_expenses: formData.get("monthly_expenses"),
@@ -311,10 +445,15 @@ function collectFormData() {
     financial_discipline: selectedFinancialDiscipline,
     submitted_at: new Date().toISOString(),
   }
+
+  console.log("📋 Collected form data:", data)
+  return data
 }
 
 async function submitToDatabase(data) {
-  const response = await fetch(`${API_BASE_URL}/input-form`, {
+  console.log("🌐 Sending to:", `${API_BASE_URL}/input_form`)
+
+  const response = await fetch(`${API_BASE_URL}/input_form`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -322,17 +461,26 @@ async function submitToDatabase(data) {
     body: JSON.stringify(data),
   })
 
+  console.log("📡 Response status:", response.status)
+
   if (!response.ok) {
-    throw new Error(`HTTP error! status: ${response.status}`)
+    const errorData = await response.json()
+    console.error("❌ Server error:", errorData)
+    throw new Error(`Server error: ${errorData.message || response.statusText}`)
   }
 
-  return await response.json()
+  const result = await response.json()
+  console.log("✅ Success response:", result)
+  return result
 }
 
 function showSuccessMessage() {
-  document.querySelector(".form-container").classList.add("d-none")
-  document.querySelector(".progress-container").classList.add("d-none")
-  successMessage.classList.remove("d-none")
+  const formContainer = document.querySelector(".form-container")
+  const progressContainer = document.querySelector(".progress-container")
+
+  if (formContainer) formContainer.classList.add("d-none")
+  if (progressContainer) progressContainer.classList.add("d-none")
+  if (successMessage) successMessage.classList.remove("d-none")
 
   // Scroll to top
   window.scrollTo({ top: 0, behavior: "smooth" })
@@ -340,6 +488,7 @@ function showSuccessMessage() {
 
 // Utility functions
 function showAlert(message, type = "info") {
+  console.log(`🚨 Alert: ${type} - ${message}`)
   // Create alert element
   const alertDiv = document.createElement("div")
   alertDiv.className = `alert alert-${type === "error" ? "danger" : type === "warning" ? "warning" : "info"} alert-dismissible fade show position-fixed`
@@ -363,5 +512,24 @@ function showAlert(message, type = "info") {
   }, 5000)
 }
 
-// Initialize on page load
-updateNavigationButtons()
+// Debug function to check form state
+function debugFormState() {
+  console.log("🐛 DEBUG: Current form state")
+  console.log("Current step:", currentStep)
+  console.log("Selected goals:", selectedGoals)
+  console.log("Risk tolerance:", selectedRiskTolerance)
+  console.log("Financial discipline:", selectedFinancialDiscipline)
+
+  // Check step 1 fields
+  const employmentStatus = document.querySelector('input[name="employment_status"]:checked')
+  const monthlyIncome = document.querySelector('select[name="monthly_income"]')
+  const monthlyExpenses = document.querySelector('select[name="monthly_expenses"]')
+
+  console.log("Employment status:", employmentStatus ? employmentStatus.value : "none")
+  console.log("Monthly income:", monthlyIncome ? monthlyIncome.value : "none")
+  console.log("Monthly expenses:", monthlyExpenses ? monthlyExpenses.value : "none")
+}
+
+// Make debug function available globally
+window.debugFormState = debugFormState
+

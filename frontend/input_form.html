@@ -17,7 +17,9 @@
   <!-- Navbar -->
   <nav class="navbar navbar-expand-md navbar-dark fixed-top custom-navbar py-3">
     <div class="container">
-      <a href="#" class="logo text-decoration-none d-flex align-items-center">
+
+      <a href="/" class="logo text-decoration-none d-flex align-items-center">
+
         <span class="logo-number">5</span>NANCE
       </a>
       <div class="navbar-text text-white">
@@ -127,7 +129,9 @@
 
               <div class="row g-4">
                 <div class="col-12">
-                  <label class="form-label">Goal Types (Select 3)</label>
+
+                  <label class="form-label">Goal Types (Select up to 3)</label>
+
                   <div class="goal-selection">
                     <div class="goal-card" data-value="buying_house">
                       <i class="bi bi-house-door"></i>
@@ -328,9 +332,16 @@
             <i class="bi bi-check-circle-fill success-icon"></i>
             <h3 class="text-white mb-3">Assessment Complete!</h3>
             <p class="text-muted mb-4">Thank you for completing your financial profile. We'll use this information to provide personalized investment recommendations.</p>
-            <button class="btn btn-primary" onclick="window.location.reload()">
-              <i class="bi bi-arrow-clockwise me-2"></i>Take Assessment Again
-            </button>
+
+            <div class="d-flex gap-3 justify-content-center">
+              <button class="btn btn-primary" onclick="window.location.href='/'">
+                <i class="bi bi-house me-2"></i>Go to Dashboard
+              </button>
+              <button class="btn btn-outline-primary" onclick="window.location.reload()">
+                <i class="bi bi-arrow-clockwise me-2"></i>Take Again
+              </button>
+            </div>
+
           </div>
         </div>
       </div>
@@ -342,4 +353,8 @@
   <!-- Custom JavaScript -->
   <script src="js/input_form.js"></script>
 </body>
+
 </html>
+
+
+

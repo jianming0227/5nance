@@ -25,18 +25,6 @@ const cityOptions = {
   "Wilayah Persekutuan": ["Kuala Lumpur", "Putrajaya", "Labuan"]
 };
 
-function populateCountries() {
-  const countrySelect = document.getElementById('country');
-  if (!countrySelect) return; // Prevents error
-
-  Object.keys(stateOptions).forEach(country => {
-    const opt = document.createElement('option');
-    opt.value = country;
-    opt.textContent = country;
-    countrySelect.appendChild(opt);
-  });
-}
-
 function updateState() {
   const country = document.getElementById('country').value;
   const stateSelect = document.getElementById('state');
@@ -76,98 +64,15 @@ function updateCity() {
   }
 }
 
-// function prefillProfileForm() {
-//   const data = JSON.parse(localStorage.getItem("profileData"));
-//   if (data) {
-//     document.getElementById("name").value = data.name || "";
-//     document.getElementById("email").value = data.email || "";
-//     document.getElementById("contact").value = data.contact?.replace(/^\+\d{1,3}/, "") || "";
-//     document.getElementById("dob").value = data.dob || "";
-//     document.getElementById("address1").value = data.address1 || "";
-//     document.getElementById("address2").value = data.address2 || "";
-//     document.getElementById("postcode").value = data.postcode || "";
-//     document.getElementById("country").value = data.country || "";
-//     updateState();
-//     document.getElementById("state").value = data.state || "";
-//     updateCity();
-//     document.getElementById("city").value = data.city || "";
-//     document.getElementById("password").value = data.password || "";
-//     document.getElementById("profile-preview").src = data.avatar || "images/profile-pic.png";
-
-//     const countryCodeMatch = data.contact?.match(/^\+(\d{1,3})/);
-//     if (countryCodeMatch) {
-//       document.getElementById("country-code").value = `+${countryCodeMatch[1]}`;
-//     }
-//   }
-// }
-
-function handleFormSubmit() {
-  document.querySelector('.profile-form')?.addEventListener('submit', function (e) {
-    e.preventDefault();
-    const updatedData = {
-      name: document.getElementById("name").value,
-      email: document.getElementById("email").value,
-      contact: `${document.getElementById("country-code").value}${document.getElementById("contact").value}`,
-      dob: document.getElementById("dob").value,
-      address1: document.getElementById("address1").value,
-      address2: document.getElementById("address2").value,
-      postcode: document.getElementById("postcode").value,
-      state: document.getElementById("state").value,
-      city: document.getElementById("city").value,
-      country: document.getElementById("country").value,
-      password: document.getElementById("password").value,
-      avatar: document.getElementById("profile-preview").src
-    };
-    localStorage.setItem("profileData", JSON.stringify(updatedData));
-    alert("Profile updated successfully!");
-    window.location.href = "view-profile.html";
+function populateCountries() {
+  const countrySelect = document.getElementById('signup-country');
+  Object.keys(stateOptions).forEach(country => {
+    const opt = document.createElement('option');
+    opt.value = country;
+    opt.textContent = country;
+    countrySelect.appendChild(opt);
   });
 }
-
-function setupAvatarUpload() {
-  document.getElementById("avatar-upload")?.addEventListener("change", function (event) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      document.getElementById("profile-preview").src = e.target.result;
-    };
-    reader.readAsDataURL(event.target.files[0]);
-  });
-}
-
-async function populateViewProfile() {
-  const userId = localStorage.getItem("userId");
-  if (!userId) return;
-
-  try {
-    const res = await fetch(`http://localhost:5000/api/profile/${userId}`);
-    if (!res.ok) throw new Error("Failed to fetch profile");
-
-    const data = await res.json();
-    document.querySelector(".readonly-name").textContent = data.name || "-";
-    document.querySelector(".readonly-email").textContent = data.email || "-";
-    document.querySelector(".readonly-phone").textContent = data.contact || "-";
-    document.querySelector(".readonly-dob").textContent = data.dob || "-";
-    document.querySelector(".readonly-address-1").textContent = data.address1 || "-";
-    document.querySelector(".readonly-address-2").textContent = data.address2 || "-";
-    document.querySelector(".readonly-postcode").textContent = data.postcode || "-";
-    document.querySelector(".readonly-city").textContent = data.city || "-";
-    document.querySelector(".readonly-state").textContent = data.state || "-";
-    document.querySelector(".readonly-country").textContent = data.country || "-";
-    document.getElementById("password").value = "********";
-    document.getElementById("view-profile-img").src = data.avatar || "images/profile-pic.png";
-  } catch (error) {
-    console.error("Error loading profile:", error);
-  }
-}
-
-window.onload = function () {
-  populateCountries();
-  handleFormSubmit();
-  setupAvatarUpload();
-  populateViewProfile();
-};
-
-
 
 //Toggle between password visibility -- log-in-page.html
 function pwVisibility() {
@@ -226,3 +131,4 @@ function showToast(message, callback) {
     if (callback) callback(); // If a callback is provided, call it
   }, 2000); // Toast shows for 2 seconds
 }
+

@@ -27,10 +27,12 @@ body {
   display: flex;
   align-items: center;
   transition: transform 0.3s ease;
-}
+  text-decoration: none;
+
 
 .logo:hover {
   transform: scale(1.05);
+  color: #0328ee;
 }
 
 .logo-number {
@@ -154,6 +156,11 @@ body {
   color: #ffffff;
 }
 
+.custom-select option {
+  background-color: #051042;
+  color: #ffffff;
+}
+
 .input-group-text {
   background-color: rgba(10, 25, 86, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -188,12 +195,17 @@ body {
   background: rgba(15, 35, 100, 0.7);
   border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
+
+  color: #ffffff;
+
 }
 
 .custom-radio:checked + .custom-radio-label {
   background: linear-gradient(145deg, #0328ee, #0b5ed7);
   border-color: #0328ee;
   box-shadow: 0 4px 15px rgba(3, 40, 238, 0.3);
+  color: #ffffff;
+
 }
 
 .custom-radio-label i {
@@ -348,12 +360,14 @@ body {
   background: rgba(15, 35, 100, 0.7);
   border-color: rgba(255, 255, 255, 0.3);
   transform: translateY(-2px);
+  color: #ffffff;
 }
 
 .custom-radio:checked + .experience-label {
   background: linear-gradient(145deg, #0328ee, #0b5ed7);
   border-color: #0328ee;
   box-shadow: 0 4px 15px rgba(3, 40, 238, 0.3);
+  color: #ffffff;
 }
 
 .experience-label i {
@@ -376,7 +390,7 @@ body {
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* Behavior options */
+
 .behavior-options {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -409,11 +423,28 @@ body {
   font-size: 3rem;
   color: #5e9eff;
   margin-bottom: 1rem;
-  display: block;
+
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
 }
 
 .behavior-card.selected i {
-  color: #ffffff;
+  color: #ffffff !important;
+}
+
+/* Specific fix for balanced icon */
+.behavior-card[data-value="balanced"] i.bi-balance-scale {
+  font-size: 3rem !important;
+  color: #5e9eff !important;
+  margin-bottom: 1rem !important;
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+}
+
+.behavior-card[data-value="balanced"].selected i.bi-balance-scale {
+  color: #ffffff !important;
 }
 
 .behavior-card h5 {
@@ -489,6 +520,23 @@ body {
   transform: translateY(-2px);
 }
 
+
+.btn-outline-primary {
+  color: #0328ee;
+  border: 2px solid #0328ee;
+  background: transparent;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  border-radius: 8px;
+  padding: 0.75rem 1.5rem;
+}
+
+.btn-outline-primary:hover {
+  background: linear-gradient(to right, #0328ee, #0b5ed7);
+  color: #ffffff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(3, 40, 238, 0.4);
+}
 /* Success message */
 .success-container {
   background: linear-gradient(145deg, #051042, #0a1956);
@@ -597,4 +645,8 @@ body {
   .goal-selection {
     grid-template-columns: 1fr;
   }
+
 }
+
+
+

@@ -1,7 +1,10 @@
-const express = require("express")
-const mongoose = require("mongoose")
-const cors = require("cors")
-const path = require("path")
+
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const path = require("path");
+const authRoutes = require('./routes/auth');
+const userRoutes = require('./routes/userRoutes');
 
 const app = express()
 const PORT = process.env.PORT || 5000
@@ -10,8 +13,18 @@ const PORT = process.env.PORT || 5000
 app.use(cors())
 app.use(express.json())
 
+const financialFormRoutes = require("./routes/financialFormRoutes")
+app.use("/api", financialFormRoutes)
+
 // Serve static files from frontend folder
 app.use(express.static(path.join(__dirname, "frontend")))
+app.use('/api', authRoutes);
+app.use('/api', userRoutes);
+
+//Serve login page
+app.get("/login", (req, res) => {
+  res.sendFile(path.join(__dirname, "frontend", "log-in-page.html"));
+});
 
 // MongoDB Atlas Connection (removed deprecated options)
 const mongoURI =
