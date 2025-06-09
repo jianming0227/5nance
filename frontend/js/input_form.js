@@ -19,6 +19,7 @@ const successMessage = document.getElementById("successMessage")
 
 // Initialize form
 document.addEventListener("DOMContentLoaded", () => {
+
   console.log("🚀 Form initialized")
   setupEventListeners()
   updateProgress()
@@ -28,6 +29,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 // Setup event listeners
 function setupEventListeners() {
+
   console.log("🔧 Setting up event listeners")
 
   // Navigation buttons
@@ -52,6 +54,7 @@ function setupEventListeners() {
     form.addEventListener("submit", handleSubmit)
   }
 
+
   // Goal selection
   document.querySelectorAll(".goal-card").forEach((card) => {
     card.addEventListener("click", function () {
@@ -73,7 +76,9 @@ function setupEventListeners() {
     })
   })
 
+
   console.log("✅ Event listeners set up complete")
+
 }
 
 // Goal selection logic
@@ -93,6 +98,7 @@ function toggleGoalSelection(card) {
       showAlert("You can select maximum 3 goals", "warning")
     }
   }
+
 
   console.log("🎯 Selected goals:", selectedGoals)
   updateGoalSelectionDisplay()
@@ -118,7 +124,9 @@ function selectRiskTolerance(option) {
   })
   option.classList.add("selected")
   selectedRiskTolerance = option.dataset.value
+
   console.log("📊 Selected risk tolerance:", selectedRiskTolerance)
+
 }
 
 // Financial discipline selection
@@ -128,11 +136,14 @@ function selectFinancialDiscipline(card) {
   })
   card.classList.add("selected")
   selectedFinancialDiscipline = card.dataset.value
+
   console.log("💰 Selected financial discipline:", selectedFinancialDiscipline)
+
 }
 
 // Navigation functions
 function nextStep() {
+
   console.log(`🔍 Validating step ${currentStep}`)
 
   if (validateCurrentStep()) {
@@ -144,8 +155,10 @@ function nextStep() {
       updateProgress()
       updateNavigationButtons()
     }
+
   } else {
     console.log(`❌ Step ${currentStep} validation failed`)
+
   }
 }
 
@@ -168,6 +181,7 @@ function showStep(step) {
   })
 
   // Show current step
+
   const currentStepEl = document.getElementById(`step${step}`)
   if (currentStepEl) {
     currentStepEl.classList.add("active")
@@ -201,6 +215,7 @@ function updateNavigationButtons() {
 
   // Next/Submit button
   if (currentStep === totalSteps) {
+
     if (nextBtn) nextBtn.style.display = "none"
     if (submitBtn) submitBtn.style.display = "inline-block"
   } else {
@@ -256,7 +271,9 @@ function validateStep1() {
   }
 
   if (!monthlyIncome) {
+
     console.log("❌ Monthly income not selected")
+
     showAlert("Please select your monthly income range", "error")
     return false
   }
@@ -272,6 +289,7 @@ function validateStep1() {
 }
 
 function validateStep2() {
+
   console.log("🔍 Validating Step 2...")
 
   const targetAmountInput = document.querySelector('input[name="target_amount"]')
@@ -316,6 +334,7 @@ function validateStep3() {
 
   if (!selectedRiskTolerance) {
     console.log("❌ Risk tolerance not selected")
+
     showAlert("Please select your risk tolerance", "error")
     return false
   }
@@ -344,6 +363,7 @@ function validateStep4() {
 
   if (!savingsInvestment) {
     console.log("❌ Savings investment not selected")
+
     showAlert("Please select your current savings and investments range", "error")
     return false
   }
@@ -354,11 +374,14 @@ function validateStep4() {
     return false
   }
 
+
   console.log("✅ Step 4 validation passed")
+
   return true
 }
 
 function validateStep5() {
+
   console.log("🔍 Validating Step 5...")
   console.log("Financial discipline:", selectedFinancialDiscipline)
 
@@ -408,7 +431,6 @@ async function handleSubmit(e) {
 
 function collectFormData() {
   const formData = new FormData(form)
-
   const data = {
     employment_status: formData.get("employment_status"),
     monthly_income: formData.get("monthly_income"),
@@ -467,7 +489,6 @@ function showSuccessMessage() {
 // Utility functions
 function showAlert(message, type = "info") {
   console.log(`🚨 Alert: ${type} - ${message}`)
-
   // Create alert element
   const alertDiv = document.createElement("div")
   alertDiv.className = `alert alert-${type === "error" ? "danger" : type === "warning" ? "warning" : "info"} alert-dismissible fade show position-fixed`
@@ -511,3 +532,4 @@ function debugFormState() {
 
 // Make debug function available globally
 window.debugFormState = debugFormState
+

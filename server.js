@@ -1,3 +1,4 @@
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -7,9 +8,6 @@ const userRoutes = require('./routes/userRoutes');
 
 const app = express()
 const PORT = process.env.PORT || 5000
-
-// Models
-const User = require('./models/user');
 
 // Middleware
 app.use(cors())
@@ -86,10 +84,79 @@ const goalSchema = new mongoose.Schema({
   },
 })
 
-// Create model
-const Goal = mongoose.model("goalDB", goalSchema)
+// Input Form Schema - NEW COLLECTION
+const inputFormSchema = new mongoose.Schema({
+  employment_status: {
+    type: String,
+    required: true,
+    enum: ["student", "employed", "self_employed", "unemployed", "retired"],
+  },
+  monthly_income: {
+    type: String,
+    required: true,
+    enum: ["0", "<5000", "5000-10000", ">10000"],
+  },
+  monthly_expenses: {
+    type: String,
+    required: true,
+    enum: ["0", "<5000", "5000-10000", ">10000"],
+  },
+  goal_types: {
+    type: [String],
+    required: true,
+    validate: {
+      validator: (v) => v.length >= 1 && v.length <= 3,
+      message: "Must select 1-3 goal types",
+    },
+    enum: ["buying_house", "retirement", "education", "vacation", "emergency_fund"],
+  },
+  target_amount: {
+    type: Number,
+    required: true,
+    min: 1,
+  },
+  target_duration: {
+    type: Number,
+    required: true,
+    min: 1,
+    max: 50,
+  },
+  risk_tolerance: {
+    type: String,
+    required: true,
+    enum: ["low", "moderate", "high"],
+  },
+  investment_experience: {
+    type: String,
+    required: true,
+    enum: ["beginner", "intermediate", "advanced"],
+  },
+  savings_investment: {
+    type: String,
+    required: true,
+    enum: ["0", "<5000", "5000-10000", ">10000"],
+  },
+  existing_loans: {
+    type: String,
+    required: true,
+    enum: ["0", "<5000", "5000-10000", ">10000"],
+  },
+  financial_discipline: {
+    type: String,
+    required: true,
+    enum: ["saver", "spender", "balanced"],
+  },
+  submitted_at: {
+    type: Date,
+    default: Date.now,
+  },
+})
 
-// API Routes
+// Create models
+const Goal = mongoose.model("goalDB", goalSchema)
+const InputForm = mongoose.model("inputForm", inputFormSchema)
+
+// API Routes for Goals (existing)
 
 // GET all goals
 app.get("/api/goals", async (req, res) => {
@@ -235,12 +302,108 @@ app.delete("/api/goals/:id", async (req, res) => {
   }
 })
 
-// REMOVED: Initialize with sample data endpoint
-// Users will now start with no goals
+// API Routes for Input Form (NEW)
+
+// GET all input form submissions
+app.get("/api/input-form", async (req, res) => {
+  try {
+    const submissions = await InputForm.find().sort({ submitted_at: -1 })
+    res.json(submissions)
+  } catch (error) {
+    console.error("Error fetching input form submissions:", error)
+    res.status(500).json({ message: "Error fetching submissions", error: error.message })
+  }
+})
+
+// POST create new input form submission
+app.post("/api/input-form", async (req, res) => {
+  try {
+    const {
+      employment_status,
+      monthly_income,
+      monthly_expenses,
+      goal_types,
+      target_amount,
+      target_duration,
+      risk_tolerance,
+      investment_experience,
+      savings_investment,
+      existing_loans,
+      financial_discipline,
+    } = req.body
+
+    // Validation
+    if (
+      !employment_status ||
+      !monthly_income ||
+      !monthly_expenses ||
+      !goal_types ||
+      !target_amount ||
+      !target_duration ||
+      !risk_tolerance ||
+      !investment_experience ||
+      !savings_investment ||
+      !existing_loans ||
+      !financial_discipline
+    ) {
+      return res.status(400).json({
+        message: "All fields are required",
+      })
+    }
+
+    if (!Array.isArray(goal_types) || goal_types.length < 1 || goal_types.length > 3) {
+      return res.status(400).json({
+        message: "Must select 1-3 goal types",
+      })
+    }
+
+    const newSubmission = new InputForm({
+      employment_status,
+      monthly_income,
+      monthly_expenses,
+      goal_types,
+      target_amount: Number.parseInt(target_amount),
+      target_duration: Number.parseInt(target_duration),
+      risk_tolerance,
+      investment_experience,
+      savings_investment,
+      existing_loans,
+      financial_discipline,
+    })
+
+    const savedSubmission = await newSubmission.save()
+    res.status(201).json({
+      message: "Financial profile submitted successfully",
+      data: savedSubmission,
+    })
+  } catch (error) {
+    console.error("Error creating input form submission:", error)
+    res.status(400).json({ message: "Error submitting form", error: error.message })
+  }
+})
+
+// GET specific input form submission
+app.get("/api/input-form/:id", async (req, res) => {
+  try {
+    const submission = await InputForm.findById(req.params.id)
+    if (!submission) {
+      return res.status(404).json({ message: "Submission not found" })
+    }
+    res.json(submission)
+  } catch (error) {
+    console.error("Error fetching submission:", error)
+    res.status(500).json({ message: "Error fetching submission", error: error.message })
+  }
+})
 
 // Serve the main page
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "frontend", "Goal_Based_Investment_Planning.html"))
+})
+
+// Serve the input form page
+app.get("/input-form", (req, res) => {
+  res.sendFile(path.join(__dirname, "input_form.html"))
 })
 
 // Basic API info route
@@ -251,114 +414,5 @@ app.get("/api", (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`)
   console.log(`📁 Serving frontend files from: ${path.join(__dirname, "frontend")}`)
+  console.log(`📝 Input form available at: http://localhost:${PORT}/input-form`)
 })
-
-// User Schema
-
-// const userSchema = new mongoose.Schema({
-//   email: { type: String, required: true, unique: true },
-//   password: { type: String, required: true },
-//   name: { type: String },
-//   contact: { type: String },
-//   dob: { type: String },
-//   postcode: String,
-//   country: String,
-//   state: String,
-//   city: String,
-//   avatar: String,
-// })
-
-// const User = mongoose.model("User", userSchema)
-
-// Login endpoint
-// app.post("/api/login", async (req, res) => {
-//   const { email, password } = req.body;
-
-//   try {
-//     const user = await User.findOne({ email });
-//     if (!user) return res.status(401).json({ message: "User not found" });
-
-//     const isMatch = await bcrypt.compare(password, user.password);
-//     if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
-
-//     // Only return safe fields (not password!)
-//     const userProfile = {
-//       _id: user._id,
-//       name: user.name,
-//       email: user.email,
-//       contact: user.contact,
-//       dob: user.dob,
-//       address1: user.address1,
-//       address2: user.address2,
-//       postcode: user.postcode,
-//       state: user.state,
-//       city: user.city,
-//       country: user.country,
-//       avatar: user.avatar, // optional
-//     };
-
-//     res.status(200).json({ message: "Login successful", profile: userProfile });
-//   } catch (error) {
-//     res.status(500).json({ message: "Server error" });
-//   }
-// });
-
-// Get user by ID
-app.get("/api/users/:id", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id).select("-password"); // exclude password
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
-    res.json(user);
-  } catch (error) {
-    res.status(500).json({ message: "Error fetching user" });
-  }
-});
-
-
-app.get("/api/profile/:id", async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
-    res.json(user);
-  } catch (err) {
-    res.status(500).json({ message: "Server error" });
-  }
-});
-
-
-// app.post("/api/signup", async (req, res) => {
-//   const {
-//     email, password, name, contact, dob, postcode, country,
-//     state, city, avatar
-//   } = req.body;
-
-//   try {
-//     // Check if user already exists
-//     const existingUser = await User.findOne({ email });
-//     if (existingUser) {
-//       return res.status(400).json({ message: "Email already registered" });
-//     }
-
-//     // Create new user
-//     const newUser = new User({
-//       email,
-//       password, // In production, hash this!
-//       name,
-//       contact,
-//       dob,
-//       postcode,
-//       country,
-//       state,
-//       city,
-//       avatar
-//     });
-
-//     await newUser.save();
-//     res.status(201).json({ message: "User registered successfully", user: newUser });
-//   } catch (error) {
-//     console.error("Sign-up error:", error);
-//     res.status(500).json({ message: "Registration failed", error: error.message });
-//   }
-// });
