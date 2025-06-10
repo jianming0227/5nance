@@ -1,6 +1,12 @@
-const mongoose = require("mongoose")
+const mongoose = require("mongoose");
+const { Schema } = mongoose;
 
-const financialProfileSchema = new mongoose.Schema({
+const financialProfileSchema = new Schema({
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: false, // make optional for now
+  },
   employment_status: String,
   monthly_income: String,
   monthly_expenses: String,
@@ -13,7 +19,6 @@ const financialProfileSchema = new mongoose.Schema({
   existing_loans: String,
   financial_discipline: String,
   submitted_at: Date,
-  user: { type: mongoose.Schema.Types.ObjectId, ref: "User" }, // optional if you track login
-})
+});
 
-module.exports = mongoose.model("FinancialProfile", financialProfileSchema)
+module.exports = mongoose.model("FinancialProfile", financialProfileSchema);

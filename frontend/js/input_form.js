@@ -431,7 +431,10 @@ async function handleSubmit(e) {
 
 function collectFormData() {
   const formData = new FormData(form)
+  const userId = localStorage.getItem("userId");
+
   const data = {
+    userId,
     employment_status: formData.get("employment_status"),
     monthly_income: formData.get("monthly_income"),
     monthly_expenses: formData.get("monthly_expenses"),
@@ -477,6 +480,8 @@ async function submitToDatabase(data) {
 function showSuccessMessage() {
   const formContainer = document.querySelector(".form-container")
   const progressContainer = document.querySelector(".progress-container")
+
+  localStorage.removeItem("userId");
 
   if (formContainer) formContainer.classList.add("d-none")
   if (progressContainer) progressContainer.classList.add("d-none")
