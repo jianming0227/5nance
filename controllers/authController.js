@@ -7,6 +7,7 @@ exports.signup = async (req, res) => {
     const { name, email, password, contact, country, state, city, dob, avatar } = req.body;
     const hashedPassword = await bcrypt.hash(password, 10); // 10 salt rounds
 
+    const hashedPassword = await bcrypt.hash(password, 10); // 10 salt rounds
     // Optional: Check for existing user
     const existingUser = await User.findOne({ email });
     if (existingUser) {
