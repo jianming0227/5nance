@@ -3,18 +3,43 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const path = require("path");
+const session = require("express-session");
+const dotenv = require('dotenv');
+
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/userRoutes');
 
+dotenv.config();
 const app = express()
 const PORT = process.env.PORT || 5000
+
+// Models
+const User = require('./models/user');
 
 // Middleware
 app.use(cors())
 app.use(express.json())
+// Session Middleware
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false,
+  cookie: {
+    // maxAge: 30 * 60 * 1000, // 30 minutes
+    maxAge: 60 * 1000, // 1 minute (for testing)
+    secure: false // true if using HTTPS
+  }
+}));
+
+//Prevent cache to ensure session-check works properly
+app.use((req, res, next) => {
+  res.setHeader('Cache-Control', 'no-store');
+  next();
+});
 
 const financialFormRoutes = require("./routes/financialFormRoutes")
 app.use("/api", financialFormRoutes)
+
 
 // Serve static files from frontend folder
 app.use(express.static(path.join(__dirname, "frontend")))
