@@ -101,8 +101,9 @@ async function saveSignUpData() {
 
     const result = await response.json();
     if (response.ok) {
+      localStorage.setItem("userId", result.userId);
       showToast("Sign-up successful!", () => {
-        window.location.href = "log-in-page.html";
+        window.location.href = "input_form.html";
       });
     } else {
       showToast(result.message || "Sign-up failed");
