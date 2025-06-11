@@ -74,7 +74,6 @@ async function populateEditProfile() {
     if (!response.ok) throw new Error("Failed to fetch user");
 
     const user = await response.json();
-
     document.getElementById("name").value = user.name || "";
     document.getElementById("email").value = user.email || "";
     document.getElementById("contact").value = user.contact?.replace(/^\+\d+/, "") || "";
@@ -92,7 +91,6 @@ async function populateEditProfile() {
     alert("Failed to load profile. Please try again.");
   }
 }
-
 
 function showToast(message, callback) {
   const toast = document.getElementById("toast");

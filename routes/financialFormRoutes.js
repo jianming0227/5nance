@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-
 const express = require("express")
 const router = express.Router()
 const FinancialProfile = require("../models/FinancialProfile") // Your Mongoose model
@@ -30,6 +29,7 @@ router.post("/input_form", async (req, res) => {
 
     const newProfile = new FinancialProfile({
       user: userId,
+
       employment_status,
       monthly_income,
       monthly_expenses,

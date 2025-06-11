@@ -354,9 +354,45 @@
   <script src="js/quotes.js"></script>
   <!-- <script src="js/scripts.js"></script> -->
 
-    <script src="js/navbar.js"></script>
-  <script src="js/home.js"></script>
+  <script src="js/navbar.js"></script>
+  <script>
+  const floatElements = document.querySelectorAll('.scroll-fade-up');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('active');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1
+  });
+
+  floatElements.forEach(el => observer.observe(el));
+</script>
+
+<!--session management -->
 <script src="js/sessionCheck.js"></script>
+<script>
+  let lastPingTime = 0;
+
+  function sendActivityPing() {
+    const now = Date.now();
+    // Only send a ping every 15 seconds to reduce traffic
+    if (now - lastPingTime > 15 * 1000) {
+      lastPingTime = now;
+      fetch('/api/auth/ping', { method: 'POST', credentials: 'include' })
+        .catch(err => console.error("Ping failed:", err));
+    }
+  }
+
+  ['click', 'mousemove', 'scroll', 'keydown'].forEach(event => {
+    document.addEventListener(event, sendActivityPing);
+  });
+</script>
+  <script src="js/home.js"></script>
+
 </body>
 
 <footer class="text-center py-3 text-white" style="background-color: #010725;">

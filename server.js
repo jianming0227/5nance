@@ -1,4 +1,3 @@
-
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -13,6 +12,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000
 
+
 // Models
 const User = require('./models/user');
 
@@ -26,7 +26,7 @@ app.use(session({
   saveUninitialized: false,
   cookie: {
     // maxAge: 30 * 60 * 1000, // 30 minutes
-    maxAge: 60 * 1000, // 1 minute (for testing)
+    maxAge: 90 * 1000, // 1 minute 30 seconds (for demo)
     secure: false // true if using HTTPS
   }
 }));
@@ -37,6 +37,28 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use((req, res, next) => {
+  const now = Date.now();
+
+  if (req.session.user) {
+    if (req.session.timedOutAt) {
+      // Grace period: don't update activity
+      return next();
+    }
+
+    const inactiveTime = now - (req.session.lastActivity || now);
+    if (inactiveTime > 60 * 1000) {
+      req.session.timedOutAt = now;
+    } else {
+      req.session.lastActivity = now;
+      req.session.touch(); // Tell express to update the session cookie and expiry
+    }
+  }
+
+  next();
+});
+
+
 const financialFormRoutes = require("./routes/financialFormRoutes")
 app.use("/api", financialFormRoutes)
 
@@ -45,7 +67,6 @@ app.use("/api", financialFormRoutes)
 app.use(express.static(path.join(__dirname, "frontend")))
 app.use('/api', authRoutes);
 app.use('/api', userRoutes);
-
 
 //Serve login page
 app.get("/login", (req, res) => {

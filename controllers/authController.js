@@ -46,6 +46,19 @@ exports.signup = async (req, res) => {
       avatar: newUser.avatar
     };
 
+    // Set session
+    req.session.user = {
+      _id: newUser._id,
+      email: newUser.email,
+      name: newUser.name,
+      contact: newUser.contact,
+      dob: newUser.dob,
+      country: newUser.country,
+      state: newUser.state,
+      city: newUser.city,
+      avatar: newUser.avatar
+    };
+
     res.status(201).json({ message: "User created successfully" });
   } catch (err) {
     console.error("Signup error:", err);

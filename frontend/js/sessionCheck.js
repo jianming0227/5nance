@@ -1,37 +1,47 @@
-function sessionCheck() {
-  const POLL_INTERVAL = 60 * 1000; // 1 minute
+const currentPage = window.location.pathname.split('/').pop();
+if (currentPage === 'session-timeout.html') {
+  console.log('Skipping sessionCheck.js on session-timeout.html');
+  
+} else {
 
-  // Run immediately, then every minute
-  checkSession();
-  setInterval(checkSession, POLL_INTERVAL);
+  console.log("sessionCheck.js loaded successfully!");
+
+  let sessionInterval = setInterval(checkSession, 60 * 1000); // store interval so we can clear it
 
   async function checkSession() {
     try {
       const resp = await fetch('/api/auth/session', {
         credentials: 'include',
-         cache: 'no-store'
+        cache: 'no-store'
       });
 
-      // 440 = “login timeout” from inactivityChecker
+      console.log("Checking session... Response Status:", resp.status);
+
       if (resp.status === 440) {
-        return window.location.href = 'session-timeout.html';
+        console.log("Session inactive. Redirecting to session-timeout.html");
+        // Save current URL before redirecting
+        sessionStorage.setItem('preTimeoutURL', window.location.href);
+        window.location.href = 'session-timeout.html';
+        return;
       }
 
-      // 200 + { loggedIn: false } = fully signed out
+      // Fully logged out scenario
       if (resp.ok) {
         const { loggedIn } = await resp.json();
+        console.log("Session response data:", loggedIn);
+
         if (!loggedIn) {
-          return window.location.href = 'log-in-page.html';
+          console.log("Session fully logged out. Redirecting to login.");
+          window.location.href = 'log-in-page.html';
+          return;
         }
       }
     } catch (err) {
       console.error('Session check failed:', err);
-      // optionally: force to login page
-      // window.location.href = 'log-in-page.html';
     }
   }
 }
 
-window.onload = function(){
-  sessionCheck();
-}
+// Poll every minute
+// setInterval(checkSession, 60 * 1000);
+
