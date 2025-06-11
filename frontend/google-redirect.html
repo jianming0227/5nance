@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Signing in...</title>
+</head>
+<body>
+  <p>Signing you in...</p>
+  <script>
+    // The backend will inject the userId as a query parameter
+    const params = new URLSearchParams(window.location.search);
+    const userId = params.get("userId");
+
+    if (userId) {
+      localStorage.setItem("userId", userId);
+      window.location.href = "index.html"; // Redirect to main app
+    } else {
+      window.location.href = "sign-up.html"; // Fallback
+    }
+  </script>
+</body>
+</html>

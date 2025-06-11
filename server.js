@@ -9,13 +9,42 @@ const session = require("express-session");
 const dotenv = require('dotenv');
 const bcrypt = require('bcrypt'); // Add this line
 const nodemailer = require('nodemailer'); // Add this line
+const passport = require('passport');
+// Models
+const User = require('./models/user');
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/userRoutes');
+require('./config/passport')(passport);
+
 
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000
+
+app.use(express.static(path.join(__dirname, '5nance-frontend'))); // Serve static files from the frontend directory
+app.use(express.static(path.join(__dirname, 'frontend')));
+
+app.use(session({
+  secret: process.env.SESSION_SECRET, // replace with your own
+  resave: false,
+  saveUninitialized: true
+}));
+
+// Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/auth/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+app.get('/auth/google/callback', passport.authenticate('google', {
+  failureRedirect: '/sign-up.html'
+}), (req, res) => {
+  res.redirect(`/google-redirect.html?userId=${req.user._id}`); // Redirect after successful login
+});
+
+
+
 
 //Forgot Password feature
 // Create a transporter for sending emails
@@ -36,8 +65,6 @@ transporter.verify(function(error, success) {
   }
 });
 
-// Models
-const User = require('./models/user');
 
 // Middleware
 app.use(cors())

@@ -1,88 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8">
-  <title>5nance</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="css/home.css" rel="stylesheet">
-  <link href="css/user.css" rel="stylesheet">
-  <link href="css/styles.css" rel="stylesheet">
-  <link href="css/nav.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>5nance</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/home.css" rel="stylesheet">
+    <link href="css/user.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <link href="css/nav.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
 
 </head>
+
 <body style="background-color: #010725; color: white; font-family: 'DM Sans', 'Inter', sans-serif;">
-  
-<!-- Navbar -->
-<div id="navbar-placeholder"></div>
-<script src="js/navbar.js"></script>
 
-        <!-- Main Content -->
-        <main>
-            <h1 class="welcome" style="margin-top: 80px;">Welcome Back!</h1>
-            <div class="login-box">
-                <h2>Enter your Credentials to access your account</h2>
-                <form onsubmit="return login();">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="email" placeholder="email@example.com" required>
-                    </div>
-                
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" placeholder="Password" id="myInput" required>
-                    </div>
+    <!-- Navbar -->
+    <div id="navbar-placeholder"></div>
+    <script src="js/navbar.js"></script>
 
-                    <div class="checkbox-row">
-                        <label class="checkbox">
-                          <input type="checkbox" id="showpassword" onclick="pwVisibility()">
-                          Show Password
-                        </label>
-                      
-                        <label class="checkbox">
-                          <input type="checkbox" id="remember">
-                          Remember me
-                        </label>
-                    </div>
-                      
-                    <div class="form-group">
-                        <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
-                    </div>
-                
-                    <div class="button-group">
-                        <a href="index.html" class="cancel">CANCEL</a>
-                         <button type="submit" class="login-button login">LOG IN</button>
-                    </div>
+    <!-- Main Content -->
+    <main>
+        <h1 class="welcome" style="margin-top: 80px;">Welcome Back!</h1>
+        <div class="login-box">
+            <h2>Enter your Credentials to access your account</h2>
+            <form onsubmit="return login();">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email" placeholder="email@example.com" required>
+                </div>
 
-                    <!-- Google Sign In -->
-                    <button class="google-signin">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" class="google-icon">
-                            <path fill="#EA4335" d="M5.26620003,9.76452941 C6.19878754,6.93863203 8.85444915,4.90909091 12,4.90909091 C13.6909091,4.90909091 15.2181818,5.50909091 16.4181818,6.49090909 L19.9090909,3 C17.7818182,1.14545455 15.0545455,0 12,0 C7.27006974,0 3.1977497,2.69829785 1.23999023,6.65002441 L5.26620003,9.76452941 Z"/>
-                            <path fill="#34A853" d="M16.0407269,18.0125889 C14.9509167,18.7163016 13.5660892,19.0909091 12,19.0909091 C8.86648613,19.0909091 6.21911939,17.076871 5.27698177,14.2678769 L1.23746264,17.3349879 C3.19279051,21.2970142 7.26500293,24 12,24 C14.9328362,24 17.7353462,22.9573905 19.834192,20.9995801 L16.0407269,18.0125889 Z"/>
-                            <path fill="#4A90E2" d="M19.834192,20.9995801 C22.0291676,18.9520994 23.4545455,15.903663 23.4545455,12 C23.4545455,11.2909091 23.3454545,10.5272727 23.1818182,9.81818182 L12,9.81818182 L12,14.4545455 L18.4363636,14.4545455 C18.1187732,16.013626 17.2662994,17.2212117 16.0407269,18.0125889 L19.834192,20.9995801 Z"/>
-                            <path fill="#FBBC05" d="M5.27698177,14.2678769 C5.03832634,13.556323 4.90909091,12.7937589 4.90909091,12 C4.90909091,11.2182781 5.03443647,10.4668121 5.26620003,9.76452941 L1.23999023,6.65002441 C0.43658717,8.26043162 0,10.0753848 0,12 C0,13.9195484 0.444780743,15.7301709 1.23746264,17.3349879 L5.27698177,14.2678769 Z"/>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Password" id="myInput" required>
+                </div>
+
+                <div class="checkbox-row">
+                    <label class="checkbox">
+                        <input type="checkbox" id="showpassword" onclick="pwVisibility()">
+                        Show Password
+                    </label>
+
+                    <label class="checkbox">
+                        <input type="checkbox" id="remember">
+                        Remember me
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
+                </div>
+
+                <div class="button-group">
+                    <a href="index.html" class="cancel">CANCEL</a>
+                    <button type="submit" class="login-button login">LOG IN</button>
+                </div>
+
+                <a href="/auth/google" style="text-decoration: none;">
+                    <button class="google-signin" style="display: flex; align-items: center; gap: 8px;">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24"
+                            class="google-icon">
+                            <path fill="#EA4335" d="M5.26620003,9.76452941 ... Z" />
+                            <!-- You can keep the rest of your paths -->
                         </svg>
-                        
-                        <span style="font-weight: 500;">Log in with Google</span>
+                        <span style="font-weight: 500;">Sign in with Google</span>
                     </button>
-                
-                    <div class="form-group">
-                        <p class="signup-text" style="margin-top: 16px;">
-                            Don’t have an account? <a href="sign-up-page.html" class="signup-link">Sign Up</a>
-                        </p>
-                    </div>
-                </form>
-            </div>
-        </main>
+                </a>
+                </a>
+
+                <div class="form-group">
+                    <p class="signup-text" style="margin-top: 16px;">
+                        Don’t have an account? <a href="sign-up-page.html" class="signup-link">Sign Up</a>
+                    </p>
+                </div>
+            </form>
+        </div>
+    </main>
     </div>
 
-    <script src="js/scripts.js"></script>  
+    <script src="js/scripts.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-    
+
     <div id="toast" class="toast">Message</div>
 
 </body>
 <footer class="text-center py-3 text-white" style="background-color: #010725;">
-  &copy; copyright 5nance <span id="year"></span>
+    &copy; copyright 5nance <span id="year"></span>
 </footer>
+
 </html>
