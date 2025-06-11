@@ -12,205 +12,78 @@ document.addEventListener('DOMContentLoaded', function() {
     const sortDropdownMenu = document.querySelector('.sort-dropdown-menu');
     const sortOptions = document.querySelectorAll('.sort-option');
     const currentSortText = document.getElementById('currentSort');
+    const customizeBtn = document.getElementById("customizeBtn");
+    const customizeOverlay = document.getElementById("customizeOverlay");
+    const closeCustomizeBtn = document.getElementById("closeCustomizeBtn");
     
-    // Strategy data
-    const strategyData = {
-      1: {
-        title: "Strategy 1",
-        riskLevel: "Moderate",
-        return: "7.0%",
-        duration: "5 years",
-        description: "Conservative investment using bonds and fixed deposit.",
-        rating: 0,
-        bookmarked: false,
-        recommended: true,
-        addedToPlan: false
-      },
-      2: {
-        title: "Strategy 2",
-        riskLevel: "Moderate",
-        return: "7.0%",
-        duration: "5 years",
-        description: "Balanced portfolio with mix of stocks and bonds.",
-        rating: 0,
-        bookmarked: false,
-        recommended: false,
-        addedToPlan: false
-      },
-      3: {
-        title: "Strategy 3",
-        riskLevel: "Moderate",
-        return: "7.0%",
-        duration: "5 years",
-        description: "Growth-focused strategy with higher stock allocation.",
-        rating: 0,
-        bookmarked: false,
-        recommended: false,
-        addedToPlan: false
-      },
-      4: {
-        title: "Strategy 4",
-        riskLevel: "Moderate",
-        return: "7.0%",
-        duration: "5 years",
-        description: "Aggressive growth strategy with focus on emerging markets.",
-        rating: 0,
-        bookmarked: false,
-        recommended: false,
-        addedToPlan: false
-      }
-    };
-    
-    // Initialize star ratings
-    function initRatings() {
-      const ratingContainers = document.querySelectorAll('.rating');
-      
-      ratingContainers.forEach(container => {
-        const stars = container.querySelectorAll('.rating-star');
-        const strategyId = container.closest('.strategy-card').dataset.strategy;
-        
-        // Set initial rating if any
-        updateStarDisplay(container, strategyData[strategyId].rating);
-        
-        // Add event listeners to stars
-        stars.forEach(star => {
-          star.addEventListener('click', function() {
-            const rating = parseInt(this.dataset.index);
-            const strategyId = this.closest('.strategy-card').dataset.strategy;
-            
-            // Update data
-            strategyData[strategyId].rating = rating;
-            
-            // Update display
-            updateStarDisplay(container, rating);
-            
-            console.log(`Strategy ${strategyId} rated ${rating} stars`);
-          });
-          
-          // Hover effect
-          star.addEventListener('mouseenter', function() {
-            const hoverRating = parseInt(this.dataset.index);
-            
-            stars.forEach(s => {
-              if (parseInt(s.dataset.index) <= hoverRating) {
-                s.classList.add('active');
-              } else {
-                s.classList.remove('active');
-              }
-            });
-          });
-        });
-        
-        container.addEventListener('mouseleave', function() {
-          const currentRating = parseInt(container.dataset.rating);
-          updateStarDisplay(container, currentRating);
-        });
+  // Strategy data
+  // Fetch strategies from MongoDB via backend API
+  function fetchStrategies() {
+    fetch('http://localhost:5000/api/strategies')
+      .then(response => response.json())
+      .then(data => {
+        console.log("Fetched strategies:", data); // Debug log
+
+        // Convert array to object keyed by ID
+        strategyData = data.reduce((acc, strategy) => {
+          acc[strategy._id] = {
+            title: strategy.strategy_name,
+            riskLevel: strategy.risk_level,
+            return: strategy.return_rate,
+            duration: strategy.duration_years,
+            description: strategy.strategy_description,
+          };
+          return acc;
+        }, {});
+
+        renderStrategies();
+      })
+      .catch(error => {
+        console.error('Failed to fetch strategies:', error);
       });
+  }
+
+  // Render strategies dynamically into container
+  function renderStrategies() {
+    const container = document.getElementById('strategiesContainer');
+    container.innerHTML = ''; // Clear old cards
+
+    for (const [id, strategy] of Object.entries(strategyData)) {
+      const cardHTML = `
+        <div class="col-md-6 mb-4">
+          <div class="strategy-card card shadow-sm" data-strategy="${id}">
+            <div class="d-flex justify-content-between align-items-start mb-4">
+              <h2 class="strategy-title">${strategy.title}</h2>
+            </div>
+
+            <div class="row mb-4">
+              <div class="col-6">
+                <p class="risk-level">Risk level: ${strategy.riskLevel}</p>
+                <p class="return-value">Return: ${strategy.return}</p>
+              </div>
+              <div class="col-6">
+                <p class="duration">Duration: ${strategy.duration}</p>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <button class="btn btn-primary btn-sm view-detail-btn">
+                View detail <span></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+      container.insertAdjacentHTML('beforeend', cardHTML);
     }
-    
-    // Update star display based on rating
-    function updateStarDisplay(container, rating) {
-      container.dataset.rating = rating;
-      const stars = container.querySelectorAll('.rating-star');
-      
-      stars.forEach(star => {
-        const starIndex = parseInt(star.dataset.index);
-        if (starIndex <= rating) {
-          star.classList.add('active');
-          star.classList.remove('bi-star');
-          star.classList.add('bi-star-fill');
-        } else {
-          star.classList.remove('active');
-          star.classList.remove('bi-star-fill');
-          star.classList.add('bi-star');
-        }
-      });
-    }
-    
-    // Initialize bookmarks
-    function initBookmarks() {
-      const bookmarkButtons = document.querySelectorAll('.bookmark-btn');
-      
-      bookmarkButtons.forEach(button => {
-        const strategyId = button.closest('.strategy-card').dataset.strategy;
-        const icon = button.querySelector('i');
-        
-        // Set initial state
-        if (strategyData[strategyId].bookmarked) {
-          icon.classList.remove('bi-bookmark');
-          icon.classList.add('bi-bookmark-fill');
-          icon.style.color = '#0328ee'; // Primary color
-        }
-        
-        // Add click event
-        button.addEventListener('click', function() {
-          const strategyId = this.closest('.strategy-card').dataset.strategy;
-          const icon = this.querySelector('i');
-          
-          // Toggle bookmark state
-          strategyData[strategyId].bookmarked = !strategyData[strategyId].bookmarked;
-          
-          // Update icon
-          if (strategyData[strategyId].bookmarked) {
-            icon.classList.remove('bi-bookmark');
-            icon.classList.add('bi-bookmark-fill');
-            icon.style.color = '#ff0000'; // Primary color
-          } else {
-            icon.classList.remove('bi-bookmark-fill');
-            icon.classList.add('bi-bookmark');
-            icon.style.color = '';
-          }
-          
-          // Add animation
-          icon.classList.add('bookmark-animation');
-          setTimeout(() => {
-            icon.classList.remove('bookmark-animation');
-          }, 300);
-          
-          console.log(`Strategy ${strategyId} bookmark ${strategyData[strategyId].bookmarked ? 'added' : 'removed'}`);
-        });
-      });
-    }
-    
-    // Initialize Add to Plan buttons
-    function initAddToPlan() {
-      const addPlanButtons = document.querySelectorAll('.add-plan-btn');
-      
-      addPlanButtons.forEach(button => {
-        const strategyId = button.closest('.strategy-card').dataset.strategy;
-        
-        // Set initial state if already added to plan
-        if (strategyData[strategyId].addedToPlan) {
-          button.innerHTML = 'Added ✓';
-          button.classList.add('btn-success');
-          button.classList.remove('btn-outline-primary');
-        }
-        
-        // Add click event
-        button.addEventListener('click', function() {
-          const strategyId = this.closest('.strategy-card').dataset.strategy;
-          
-          // Toggle added to plan state
-          strategyData[strategyId].addedToPlan = !strategyData[strategyId].addedToPlan;
-          
-          if (strategyData[strategyId].addedToPlan) {
-            // Update button appearance
-            this.innerHTML = 'Added ✓';
-            this.classList.add('btn-success');
-            this.classList.remove('btn-outline-primary');
-            
-            console.log(`Strategy ${strategyId} added to plan`);
-          } else {
-            // Update button appearance
-            this.innerHTML = 'Add to plan <span>⊕</span>';
-            this.classList.remove('btn-success');
-            this.classList.add('btn-outline-primary');
-            
-            console.log(`Strategy ${strategyId} removed from plan`);
-          }
-        });
-      });
-    }
+
+    // Hook up interactive features again
+    initViewDetailButtons();
+  }
+
+  // Ensure fetching starts on page load
+    console.log("AI.js script loaded");
+    fetchStrategies();
     
     // Initialize sort dropdown
     function initSortDropdown() {
@@ -255,32 +128,25 @@ document.addEventListener('DOMContentLoaded', function() {
         id,
         ...data
       }));
-      
-      // Sort based on criteria
+
       switch(sortType) {
         case 'highest-return':
           strategiesArray.sort((a, b) => parseFloat(b.return) - parseFloat(a.return));
           break;
         case 'lowest-risk':
-          // This is a placeholder - in a real app, you'd have risk levels as numbers
-          strategiesArray.sort((a, b) => a.riskLevel.localeCompare(b.riskLevel));
+          const riskOrder = { 'low': 1, 'moderate': 2, 'high': 3 };
+          strategiesArray.sort((a, b) =>
+            riskOrder[a.riskLevel.toLowerCase()] - riskOrder[b.riskLevel.toLowerCase()]
+          );
           break;
         case 'shortest-duration':
           strategiesArray.sort((a, b) => parseInt(a.duration) - parseInt(b.duration));
           break;
-        case 'highest-rating':
-          strategiesArray.sort((a, b) => b.rating - a.rating);
-          break;
-        case 'recommended':
-          strategiesArray.sort((a, b) => b.recommended - a.recommended);
-          break;
         default:
           break;
       }
-      
-      // Reorder DOM elements based on sort
+
       const container = document.getElementById('strategiesContainer');
-      
       strategiesArray.forEach(strategy => {
         const strategyElement = document.querySelector(`.strategy-card[data-strategy="${strategy.id}"]`).closest('.col-md-6');
         container.appendChild(strategyElement);
@@ -328,37 +194,98 @@ document.addEventListener('DOMContentLoaded', function() {
       strategyDetailOverlay.style.display = 'flex';
     }
     
-    // Initialize AI analysis
+    // Initialize AI analysis button logic
     function initAIAnalysis() {
-      // Suggest Matching Strategy button click
+      const suggestBtn = document.getElementById('suggestBtn');
+      const aiAnalysisOverlay = document.getElementById('aiAnalysisOverlay');
+      const userId = localStorage.getItem('userId');
+
+      if (!userId) throw new Error("User ID not found in localStorage");
+
+
       if (suggestBtn) {
-        suggestBtn.addEventListener('click', function() {
-          // Show AI analysis overlay
-          aiAnalysisOverlay.style.display = 'flex';
-          
-          // Add dimmed class to main content
-          document.querySelector('main').classList.add('content-dimmed');
-          
-          // Simulate AI analysis (3 seconds)
-          setTimeout(function() {
-            // Hide AI analysis overlay
+        suggestBtn.addEventListener('click', async function () {
+          try {
+            aiAnalysisOverlay.style.display = 'flex';
+            document.querySelector('main').classList.add('content-dimmed');
+
+            const profileRes = await fetch(`http://localhost:5000/api/financial-profile/${userId}`);
+            const profileData = await profileRes.json();
+            if (!profileRes.ok) throw new Error('Failed to fetch profile');
+
+            console.log('✅ Fetched user profile:', profileData);
+
+            const payload = {
+              employment_status: profileData.employment_status,
+              monthly_income: profileData.monthly_income,
+              monthly_expenses: profileData.monthly_expenses,
+              goal_types: profileData.goal_types,
+              target_amount: profileData.target_amount,
+              target_duration: profileData.target_duration,
+              risk_tolerance: profileData.risk_tolerance,
+              investment_experience: profileData.investment_experience,
+              savings_investment: profileData.savings_investment,
+              existing_loans: profileData.existing_loans,
+              financial_discipline: profileData.financial_discipline
+            };
+
+            const predictRes = await fetch('http://localhost:5000/api/predict', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(payload)
+            });
+
+            console.log('📡 Raw predict response:', predictRes);
+
+            const text = await predictRes.text();
+            console.log('📨 Raw predict response body:', text);
+
+            let predictResult;
+            try {
+              predictResult = JSON.parse(text);
+            } catch (err) {
+              throw new Error('❌ Failed to parse JSON from prediction API');
+            }
+
+            if (!predictRes.ok) throw new Error('Prediction failed');
+
+            console.log('🤖 AI prediction result:', predictResult);
+
+            // ✅ FIX: Use direct object instead of .strategy
+            const strategy = predictResult.strategy;
+
+            setTimeout(() => {
+              aiAnalysisOverlay.style.display = 'none';
+              document.querySelector('main').classList.remove('content-dimmed');
+
+              document.querySelector('.strategy-detail-title').textContent = strategy.strategy_name;
+              document.querySelector('.strategy-detail-info .risk-level').textContent = `Risk level: ${strategy.risk_tolerance}`;
+              document.querySelector('.strategy-detail-info .return-value').textContent = `Return: ${strategy.return_rate}%`;
+              document.querySelector('.strategy-detail-info .duration').textContent = `Duration: ${strategy.duration_year} year(s)`;
+              document.querySelector('.strategy-description p').textContent = strategy.strategy_description;
+
+              document.getElementById('strategyDetailOverlay').style.display = 'flex';
+            }, 3000);
+
+                                  
+          } catch (error) {
+            console.error('🚨 Error during AI analysis:', error.message || error);
+            console.error(error.stack || '');
             aiAnalysisOverlay.style.display = 'none';
-            
-            // Remove dimmed class from main content
             document.querySelector('main').classList.remove('content-dimmed');
-            
-            // Show strategy detail for Strategy 1 (the recommended one)
-            showStrategyDetail(1);
-          }, 3000);
+            alert('Something went wrong while analyzing strategy.');
+          }
         });
       }
     }
-    
+
+    // Call this after DOM is ready
+    document.addEventListener('DOMContentLoaded', initAIAnalysis);
+      
     // Initialize all functionality
     function init() {
-      initRatings();
-      initBookmarks();
-      initAddToPlan();
       initSortDropdown();
       initViewDetailButtons();
       initAIAnalysis();
@@ -368,6 +295,60 @@ document.addEventListener('DOMContentLoaded', function() {
         sortOptions[0].classList.add('active');
       }
     }
+
+    customizeBtn.addEventListener("click", () => {
+      customizeOverlay.style.display = "flex";
+    });
+
+    closeCustomizeBtn.addEventListener("click", () => {
+      customizeOverlay.style.display = "none";
+    });
+
+    document.getElementById("customForm").addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const preferredRisk = document.getElementById("riskSelect").value;
+      const preferredDuration = document.getElementById("durationInput").value;
+
+      const customizeOverlay = document.getElementById("customizeOverlay");
+      customizeOverlay.style.display = "none";
+
+      // Show AI overlay
+      const aiOverlay = document.getElementById("aiAnalysisOverlay");
+      aiOverlay.style.display = "flex";
+      document.querySelector('main').classList.add('content-dimmed');
+
+      const response = await fetch("http://localhost:5000/api/customize", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          risk_tolerance: preferredRisk.toLowerCase(),
+          duration_year: preferredDuration,
+        }),
+      });
+
+      const data = await response.json();
+      if (!response.ok) {
+        alert("❌ Failed to customize strategy: " + data.message);
+        aiOverlay.style.display = "none";
+        return;
+      }
+      const strategy = data.strategy;
+
+      setTimeout(() => {
+        aiOverlay.style.display = "none";
+        document.querySelector("main").classList.remove("content-dimmed");
+        document.querySelector(".strategy-detail-title").textContent = strategy.strategy_name;
+        document.querySelector(".strategy-detail-info .risk-level").textContent = `Risk level: ${strategy.risk_level}`;
+        document.querySelector(".strategy-detail-info .return-value").textContent = `Return: ${strategy.return_rate}%`;
+        document.querySelector(".strategy-detail-info .duration").textContent = `Duration: ${strategy.duration_years} year(s)`;
+        document.querySelector(".strategy-description p").textContent = strategy.strategy_description;
+        document.getElementById("customizeOverlay").style.display = "none";
+        document.getElementById("strategyDetailOverlay").style.display = "flex";
+      }, 3000);
+    });
     
     // Run initialization
     init();

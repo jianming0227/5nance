@@ -1,3 +1,6 @@
+require('dotenv').config();
+console.log("🧪 PYTHON_PATH from .env:", process.env.PYTHON_PATH);
+
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -581,6 +584,22 @@ app.get("/input-form", (req, res) => {
 app.get("/api", (req, res) => {
   res.json({ message: "5NANCE API is running!" })
 })
+
+// Import and use routes (stratgies)
+const strategiesRoute = require('./routes/strategyRoutes');
+app.use('/api', strategiesRoute);
+
+// Import and use routes (fetching user preferences)
+const financialProfileRoutes = require('./routes/financialProfileRoutes');
+app.use(financialProfileRoutes);
+
+// Import and use routes (AI prediction)
+const predictRoute = require('./routes/predict');
+app.use('/api', predictRoute);
+
+//Import and use routes (Customize prediction)
+const customizeRoutes = require('./routes/predict'); // Adjust path if needed
+app.use('/api', customizeRoutes);
 
 app.listen(PORT, () => {
   console.log(`🚀 Server is running on http://localhost:${PORT}`)
