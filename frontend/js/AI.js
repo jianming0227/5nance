@@ -198,7 +198,9 @@ document.addEventListener('DOMContentLoaded', function() {
     function initAIAnalysis() {
       const suggestBtn = document.getElementById('suggestBtn');
       const aiAnalysisOverlay = document.getElementById('aiAnalysisOverlay');
-      const userId = '684804a7bf5d366aae0ebfd9'; // Temporary dummy ID
+
+      const userId = localStorage.getItem('userId');
+      if (!userId) throw new Error("User ID not found in localStorage");
 
       if (suggestBtn) {
         suggestBtn.addEventListener('click', async function () {

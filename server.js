@@ -587,7 +587,9 @@ app.get("/api", (req, res) => {
 })
 
 // Import and use routes (stratgies)
+
 const strategiesRoute = require('./routes/strategyRoutes'); // ✅ THIS LINE WAS MISSING
+
 app.use('/api', strategiesRoute);
 
 // Import and use routes (fetching user preferences)
