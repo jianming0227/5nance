@@ -114,16 +114,18 @@
   }
   
   .strategy-title {
+    color: var(--foreground);
     font-size: 1.5rem;
     font-weight: 700;
   }
   
   .risk-level {
-    color: #a0a0a0;
+    color: var(--foreground);
     margin-bottom: 0.25rem;
   }
   
   .return-value, .duration {
+    color: var(--foreground);
     margin-bottom: 0;
   }
   
