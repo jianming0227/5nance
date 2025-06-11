@@ -10,7 +10,7 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
-const app = express()
+const app = express();
 const PORT = process.env.PORT || 5000
 
 // Models
@@ -45,6 +45,7 @@ app.use("/api", financialFormRoutes)
 app.use(express.static(path.join(__dirname, "frontend")))
 app.use('/api', authRoutes);
 app.use('/api', userRoutes);
+
 
 //Serve login page
 app.get("/login", (req, res) => {
