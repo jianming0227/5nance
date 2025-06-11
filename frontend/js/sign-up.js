@@ -113,11 +113,6 @@ async function saveSignUpData() {
   }
 }
 
-
-window.onload = function () {
-  populateCountries();
-};
-
 document.addEventListener("DOMContentLoaded", function () {
   populateCountries();
 

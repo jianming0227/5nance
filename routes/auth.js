@@ -4,26 +4,41 @@ const authController = require('../controllers/authController');
 const User = require("../models/user"); // Adjust path if needed
 const bcrypt = require("bcrypt");
 
-// Inactivity middleware
-// const INACTIVITY_LIMIT_MS = 30 * 60 * 1000; // 30 minutes
-const INACTIVITY_LIMIT_MS = 60 * 1000; // 1 minute(testing)
+
+const INACTIVITY_LIMIT_MS = 60 * 1000; // 1 min inactivity
+const GRACE_PERIOD_MS = 30 * 1000;      // 30 seconds to decide before full logout
+
 function inactivityChecker(req, res, next) {
   if (req.session.user) {
     const now = Date.now();
     const last = req.session.lastActivity || now;
+
+      if (req.session.timedOutAt) {
+        // Session was marked inactive - check if grace period expired
+        if (now - req.session.timedOutAt > GRACE_PERIOD_MS) {
+          // Destroy session after grace period
+          req.session.destroy(err => {
+            if (err) console.error('Error destroying session:', err);
+            res.clearCookie('connect.sid');
+            return res.status(440).json({ message: 'Session fully expired after countdown' });
+          });
+          return;
+        }
+        return res.status(440).json({ message: 'Session inactive, countdown running' });
+    } 
+    
     if (now - last > INACTIVITY_LIMIT_MS) {
-      // expired: destroy session and clear cookie
-      return req.session.destroy(err => {
-        if (err) console.error('Error destroying session:', err);
-        res.clearCookie('connect.sid');
-        // send login timeout status to client
-        return res.status(440).json({ message: 'Session expired due to inactivity' });
-      });
+      // User was inactive, mark session as timed out
+      req.session.timedOutAt = Date.now();
+      return res.status(440).json({ message: 'Session marked as inactive, countdown started' });
     }
+
+    // User is active, reset last activity timer
     req.session.lastActivity = now;
   }
   next();
 }
+
 
 // Signup
 router.post('/signup', authController.signup);
@@ -66,10 +81,54 @@ router.get('/profile', (req, res) => {
   res.json({ user: req.session.user });
 });
 
-// Session status
 router.get('/auth/session', (req, res) => {
-  if (req.session.user) return res.json({ loggedIn: true });
-  res.json({ loggedIn: false });
+  res.setHeader('Cache-Control', 'no-store');
+
+  const now = Date.now();
+
+  if (!req.session || !req.session.user) {
+    return res.status(440).json({ message: 'Session expired or not found' });
+  }
+
+  if (req.session.timedOutAt) {
+    const gracePassed = now - req.session.timedOutAt > GRACE_PERIOD_MS;
+    if (gracePassed) {
+      req.session.destroy(err => {
+        if (err) console.error('Error destroying session:', err);
+        res.clearCookie('connect.sid');
+        return res.status(440).json({ message: 'Session fully expired after countdown' });
+      });
+    } else {
+      // Grace period running: show session-timeout.html
+      return res.status(200).json({ loggedIn: false, gracePeriod: true });
+    }
+    return;
+  }
+
+  // Active session
+  return res.status(200).json({ loggedIn: true });
 });
+
+
+router.post('/auth/resume-session', (req, res) => {
+  if (req.session && req.session.user && req.session.timedOutAt) {
+    // Resume the session
+    req.session.lastActivity = Date.now();
+    delete req.session.timedOutAt; // clear grace period marker
+    return res.json({ success: true });
+  }
+  res.json({ success: false });
+});
+
+// refresh activity
+router.post('/auth/ping', (req, res) => {
+  if (req.session && req.session.user && !req.session.timedOutAt) {
+    req.session.lastActivity = Date.now();
+    req.session.touch();
+    return res.status(200).json({ message: 'Activity recorded' });
+  }
+  res.status(401).json({ message: 'Inactive or expired' });
+});
+
 
 module.exports = router;
