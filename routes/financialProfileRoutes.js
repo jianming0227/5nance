@@ -16,3 +16,4 @@ router.get('/api/financial-profile/:userId', async (req, res) => {
 });
 
 module.exports = router;
+

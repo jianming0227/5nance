@@ -42,6 +42,7 @@ const User = require('./models/user');
 // Middleware
 app.use(cors())
 app.use(express.json())
+
 app.use(express.urlencoded({ extended: true }));  // Add this line to handle form data
 // Session Middleware
 app.use(session({
@@ -586,7 +587,9 @@ app.get("/api", (req, res) => {
 })
 
 // Import and use routes (stratgies)
-const strategiesRoute = require('./routes/strategyRoutes');
+
+const strategiesRoute = require('./routes/strategyRoutes'); // ✅ THIS LINE WAS MISSING
+
 app.use('/api', strategiesRoute);
 
 // Import and use routes (fetching user preferences)
