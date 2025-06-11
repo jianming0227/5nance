@@ -1,6 +1,6 @@
 // API Configuration
 const API_BASE_URL = "http://localhost:5000/api"
-let USERNAME = "guest" // This will be replaced with actual userId from login
+let USER_ID = localStorage.getItem("userId") // Changed from USERNAME to USER_ID
 
 // Global variables
 let goals = []
@@ -24,11 +24,12 @@ const bootstrap = window.bootstrap
 const editGoalModal = new bootstrap.Modal(editGoalModalElement)
 const addSavingsModal = new bootstrap.Modal(addSavingsModalElement)
 
+//Goal_Based_Investment_Planning feature
 // API Functions
 class GoalAPI {
   static async getAllGoals() {
     try {
-      const response = await fetch(`${API_BASE_URL}/goals?username=${USERNAME}`)
+      const response = await fetch(`${API_BASE_URL}/goals?userId=${USER_ID}`)
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
       return await response.json()
     } catch (error) {
@@ -42,7 +43,7 @@ class GoalAPI {
       const response = await fetch(`${API_BASE_URL}/goals`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...goalData, username: USERNAME }),
+        body: JSON.stringify({ ...goalData, userId: USER_ID }),
       })
       if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
       return await response.json()
@@ -95,18 +96,34 @@ class GoalAPI {
     }
   }
 
+  //Goal_Based_Investment_Planning feature
+  // Update the reorderGoals method in GoalAPI class
   static async reorderGoals(goalIds) {
     try {
-      const response = await fetch(`${API_BASE_URL}/goals/reorder?username=${USERNAME}`, {
+      if (!Array.isArray(goalIds) || goalIds.length === 0) {
+        throw new Error('Invalid goalIds array');
+      }
+
+      // Log the goalIds being sent
+      console.log('Sending goalIds to server:', goalIds);
+
+      const response = await fetch(`${API_BASE_URL}/goals/reorder?userId=${USER_ID}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ goalIds }),
-      })
-      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`)
-      return await response.json()
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      console.log('Received updated goals:', data); // Log the response
+      return data;
     } catch (error) {
-      console.error("Error reordering goals:", error)
-      throw error
+      console.error("Error reordering goals:", error);
+      throw error;
     }
   }
 }
@@ -359,21 +376,32 @@ function addEventListenersToGoalCards() {
     })
   })
 
+  //Goal_Based_Investment_Planning feature
   // Move up buttons
   document.querySelectorAll(".move-up").forEach((button) => {
     button.addEventListener("click", async (e) => {
-      const goalId = e.target.dataset.id
-      await moveGoalUp(goalId)
-    })
-  })
+      e.preventDefault();
+      const goalId = e.currentTarget.dataset.id;
+      if (!goalId) {
+        console.error('No goal ID found');
+        return;
+      }
+      await moveGoalUp(goalId);
+    });
+  });
 
   // Move down buttons
   document.querySelectorAll(".move-down").forEach((button) => {
     button.addEventListener("click", async (e) => {
-      const goalId = e.target.dataset.id
-      await moveGoalDown(goalId)
-    })
-  })
+      e.preventDefault();
+      const goalId = e.currentTarget.dataset.id;
+      if (!goalId) {
+        console.error('No goal ID found');
+        return;
+      }
+      await moveGoalDown(goalId);
+    });
+  });
 }
 
 // Setup sortable for drag and drop
@@ -524,49 +552,69 @@ async function saveSavingsAmount() {
   }
 }
 
+//Goal_Based_Investment_Planning feature
 // Move goal up
 async function moveGoalUp(goalId) {
-  const goalIndex = goals.findIndex((g) => g._id === goalId)
-  if (goalIndex > 0) {
-    // Swap with the goal above
-    ;[goals[goalIndex], goals[goalIndex - 1]] = [goals[goalIndex - 1], goals[goalIndex]]
+  if (!goalId) {
+    console.error('Invalid goal ID');
+    return;
+  }
 
-    // Update priorities in database
-    const goalIds = goals.map((g) => g._id)
-    try {
-      goals = await GoalAPI.reorderGoals(goalIds)
-      renderGoals()
-    } catch (error) {
-      // Revert on error
-      ;[goals[goalIndex], goals[goalIndex - 1]] = [goals[goalIndex - 1], goals[goalIndex]]
-      showError("Failed to reorder goals")
+  try {
+    const response = await fetch(`${API_BASE_URL}/goals/${goalId}/move-up`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: USER_ID }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to move goal up');
     }
+
+    const updatedGoals = await response.json();
+    goals = updatedGoals;
+    renderGoals();
+  } catch (error) {
+    console.error('Error in moveGoalUp:', error);
+    showError("Failed to move goal up. Please try again.");
+    await loadGoals();
   }
 }
 
 // Move goal down
 async function moveGoalDown(goalId) {
-  const goalIndex = goals.findIndex((g) => g._id === goalId)
-  if (goalIndex < goals.length - 1) {
-    // Swap with the goal below
-    ;[goals[goalIndex], goals[goalIndex + 1]] = [goals[goalIndex + 1], goals[goalIndex]]
+  if (!goalId) {
+    console.error('Invalid goal ID');
+    return;
+  }
 
-    // Update priorities in database
-    const goalIds = goals.map((g) => g._id)
-    try {
-      goals = await GoalAPI.reorderGoals(goalIds)
-      renderGoals()
-    } catch (error) {
-      // Revert on error
-      ;[goals[goalIndex], goals[goalIndex + 1]] = [goals[goalIndex + 1], goals[goalIndex]]
-      showError("Failed to reorder goals")
+  try {
+    const response = await fetch(`${API_BASE_URL}/goals/${goalId}/move-down`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: USER_ID }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Failed to move goal down');
     }
+
+    const updatedGoals = await response.json();
+    goals = updatedGoals;
+    renderGoals();
+  } catch (error) {
+    console.error('Error in moveGoalDown:', error);
+    showError("Failed to move goal down. Please try again.");
+    await loadGoals();
   }
 }
 
+//Goal_Based_Investment_Planning feature
 // Function to set user ID (to be called from login page)
 function setUserId(userId) {
-  USERNAME = userId
+  USER_ID = userId
   loadGoals() // Reload goals for the new user
 }
 

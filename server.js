@@ -4,6 +4,8 @@ const cors = require("cors");
 const path = require("path");
 const session = require("express-session");
 const dotenv = require('dotenv');
+const bcrypt = require('bcrypt'); // Add this line
+const nodemailer = require('nodemailer'); // Add this line
 
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/userRoutes');
@@ -12,6 +14,24 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000
 
+//Forgot Password feature
+// Create a transporter for sending emails
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+      user: 'tanyeefong20040921@gmail.com', // Replace with your Gmail address
+      pass: 'ijqs omfo rtos hwoo'     // Replace with your Gmail app password
+  }
+});
+
+// Add this to test the transporter
+transporter.verify(function(error, success) {
+  if (error) {
+      console.log('Transporter error:', error);
+  } else {
+      console.log('Server is ready to send emails');
+  }
+});
 
 // Models
 const User = require('./models/user');
@@ -19,6 +39,7 @@ const User = require('./models/user');
 // Middleware
 app.use(cors())
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));  // Add this line to handle form data
 // Session Middleware
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -88,9 +109,9 @@ mongoose
 
 // Goal Schema - Updated to match your frontend structure
 const goalSchema = new mongoose.Schema({
-  username: {
+  userId: { //Goal_Based_Investment_Planning feature
     type: String,
-    default: "guest",
+    required: true,
   },
   name: {
     type: String,
@@ -205,11 +226,15 @@ const InputForm = mongoose.model("inputForm", inputFormSchema)
 
 // API Routes for Goals (existing)
 
+//Goal_Based_Investment_Planning feature
 // GET all goals
 app.get("/api/goals", async (req, res) => {
   try {
-    const username = req.query.username || "guest"
-    const goals = await Goal.find({ username }).sort({ priority: 1 })
+    const userId = req.query.userId  // Changed from username to userId
+    if (!userId) {
+      return res.status(400).json({ message: "userId is required" })
+    }
+    const goals = await Goal.find({ userId }).sort({ priority: 1 })
     res.json(goals)
   } catch (error) {
     console.error("Error fetching goals:", error)
@@ -217,17 +242,22 @@ app.get("/api/goals", async (req, res) => {
   }
 })
 
+//Goal_Based_Investment_Planning feature
 // POST create new goal
 app.post("/api/goals", async (req, res) => {
   try {
-    const { name, targetAmount, currentAmount, targetDate, description, category, username } = req.body
+    const { name, targetAmount, currentAmount, targetDate, description, category, userId } = req.body  // Changed from username to userId
+
+    if (!userId) {
+      return res.status(400).json({ message: "userId is required" })
+    }
 
     // Get the highest priority to set new goal at the end
-    const highestPriorityGoal = await Goal.findOne({ username: username || "guest" }).sort({ priority: -1 })
+    const highestPriorityGoal = await Goal.findOne({ userId }).sort({ priority: -1 })
     const newPriority = highestPriorityGoal ? highestPriorityGoal.priority + 1 : 1
 
     const newGoal = new Goal({
-      username: username || "guest",
+      userId,  // Changed from username to userId
       name,
       targetAmount: Number.parseFloat(targetAmount),
       currentAmount: Number.parseFloat(currentAmount) || 0,
@@ -300,31 +330,125 @@ app.patch("/api/goals/:id/add-savings", async (req, res) => {
   }
 })
 
+//Goal_Based_Investment_Planning feature
 // PATCH update goal priorities (for reordering)
 app.patch("/api/goals/reorder", async (req, res) => {
   try {
-    const { goalIds } = req.body
-    const username = req.query.username || "guest"
+    const { goalIds } = req.body;
+    const userId = req.query.userId;
 
-    if (!Array.isArray(goalIds)) {
-      return res.status(400).json({ message: "goalIds must be an array" })
+    if (!userId) {
+      return res.status(400).json({ message: "userId is required" });
+    }
+
+    if (!Array.isArray(goalIds) || goalIds.length === 0) {
+      return res.status(400).json({ message: "goalIds must be a non-empty array" });
+    }
+
+    // Get all goals for this user
+    const userGoals = await Goal.find({ userId });
+    
+    // Verify all goalIds belong to this user
+    const validGoalIds = userGoals.map(goal => goal._id.toString());
+    const invalidIds = goalIds.filter(id => !validGoalIds.includes(id));
+    
+    if (invalidIds.length > 0) {
+      return res.status(400).json({ message: "Some goals do not belong to the user" });
     }
 
     // Update priorities based on array order
     const updatePromises = goalIds.map((goalId, index) =>
-      Goal.findByIdAndUpdate(goalId, { priority: index + 1, updatedAt: Date.now() }),
-    )
+      Goal.findByIdAndUpdate(
+        goalId,
+        { priority: index + 1, updatedAt: Date.now() },
+        { new: true }
+      )
+    );
 
-    await Promise.all(updatePromises)
+    await Promise.all(updatePromises);
 
     // Return updated goals
-    const goals = await Goal.find({ username }).sort({ priority: 1 })
-    res.json(goals)
+    const updatedGoals = await Goal.find({ userId }).sort({ priority: 1 });
+    res.json(updatedGoals);
   } catch (error) {
-    console.error("Error reordering goals:", error)
-    res.status(400).json({ message: "Error reordering goals", error: error.message })
+    console.error("Error reordering goals:", error);
+    res.status(500).json({ message: "Error reordering goals", error: error.message });
   }
-})
+});
+
+// PATCH move goal up
+app.patch("/api/goals/:id/move-up", async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const goalId = req.params.id;
+
+    if (!userId) {
+      return res.status(400).json({ message: "userId is required" });
+    }
+
+    // Get all goals for this user
+    const goals = await Goal.find({ userId }).sort({ priority: 1 });
+    
+    // Find the current goal's index
+    const currentIndex = goals.findIndex(g => g._id.toString() === goalId);
+    
+    if (currentIndex <= 0) {
+      return res.status(400).json({ message: "Goal is already at the top" });
+    }
+
+    // Swap priorities with the goal above
+    const currentGoal = goals[currentIndex];
+    const goalAbove = goals[currentIndex - 1];
+
+    // Update priorities
+    await Goal.findByIdAndUpdate(currentGoal._id, { priority: goalAbove.priority });
+    await Goal.findByIdAndUpdate(goalAbove._id, { priority: currentGoal.priority });
+
+    // Get updated goals
+    const updatedGoals = await Goal.find({ userId }).sort({ priority: 1 });
+    res.json(updatedGoals);
+  } catch (error) {
+    console.error("Error moving goal up:", error);
+    res.status(500).json({ message: "Error moving goal up", error: error.message });
+  }
+});
+
+// PATCH move goal down
+app.patch("/api/goals/:id/move-down", async (req, res) => {
+  try {
+    const { userId } = req.body;
+    const goalId = req.params.id;
+
+    if (!userId) {
+      return res.status(400).json({ message: "userId is required" });
+    }
+
+    // Get all goals for this user
+    const goals = await Goal.find({ userId }).sort({ priority: 1 });
+    
+    // Find the current goal's index
+    const currentIndex = goals.findIndex(g => g._id.toString() === goalId);
+    
+    if (currentIndex === -1 || currentIndex >= goals.length - 1) {
+      return res.status(400).json({ message: "Goal is already at the bottom" });
+    }
+
+    // Swap priorities with the goal below
+    const currentGoal = goals[currentIndex];
+    const goalBelow = goals[currentIndex + 1];
+
+    // Update priorities
+    await Goal.findByIdAndUpdate(currentGoal._id, { priority: goalBelow.priority });
+    await Goal.findByIdAndUpdate(goalBelow._id, { priority: currentGoal.priority });
+
+    // Get updated goals
+    const updatedGoals = await Goal.find({ userId }).sort({ priority: 1 });
+    res.json(updatedGoals);
+  } catch (error) {
+    console.error("Error moving goal down:", error);
+    res.status(500).json({ message: "Error moving goal down", error: error.message });
+  }
+});
 
 // DELETE goal
 app.delete("/api/goals/:id", async (req, res) => {
@@ -336,7 +460,7 @@ app.delete("/api/goals/:id", async (req, res) => {
     }
 
     // Reorder remaining goals
-    const remainingGoals = await Goal.find({ username: deletedGoal.username }).sort({ priority: 1 })
+    const remainingGoals = await Goal.find({ userId: deletedGoal.userId }).sort({ priority: 1 })
     const updatePromises = remainingGoals.map((goal, index) =>
       Goal.findByIdAndUpdate(goal._id, { priority: index + 1 }),
     )
@@ -463,3 +587,166 @@ app.listen(PORT, () => {
   console.log(`📁 Serving frontend files from: ${path.join(__dirname, "frontend")}`)
   console.log(`📝 Input form available at: http://localhost:${PORT}/input-form`)
 })
+
+//Reset Password feature
+// Verify current password
+app.post("/api/users/:userId/verify-password", async (req, res) => {
+  try {
+      const { userId } = req.params;
+      const { password } = req.body;
+
+      const user = await User.findById(userId);
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
+      }
+
+      // Compare passwords (assuming you're using bcrypt for password hashing)
+      const isMatch = await bcrypt.compare(password, user.password);
+      
+      if (!isMatch) {
+          return res.status(401).json({ message: "Current password is incorrect" });
+      }
+
+      res.json({ message: "Password verified successfully" });
+  } catch (error) {
+      console.error("Error verifying password:", error);
+      res.status(500).json({ message: "Error verifying password" });
+  }
+});
+
+// Reset password
+app.patch("/api/users/:userId/reset-password", async (req, res) => {
+  try {
+      const { userId } = req.params;
+      const { newPassword } = req.body;
+
+      const user = await User.findById(userId);
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
+      }
+
+      // Hash the new password
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
+      // Update user's password
+      user.password = hashedPassword;
+      await user.save();
+
+      res.json({ message: "Password updated successfully" });
+  } catch (error) {
+      console.error("Error resetting password:", error);
+      res.status(500).json({ message: "Error resetting password" });
+  }
+});
+
+//Forgot Password feature
+// Check if email exists
+app.post("/api/users/check-email", async (req, res) => {
+  try {
+      const { email } = req.body;
+      const user = await User.findOne({ email });
+      
+      if (!user) {
+          return res.status(404).json({ message: "Email not found" });
+      }
+
+      res.json({ message: "Email found" });
+  } catch (error) {
+      console.error("Error checking email:", error);
+      res.status(500).json({ message: "Error checking email" });
+  }
+});
+
+// Send verification code
+app.post("/api/users/send-verification-code", async (req, res) => {
+  try {
+      const { email, code } = req.body;
+      console.log('Attempting to send code to:', email); // Debug log
+      
+      // Email content
+      const mailOptions = {
+          from: '"5NANCE" <tanyeefong20040921@gmail.com>', // Add a display name
+          to: email,
+          subject: '5NANCE Password Reset Verification Code',
+          html: `
+              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                  <h2 style="color: #010725;">Password Reset Request</h2>
+                  <p>You have requested to reset your password for your 5NANCE account.</p>
+                  <p>Your verification code is:</p>
+                  <h1 style="color: #010725; font-size: 32px; letter-spacing: 5px; text-align: center; padding: 20px; background-color: #f5f5f5; border-radius: 5px;">${code}</h1>
+                  <p>This code will expire in 10 minutes.</p>
+                  <p>If you didn't request this password reset, please ignore this email.</p>
+                  <p>Best regards,<br>5NANCE Team</p>
+              </div>
+          `
+      };
+
+      // Send the email
+      const info = await transporter.sendMail(mailOptions);
+      console.log('Email sent successfully:', info); // Debug log
+      
+      res.json({ message: "Verification code sent successfully" });
+  } catch (error) {
+      console.error("Detailed error sending verification code:", error);
+      res.status(500).json({ 
+          message: "Error sending verification code",
+          error: error.message 
+      });
+  }
+});
+
+//Forgot Password feature
+// Update the send verification code endpoint
+app.post("/api/users/send-verification-code", async (req, res) => {
+  try {
+      const { email, code } = req.body;
+      console.log('Attempting to send code to:', email); // Debug log
+      
+      // Email content
+      const mailOptions = {
+          from: 'tanyeefong20040921@gmail.com', // Your Gmail address
+          to: email,
+          subject: '5NANCE Password Reset Verification Code',
+          html: `
+              <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+                  <h2 style="color: #010725;">Password Reset Request</h2>
+                  <p>You have requested to reset your password for your 5NANCE account.</p>
+                  <p>Your verification code is:</p>
+                  <h1 style="color: #010725; font-size: 32px; letter-spacing: 5px; text-align: center; padding: 20px; background-color: #f5f5f5; border-radius: 5px;">${code}</h1>
+                  <p>This code will expire in 10 minutes.</p>
+                  <p>If you didn't request this password reset, please ignore this email.</p>
+                  <p>Best regards,<br>5NANCE Team</p>
+              </div>
+          `
+      };
+
+      // Send the email
+      const info = await transporter.sendMail(mailOptions);
+      console.log('Email sent successfully:', info); // Debug log
+      
+      res.json({ message: "Verification code sent successfully" });
+  } catch (error) {
+      console.error("Detailed error sending verification code:", error);
+      res.status(500).json({ 
+          message: "Error sending verification code",
+          error: error.message 
+      });
+  }
+});
+
+// Find user by email
+app.post("/api/users/find-by-email", async (req, res) => {
+  try {
+      const { email } = req.body;
+      const user = await User.findOne({ email });
+      
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
+      }
+
+      res.json({ userId: user._id });
+  } catch (error) {
+      console.error("Error finding user:", error);
+      res.status(500).json({ message: "Error finding user" });
+  }
+});
