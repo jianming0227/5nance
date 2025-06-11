@@ -644,3 +644,8 @@ body {
   }
 }
 
+.behavior-card[data-value="balanced"] i.bi-pie-chart-fill {
+  font-size: 3rem !important;
+  color: #5e9eff !important;
+}
+
