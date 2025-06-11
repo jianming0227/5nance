@@ -66,75 +66,30 @@ function updateCity() {
 }
 
 async function populateEditProfile() {
+  const userId = localStorage.getItem("userId");
+  if (!userId) return;
+
   try {
-    const response = await fetch('/api/get-current-user');
-    if (!response.ok) throw new Error('Failed to fetch user');
+    const response = await fetch(`http://localhost:5000/api/profile/${userId}`);
+    if (!response.ok) throw new Error("Failed to fetch user");
 
     const user = await response.json();
-
-    // Populate fields
-    document.getElementById("_id").value = user._id;
     document.getElementById("name").value = user.name || "";
     document.getElementById("email").value = user.email || "";
     document.getElementById("contact").value = user.contact?.replace(/^\+\d+/, "") || "";
     document.getElementById("dob").value = user.dob?.substring(0, 10) || "";
     document.getElementById("country").value = user.country || "";
-    updateState(); // Fill in states based on country
+    updateState(); // If you're dynamically populating states
     document.getElementById("state").value = user.state || "";
-    updateCity();  // Fill in cities based on state
+    updateCity();  // If you're dynamically populating cities
     document.getElementById("city").value = user.city || "";
 
-    // Optional: preview avatar if stored
-    if (user.avatar) document.getElementById("profile-preview").src = user.avatar;
-
+    if (user.avatar)
+      document.getElementById("profile-preview").src = user.avatar;
   } catch (err) {
     console.error("Error loading user data:", err);
     alert("Failed to load profile. Please try again.");
   }
-}
-
-
-
-function handleFormSubmit() {
-  document.querySelector('.profile-form')?.addEventListener('submit', async function (e) {
-    e.preventDefault();
-
-    const updatedData = {
-      name: document.getElementById("name").value,
-      email: document.getElementById("email").value,
-      contact: `${document.getElementById("country-code").value}${document.getElementById("contact").value}`,
-      dob: document.getElementById("dob").value,
-      address1: document.getElementById("address1").value,
-      address2: document.getElementById("address2").value,
-      postcode: document.getElementById("postcode").value,
-      state: document.getElementById("state").value,
-      city: document.getElementById("city").value,
-      country: document.getElementById("country").value,
-      avatar: document.getElementById("profile-preview").src
-    };
-
-    try {
-      const response = await fetch('/api/update-profile', {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(updatedData)
-      });
-
-      if (response.ok) {
-        showToast("Profile updated successfully!", () => {
-          window.location.href = "view-profile.html";
-        });
-      } else {
-        const error = await response.json();
-        showToast("Error: " + error.message);
-      }
-    } catch (error) {
-      console.error("Update failed:", error);
-      showToast("Something went wrong.");
-    }
-  });
 }
 
 function showToast(message, callback) {
@@ -169,8 +124,45 @@ function setupAvatarUpload() {
   });
 }
 
+document.getElementById("edit-profile-form").addEventListener("submit", async function (e) {
+  e.preventDefault(); // prevent page reload
+
+  const userId = localStorage.getItem("userId"); // or fetch dynamically if needed
+
+  const updatedData = {
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    contact: "+60" + document.getElementById("contact").value,
+    dob: document.getElementById("dob").value,
+    address1: document.getElementById("address1").value,
+    address2: document.getElementById("address2").value,
+    postcode: document.getElementById("postcode").value,
+    country: document.getElementById("country").value,
+    state: document.getElementById("state").value,
+    city: document.getElementById("city").value,
+    // avatar will be handled separately (base64 or FormData)
+  };
+
+  try {
+    const response = await fetch(`http://localhost:5000/api/profile/${userId}`, {
+      method: "PUT", // or PATCH
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedData),
+    });
+
+    if (!response.ok) throw new Error("Update failed");
+
+    alert("Profile updated successfully!");
+    window.location.href = "view-profile.html"; // redirect
+
+  } catch (err) {
+    console.error("Error updating profile:", err);
+    alert("Failed to update profile. Try again.");
+  }
+});
+
+
 window.onload = function () {
-  handleFormSubmit();
   populateCountries();
   setupAvatarUpload();
   populateEditProfile();

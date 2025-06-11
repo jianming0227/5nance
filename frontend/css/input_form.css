@@ -27,7 +27,6 @@ body {
   display: flex;
   align-items: center;
   transition: transform 0.3s ease;
-  text-decoration: none;
 }
 
 .logo:hover {
@@ -416,7 +415,8 @@ body {
   box-shadow: 0 4px 15px rgba(3, 40, 238, 0.3);
 }
 
-/* Fixed icon styling for behavior cards */
+
+/* Fixed icon styling for behavior cards*/
 .behavior-card i {
   font-size: 3rem;
   color: #5e9eff;
@@ -643,3 +643,9 @@ body {
     grid-template-columns: 1fr;
   }
 }
+
+.behavior-card[data-value="balanced"] i.bi-pie-chart-fill {
+  font-size: 3rem !important;
+  color: #5e9eff !important;
+}
+
