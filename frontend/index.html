@@ -24,6 +24,16 @@
       </h1>
       <p class="mb-4">Plan, track, and optimize your investments with our intuitive tools—all in one place.</p>
   
+      <!-- <a href="sign-up-page.html" class="btn btn-warning btn-md mb-3 fw-bold custom-btn">
+        CREATE AN ACCOUNT
+      </a>    
+  
+      <div class="d-flex justify-content-center align-items-center gap-2">
+        <p class="mb-0">Already a user?</p>
+        <a href="log-in-page.html" class="text-warning login-link">Login</a>
+      </div> -->
+
+      <div id="guest-actions">
       <a href="sign-up-page.html" class="btn btn-warning btn-md mb-3 fw-bold custom-btn">
         CREATE AN ACCOUNT
       </a>    
@@ -132,7 +142,7 @@
           <div>
             <h5 class="text-white fw-bold mb-4">Investment Strategy</h5>
             <p class="mb-1">Get smart, personalized recommendations based on your risk profile and goals.</p>
-            <a href="AI.html" class="text-warning fw-bold">Start now</a>
+            <a href="AI.html" class="start-now-links text-warning fw-bold">Start now</a>
           </div>
         </div>
       </div>
@@ -144,7 +154,7 @@
           <div>
             <h5 class="text-white fw-bold mb-4">ROI Calculator</h5>
             <p class="mb-1">Compare returns across assets and forecast future value with our ROI tool.</p>
-            <a href="calc.html" class="text-warning fw-bold">Start now</a>
+            <a href="calc.html" class="start-now-links text-warning fw-bold">Start now</a>
           </div>
         </div>
       </div>
@@ -156,7 +166,7 @@
           <div>
             <h5 class="text-white fw-bold mb-4">Goal-Based Planner</h5>
             <p class="mb-1">Create and manage milestones like home buying, education, or retirement.</p>
-            <a href="Goal_Based_Investment_Planning.html" class="text-warning fw-bold">Start now</a>
+            <a href="Goal_Based_Investment_Planning.html" class="start-now-links text-warning fw-bold">Start now</a>
           </div>
         </div>
       </div>
@@ -168,7 +178,7 @@
           <div>
             <h5 class="text-white fw-bold mb-4">Market Insights</h5>
             <p class="mb-1">Track market trends, news, and analytics to stay ahead of the curve.</p>
-            <a href="MarketDashboard.html" class="text-warning fw-bold">Start now</a>
+            <a href="MarketDashboard.html" class="start-now-links text-warning fw-bold">Start now</a>
           </div>
         </div>
       </div>
@@ -319,6 +329,26 @@
   </div>
 </section>
 
+<!-- Login/Signup Modal -->
+<div class="modal fade" id="authModal" tabindex="-1" aria-labelledby="authModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content text-dark">
+      <div class="modal-header">
+        <h5 class="modal-title w-100" id="authModalLabel">Authentication Required</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>You need to log in or sign up to use this feature.</p>
+        <div class="d-flex justify-content-center gap-2">
+          <button id="loginBtn" class="btn btn-primary">Login</button>
+          <button id="signupBtn" class="btn btn-secondary">Sign Up</button>
+          <button class="btn btn-outline-dark" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/quotes.js"></script>
@@ -361,7 +391,7 @@
     document.addEventListener(event, sendActivityPing);
   });
 </script>
-
+  <script src="js/home.js"></script>
 
 </body>
 

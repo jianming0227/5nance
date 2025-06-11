@@ -1,4 +1,4 @@
-# Bootstrap Frontend + MongoDB Project
+# 5nance - A Financial Planning Platform
 
 ## Tech Stack
 - HTML, CSS, JavaScript, Bootstrap

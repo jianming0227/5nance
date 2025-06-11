@@ -9,7 +9,7 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/userRoutes');
 
 dotenv.config();
-const app = express()
+const app = express();
 const PORT = process.env.PORT || 5000
 
 
@@ -36,7 +36,6 @@ app.use((req, res, next) => {
   res.setHeader('Cache-Control', 'no-store');
   next();
 });
-
 
 app.use((req, res, next) => {
   const now = Date.now();

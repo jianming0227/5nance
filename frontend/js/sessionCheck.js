@@ -44,3 +44,4 @@ if (currentPage === 'session-timeout.html') {
 
 // Poll every minute
 // setInterval(checkSession, 60 * 1000);
+

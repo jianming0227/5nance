@@ -4,7 +4,6 @@ const authController = require('../controllers/authController');
 const User = require("../models/user"); // Adjust path if needed
 const bcrypt = require("bcrypt");
 
-
 const INACTIVITY_LIMIT_MS = 60 * 1000; // 1 min inactivity
 const GRACE_PERIOD_MS = 30 * 1000;      // 30 seconds to decide before full logout
 
@@ -38,7 +37,6 @@ function inactivityChecker(req, res, next) {
   }
   next();
 }
-
 
 // Signup
 router.post('/signup', authController.signup);
@@ -130,5 +128,28 @@ router.post('/auth/ping', (req, res) => {
   res.status(401).json({ message: 'Inactive or expired' });
 });
 
+// Protected endpoints with inactivity check
+router.use(['/logout', '/profile', '/auth/session'], inactivityChecker);
+
+// Logout
+router.post('/logout', (req, res) => {
+  req.session.destroy(err => {
+    if (err) return res.status(500).json({ message: 'Logout failed' });
+    res.clearCookie('connect.sid');
+    res.json({ message: 'Logged out successfully' });
+  });
+});
+
+// Profile
+router.get('/profile', (req, res) => {
+  if (!req.session.user) return res.status(401).json({ message: 'Not authenticated' });
+  res.json({ user: req.session.user });
+});
+
+// Session status
+router.get('/auth/session', (req, res) => {
+  if (req.session.user) return res.json({ loggedIn: true });
+  res.json({ loggedIn: false });
+});
 
 module.exports = router;

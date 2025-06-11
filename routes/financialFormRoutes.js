@@ -1,11 +1,14 @@
+const mongoose = require('mongoose');
 const express = require("express")
 const router = express.Router()
 const FinancialProfile = require("../models/FinancialProfile") // Your Mongoose model
 
 // POST /api/input_form
 router.post("/input_form", async (req, res) => {
+  console.log("Request body:", req.body);
   try {
     const {
+      userId,
       employment_status,
       monthly_income,
       monthly_expenses,
@@ -20,7 +23,13 @@ router.post("/input_form", async (req, res) => {
       submitted_at,
     } = req.body
 
+    if (!userId || !mongoose.Types.ObjectId.isValid(userId)) {
+      return res.status(400).json({ message: "Invalid or missing User ID." });
+    }
+
     const newProfile = new FinancialProfile({
+      user: userId,
+
       employment_status,
       monthly_income,
       monthly_expenses,

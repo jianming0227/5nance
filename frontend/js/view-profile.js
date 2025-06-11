@@ -1,12 +1,22 @@
 async function populateViewProfile() {
   const userId = localStorage.getItem("userId");
-  if (!userId) return;
+  console.log("User ID:", userId); // DEBUG
+
+  if (!userId) {
+    console.error("No userId in localStorage");
+    return;
+  }
 
   try {
     const res = await fetch(`http://localhost:5000/api/profile/${userId}`);
+    console.log("Fetch status:", res.status); // DEBUG
+
     if (!res.ok) throw new Error("Failed to fetch profile");
 
     const data = await res.json();
+    console.log("Fetched profile data:", data); // DEBUG
+
+    // Populate HTML
     document.querySelector(".readonly-name").textContent = data.name || "-";
     document.querySelector(".readonly-email").textContent = data.email || "-";
     document.querySelector(".readonly-phone").textContent = data.contact || "-";
@@ -22,4 +32,9 @@ async function populateViewProfile() {
   } catch (error) {
     console.error("Error loading profile:", error);
   }
+}
+
+window.onload = () => {
+  console.log("Page loaded, populating profile..."); // DEBUG
+  populateViewProfile();
 }
