@@ -381,7 +381,7 @@
   function sendActivityPing() {
     const now = Date.now();
     // Only send a ping every 15 seconds to reduce traffic
-    if (now - lastPingTime > 5 * 1000) {
+    if (now - lastPingTime > 15 * 1000) {
       lastPingTime = now;
       fetch('/api/auth/ping', { method: 'POST', credentials: 'include' })
         .catch(err => console.error("Ping failed:", err));
