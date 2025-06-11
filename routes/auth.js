@@ -147,9 +147,9 @@ router.get('/profile', (req, res) => {
 });
 
 // Session status
-router.get('/auth/session', (req, res) => {
-  if (req.session.user) return res.json({ loggedIn: true });
-  res.json({ loggedIn: false });
-});
+// router.get('/auth/session', (req, res) => {
+//   if (req.session.user) return res.json({ loggedIn: true });
+//   res.json({ loggedIn: false });
+// });
 
 module.exports = router;

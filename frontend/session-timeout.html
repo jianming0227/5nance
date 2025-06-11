@@ -109,6 +109,7 @@
     if (timeLeft == 0) {
       clearInterval(countdownInterval);
       await fetch('/api/logout', { method: 'POST', credentials: 'include' });
+      localStorage.removeItem('userId');
       alert('You have been logged out due to inactivity.');
       window.location.href = '/login';
     }
@@ -127,6 +128,8 @@
       window.location.href = previousURL;
     } else {
       alert('Session already expired. Redirecting to login.');
+      console.log('Removing userId from localStorage');
+      localStorage.removeItem('userId');
       await fetch('/api/logout', { method: 'POST', credentials: 'include' }); // optional: force logout cleanup
       window.location.href = '/login';
     }
