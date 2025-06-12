@@ -25,10 +25,16 @@ const PORT = process.env.PORT || 5000
 app.use(express.static(path.join(__dirname, '5nance-frontend'))); // Serve static files from the frontend directory
 app.use(express.static(path.join(__dirname, 'frontend')));
 
+// Session Middleware
 app.use(session({
-  secret: process.env.SESSION_SECRET, // replace with your own
+  secret: process.env.SESSION_SECRET,
   resave: false,
-  saveUninitialized: true
+  saveUninitialized: false,
+  cookie: {
+    // maxAge: 30 * 60 * 1000, // 30 minutes
+    maxAge: 90 * 1000, // 1 minute 30 seconds (for demo)
+    secure: false // true if using HTTPS
+  }
 }));
 
 // Passport middleware
@@ -44,24 +50,22 @@ app.get('/auth/google/callback', passport.authenticate('google', {
 });
 
 
-
-
 //Forgot Password feature
 // Create a transporter for sending emails
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-      user: 'tanyeefong20040921@gmail.com', // Replace with your Gmail address
-      pass: 'ijqs omfo rtos hwoo'     // Replace with your Gmail app password
+    user: 'tanyeefong20040921@gmail.com', // Replace with your Gmail address
+    pass: 'ijqs omfo rtos hwoo'     // Replace with your Gmail app password
   }
 });
 
 // Add this to test the transporter
-transporter.verify(function(error, success) {
+transporter.verify(function (error, success) {
   if (error) {
-      console.log('Transporter error:', error);
+    console.log('Transporter error:', error);
   } else {
-      console.log('Server is ready to send emails');
+    console.log('Server is ready to send emails');
   }
 });
 
@@ -71,17 +75,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use(express.urlencoded({ extended: true }));  // Add this line to handle form data
-// Session Middleware
-app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false,
-  cookie: {
-    // maxAge: 30 * 60 * 1000, // 30 minutes
-    maxAge: 90 * 1000, // 1 minute 30 seconds (for demo)
-    secure: false // true if using HTTPS
-  }
-}));
+
 
 //Prevent cache to ensure session-check works properly
 app.use((req, res, next) => {
@@ -89,22 +83,24 @@ app.use((req, res, next) => {
   next();
 });
 
+
 app.use((req, res, next) => {
+  if (!req.session || !req.session.user) {
+    return next(); // Don't touch session unless logged in
+  }
+
   const now = Date.now();
 
-  if (req.session.user) {
-    if (req.session.timedOutAt) {
-      // Grace period: don't update activity
-      return next();
-    }
+  if (req.session.timedOutAt) {
+    return next(); // Grace period: no updates
+  }
 
-    const inactiveTime = now - (req.session.lastActivity || now);
-    if (inactiveTime > 60 * 1000) {
-      req.session.timedOutAt = now;
-    } else {
-      req.session.lastActivity = now;
-      req.session.touch(); // Tell express to update the session cookie and expiry
-    }
+  const inactiveTime = now - (req.session.lastActivity || now);
+  if (inactiveTime > 60 * 1000) {
+    req.session.timedOutAt = now;
+  } else {
+    req.session.lastActivity = now;
+    req.session.touch();
   }
 
   next();
@@ -378,11 +374,11 @@ app.patch("/api/goals/reorder", async (req, res) => {
 
     // Get all goals for this user
     const userGoals = await Goal.find({ userId });
-    
+
     // Verify all goalIds belong to this user
     const validGoalIds = userGoals.map(goal => goal._id.toString());
     const invalidIds = goalIds.filter(id => !validGoalIds.includes(id));
-    
+
     if (invalidIds.length > 0) {
       return res.status(400).json({ message: "Some goals do not belong to the user" });
     }
@@ -419,10 +415,10 @@ app.patch("/api/goals/:id/move-up", async (req, res) => {
 
     // Get all goals for this user
     const goals = await Goal.find({ userId }).sort({ priority: 1 });
-    
+
     // Find the current goal's index
     const currentIndex = goals.findIndex(g => g._id.toString() === goalId);
-    
+
     if (currentIndex <= 0) {
       return res.status(400).json({ message: "Goal is already at the top" });
     }
@@ -456,10 +452,10 @@ app.patch("/api/goals/:id/move-down", async (req, res) => {
 
     // Get all goals for this user
     const goals = await Goal.find({ userId }).sort({ priority: 1 });
-    
+
     // Find the current goal's index
     const currentIndex = goals.findIndex(g => g._id.toString() === goalId);
-    
+
     if (currentIndex === -1 || currentIndex >= goals.length - 1) {
       return res.status(400).json({ message: "Goal is already at the bottom" });
     }
@@ -641,50 +637,50 @@ app.listen(PORT, () => {
 // Verify current password
 app.post("/api/users/:userId/verify-password", async (req, res) => {
   try {
-      const { userId } = req.params;
-      const { password } = req.body;
+    const { userId } = req.params;
+    const { password } = req.body;
 
-      const user = await User.findById(userId);
-      if (!user) {
-          return res.status(404).json({ message: "User not found" });
-      }
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-      // Compare passwords (assuming you're using bcrypt for password hashing)
-      const isMatch = await bcrypt.compare(password, user.password);
-      
-      if (!isMatch) {
-          return res.status(401).json({ message: "Current password is incorrect" });
-      }
+    // Compare passwords (assuming you're using bcrypt for password hashing)
+    const isMatch = await bcrypt.compare(password, user.password);
 
-      res.json({ message: "Password verified successfully" });
+    if (!isMatch) {
+      return res.status(401).json({ message: "Current password is incorrect" });
+    }
+
+    res.json({ message: "Password verified successfully" });
   } catch (error) {
-      console.error("Error verifying password:", error);
-      res.status(500).json({ message: "Error verifying password" });
+    console.error("Error verifying password:", error);
+    res.status(500).json({ message: "Error verifying password" });
   }
 });
 
 // Reset password
 app.patch("/api/users/:userId/reset-password", async (req, res) => {
   try {
-      const { userId } = req.params;
-      const { newPassword } = req.body;
+    const { userId } = req.params;
+    const { newPassword } = req.body;
 
-      const user = await User.findById(userId);
-      if (!user) {
-          return res.status(404).json({ message: "User not found" });
-      }
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-      // Hash the new password
-      const hashedPassword = await bcrypt.hash(newPassword, 10);
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
 
-      // Update user's password
-      user.password = hashedPassword;
-      await user.save();
+    // Update user's password
+    user.password = hashedPassword;
+    await user.save();
 
-      res.json({ message: "Password updated successfully" });
+    res.json({ message: "Password updated successfully" });
   } catch (error) {
-      console.error("Error resetting password:", error);
-      res.status(500).json({ message: "Error resetting password" });
+    console.error("Error resetting password:", error);
+    res.status(500).json({ message: "Error resetting password" });
   }
 });
 
@@ -692,32 +688,32 @@ app.patch("/api/users/:userId/reset-password", async (req, res) => {
 // Check if email exists
 app.post("/api/users/check-email", async (req, res) => {
   try {
-      const { email } = req.body;
-      const user = await User.findOne({ email });
-      
-      if (!user) {
-          return res.status(404).json({ message: "Email not found" });
-      }
+    const { email } = req.body;
+    const user = await User.findOne({ email });
 
-      res.json({ message: "Email found" });
+    if (!user) {
+      return res.status(404).json({ message: "Email not found" });
+    }
+
+    res.json({ message: "Email found" });
   } catch (error) {
-      console.error("Error checking email:", error);
-      res.status(500).json({ message: "Error checking email" });
+    console.error("Error checking email:", error);
+    res.status(500).json({ message: "Error checking email" });
   }
 });
 
 // Send verification code
 app.post("/api/users/send-verification-code", async (req, res) => {
   try {
-      const { email, code } = req.body;
-      console.log('Attempting to send code to:', email); // Debug log
-      
-      // Email content
-      const mailOptions = {
-          from: '"5NANCE" <tanyeefong20040921@gmail.com>', // Add a display name
-          to: email,
-          subject: '5NANCE Password Reset Verification Code',
-          html: `
+    const { email, code } = req.body;
+    console.log('Attempting to send code to:', email); // Debug log
+
+    // Email content
+    const mailOptions = {
+      from: '"5NANCE" <tanyeefong20040921@gmail.com>', // Add a display name
+      to: email,
+      subject: '5NANCE Password Reset Verification Code',
+      html: `
               <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                   <h2 style="color: #010725;">Password Reset Request</h2>
                   <p>You have requested to reset your password for your 5NANCE account.</p>
@@ -728,19 +724,19 @@ app.post("/api/users/send-verification-code", async (req, res) => {
                   <p>Best regards,<br>5NANCE Team</p>
               </div>
           `
-      };
+    };
 
-      // Send the email
-      const info = await transporter.sendMail(mailOptions);
-      console.log('Email sent successfully:', info); // Debug log
-      
-      res.json({ message: "Verification code sent successfully" });
+    // Send the email
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully:', info); // Debug log
+
+    res.json({ message: "Verification code sent successfully" });
   } catch (error) {
-      console.error("Detailed error sending verification code:", error);
-      res.status(500).json({ 
-          message: "Error sending verification code",
-          error: error.message 
-      });
+    console.error("Detailed error sending verification code:", error);
+    res.status(500).json({
+      message: "Error sending verification code",
+      error: error.message
+    });
   }
 });
 
@@ -748,15 +744,15 @@ app.post("/api/users/send-verification-code", async (req, res) => {
 // Update the send verification code endpoint
 app.post("/api/users/send-verification-code", async (req, res) => {
   try {
-      const { email, code } = req.body;
-      console.log('Attempting to send code to:', email); // Debug log
-      
-      // Email content
-      const mailOptions = {
-          from: 'tanyeefong20040921@gmail.com', // Your Gmail address
-          to: email,
-          subject: '5NANCE Password Reset Verification Code',
-          html: `
+    const { email, code } = req.body;
+    console.log('Attempting to send code to:', email); // Debug log
+
+    // Email content
+    const mailOptions = {
+      from: 'tanyeefong20040921@gmail.com', // Your Gmail address
+      to: email,
+      subject: '5NANCE Password Reset Verification Code',
+      html: `
               <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
                   <h2 style="color: #010725;">Password Reset Request</h2>
                   <p>You have requested to reset your password for your 5NANCE account.</p>
@@ -767,35 +763,35 @@ app.post("/api/users/send-verification-code", async (req, res) => {
                   <p>Best regards,<br>5NANCE Team</p>
               </div>
           `
-      };
+    };
 
-      // Send the email
-      const info = await transporter.sendMail(mailOptions);
-      console.log('Email sent successfully:', info); // Debug log
-      
-      res.json({ message: "Verification code sent successfully" });
+    // Send the email
+    const info = await transporter.sendMail(mailOptions);
+    console.log('Email sent successfully:', info); // Debug log
+
+    res.json({ message: "Verification code sent successfully" });
   } catch (error) {
-      console.error("Detailed error sending verification code:", error);
-      res.status(500).json({ 
-          message: "Error sending verification code",
-          error: error.message 
-      });
+    console.error("Detailed error sending verification code:", error);
+    res.status(500).json({
+      message: "Error sending verification code",
+      error: error.message
+    });
   }
 });
 
 // Find user by email
 app.post("/api/users/find-by-email", async (req, res) => {
   try {
-      const { email } = req.body;
-      const user = await User.findOne({ email });
-      
-      if (!user) {
-          return res.status(404).json({ message: "User not found" });
-      }
+    const { email } = req.body;
+    const user = await User.findOne({ email });
 
-      res.json({ userId: user._id });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json({ userId: user._id });
   } catch (error) {
-      console.error("Error finding user:", error);
-      res.status(500).json({ message: "Error finding user" });
+    console.error("Error finding user:", error);
+    res.status(500).json({ message: "Error finding user" });
   }
 });
