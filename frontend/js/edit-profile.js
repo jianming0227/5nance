@@ -76,8 +76,11 @@ async function populateEditProfile() {
     const user = await response.json();
     document.getElementById("name").value = user.name || "";
     document.getElementById("email").value = user.email || "";
-    document.getElementById("contact").value = user.contact?.replace(/^\+\d+/, "") || "";
+    document.getElementById("contact").value = user.contact || "";
     document.getElementById("dob").value = user.dob?.substring(0, 10) || "";
+    document.getElementById("address1").value = user.address1 || "";
+    document.getElementById("address2").value = user.address2 || ""; 
+    document.getElementById("postcode").value = user.postcode || "";
     document.getElementById("country").value = user.country || "";
     updateState(); // If you're dynamically populating states
     document.getElementById("state").value = user.state || "";

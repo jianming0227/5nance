@@ -63,6 +63,7 @@ router.post('/login', async (req, res) => {
 
 // Protected endpoints with inactivity check
 router.use(['/logout', '/profile', '/auth/session'], inactivityChecker);
+// router.use(['/profile', '/auth/session'], inactivityChecker); //testing
 
 // Logout
 router.post('/logout', (req, res) => {
@@ -72,6 +73,7 @@ router.post('/logout', (req, res) => {
     res.json({ message: 'Logged out successfully' });
   });
 });
+
 
 // Profile
 router.get('/profile', (req, res) => {
@@ -128,28 +130,11 @@ router.post('/auth/ping', (req, res) => {
   res.status(401).json({ message: 'Inactive or expired' });
 });
 
-// Protected endpoints with inactivity check
-router.use(['/logout', '/profile', '/auth/session'], inactivityChecker);
-
-// Logout
-router.post('/logout', (req, res) => {
-  req.session.destroy(err => {
-    if (err) return res.status(500).json({ message: 'Logout failed' });
-    res.clearCookie('connect.sid');
-    res.json({ message: 'Logged out successfully' });
-  });
-});
 
 // Profile
 router.get('/profile', (req, res) => {
   if (!req.session.user) return res.status(401).json({ message: 'Not authenticated' });
   res.json({ user: req.session.user });
 });
-
-// Session status
-// router.get('/auth/session', (req, res) => {
-//   if (req.session.user) return res.json({ loggedIn: true });
-//   res.json({ loggedIn: false });
-// });
 
 module.exports = router;

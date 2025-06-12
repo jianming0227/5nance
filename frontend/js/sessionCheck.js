@@ -18,6 +18,7 @@ if (currentPage === 'session-timeout.html') {
       console.log("Checking session... Response Status:", resp.status);
 
       if (resp.status === 440) {
+        // clearInterval(sessionInterval);
         console.log("Session inactive. Redirecting to session-timeout.html");
         // Save current URL before redirecting
         sessionStorage.setItem('preTimeoutURL', window.location.href);
@@ -31,6 +32,7 @@ if (currentPage === 'session-timeout.html') {
         console.log("Session response data:", loggedIn);
 
         if (!loggedIn) {
+          // clearInterval(sessionInterval);
           console.log("Session fully logged out. Redirecting to login.");
           window.location.href = 'log-in-page.html';
           return;
@@ -41,7 +43,3 @@ if (currentPage === 'session-timeout.html') {
     }
   }
 }
-
-// Poll every minute
-// setInterval(checkSession, 60 * 1000);
-
