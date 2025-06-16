@@ -1,22 +1,22 @@
 // API Configuration
 const API_CONFIG = {
+  // NewsAPI.org for News section
   news: {
     key: "2536873d9758434994ac50d94b0fadfa",
     url: "https://newsapi.org/v2/everything?q=finance&language=en&pageSize=15&sortBy=publishedAt"
   },
-  // Financial Modeling Prep for comprehensive data
+  // Financial Modeling Prep for Stock & ETF
   fmp: {
-    key: "yZmuTQcRh0rpjvop1A6CNyhpJ4jpzt4d",
+    key: "5AsKqVBWw5mr5z14vX2GFj1eKwTjQra2",
     baseUrl: "https://financialmodelingprep.com/api/v3"
   },
-  // CoinGecko for crypto (no API key required)
+  // CoinGecko for Crypto (no API key required)
   coingecko: {
     baseUrl: "https://api.coingecko.com/api/v3"
   },
-  // Alpha Vantage for historical data
-  alphavantage: {
-    key: "SBXZG7NGG2CUW68L",
-    baseUrl: "https://www.alphavantage.co/query"
+  // Trading Economic for Economic Calendar (no API key required)
+  tradingeconomic: {
+    baseUrl: "https://api.tradingeconomics.com/calendar/country/all?c=guest:guest"
   }
 };
 
@@ -240,8 +240,10 @@ async function loadStockData() {
       const percentChangeSymbol = stock.percentChange >= 0 ? "+" : ""
 
       row.innerHTML = `
-                <td><strong>${stock.symbol}</strong></td>
+                <td><img src="${stock.logo}" alt="${stock.symbol} logo" width="32" height="32"></td>
+                <td>${stock.symbol}</td>
                 <td>${stock.name}</td>
+                <td>${stock.ceo}</td>
                 <td><strong>$${stock.price.toFixed(2)}</strong></td>
                 <td class="${changeClass}">${changeSymbol}$${Math.abs(stock.change).toFixed(2)}</td>
                 <td class="${percentChangeClass}">${percentChangeSymbol}${stock.percentChange.toFixed(2)}%</td>
@@ -299,10 +301,7 @@ async function loadETFData() {
                 <td class="${changeClass}">${changeSymbol}$${Math.abs(etf.change).toFixed(2)}</td>
                 <td class="${percentChangeClass}">${percentChangeSymbol}${etf.percentChange.toFixed(2)}%</td>
                 <td>${formatVolume(etf.volume)}</td>
-                <td>$${formatMarketCap(etf.aum)}</td>
-                <td>${etf.expenseRatio || "N/A"}%</td>
-                <td>${etf.dividendYield || "N/A"}%</td>
-                <td class="${etf.ytdReturn >= 0 ? "text-success" : "text-danger"}">${etf.ytdReturn?.toFixed(2) || "N/A"}%</td>
+                <td>${etf.marketCap}</td>
             `
       tbody.appendChild(row)
     })
@@ -379,37 +378,129 @@ async function loadCryptoData() {
   }
 }
 
-// Get comprehensive stock data
-async function getComprehensiveStockData() {
-  // Simulated comprehensive data - replace with real API calls
-  return STOCK_SYMBOLS.map((symbol) => ({
-    symbol: symbol,
-    name: getCompanyName(symbol),
-    price: Math.random() * 500 + 50,
-    change: (Math.random() - 0.5) * 20,
-    percentChange: (Math.random() - 0.5) * 10,
-    volume: Math.floor(Math.random() * 100000000),
-    marketCap: Math.floor(Math.random() * 2000000000000),
-    peRatio: Math.random() * 50 + 5,
-    high52w: Math.random() * 600 + 100,
-    low52w: Math.random() * 200 + 20,
-  }))
+// Get stock logo and ceo name
+async function getStockProfiles(symbols) {
+  const cache = JSON.parse(localStorage.getItem("stockProfiles") || "{}");
+  const missingSymbols = symbols.filter(s => !cache[s]);
+
+  for (const symbol of missingSymbols) {
+    try {
+      const res = await fetch(`${API_CONFIG.fmp.baseUrl}/profile/${symbol}?apikey=${API_CONFIG.fmp.key}`);
+      const data = await res.json();
+
+      if (data.length > 0) {
+        cache[symbol] = {
+          logo: data[0].image,
+          ceo: data[0].ceo,
+        };
+      }
+    } catch (err) {
+      console.error(`Failed to fetch profile for ${symbol}`, err);
+    }
+  }
+
+  localStorage.setItem("stockProfiles", JSON.stringify(cache));
+  return cache;
 }
 
-// Get comprehensive ETF data
+// If API FMP failed, show the Stock the previous one
+function cacheStockData(data) {
+  localStorage.setItem("cachedStockData", JSON.stringify({
+    data,
+    timestamp: Date.now()
+  }));
+}
+
+// If API FMP failed, show the Stock the previous one
+function loadStockDataFromCache() {
+  const cached = localStorage.getItem("cachedStockData");
+  if (cached) {
+    const { data, timestamp } = JSON.parse(cached);
+    console.warn("Loaded stock data from cache at", new Date(timestamp).toLocaleString());
+    return data;
+  }
+  return null;
+}
+
+// Get comprehensive stock data (by FMP)
+async function getComprehensiveStockData() {
+  try {
+    const symbols = STOCK_SYMBOLS.join(',');
+    const response = await fetch(
+      `${API_CONFIG.fmp.baseUrl}/quote/${symbols}?apikey=${API_CONFIG.fmp.key}`
+    );
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    const data = await response.json();
+
+    const profiles = await getStockProfiles(STOCK_SYMBOLS);
+
+    const combinedData = data.map(item => ({
+      symbol: item.symbol,
+      name: item.name || getCompanyName(item.symbol),
+      price: item.price,
+      change: item.change,
+      percentChange: item.changesPercentage,
+      volume: item.volume,
+      marketCap: item.marketCap,
+      peRatio: item.pe,
+      high52w: item.yearHigh,
+      low52w: item.yearLow,
+      logo: profiles[item.symbol]?.logo || '',
+      ceo: profiles[item.symbol]?.ceo || 'N/A',
+    }));
+
+    cacheStockData(combinedData); // Cache successful data
+    return combinedData;
+
+  } catch (error) {
+    console.error("Failed to fetch stock data:", error);
+    const fallback = loadStockDataFromCache();
+    return fallback || [];
+  }
+}
+
+// If API FMP failed, show the ETF the previous one
+function cacheETFData(data) {
+  localStorage.setItem("cachedETFData", JSON.stringify(data));
+  localStorage.setItem("cachedETFTime", new Date().toISOString());
+}
+
+// If API FMP failed, show the ETF the previous one
+function loadETFDataFromCache() {
+  const data = localStorage.getItem("cachedETFData");
+  return data ? JSON.parse(data) : [];
+}
+
+// Get comprehensive ETF data (by FMP)
 async function getComprehensiveETFData() {
-  return ETF_SYMBOLS.map((symbol) => ({
-    symbol: symbol,
-    name: getETFName(symbol),
-    price: Math.random() * 400 + 50,
-    change: (Math.random() - 0.5) * 10,
-    percentChange: (Math.random() - 0.5) * 5,
-    volume: Math.floor(Math.random() * 50000000),
-    aum: Math.floor(Math.random() * 500000000000),
-    expenseRatio: Math.random() * 1,
-    dividendYield: Math.random() * 5,
-    ytdReturn: (Math.random() - 0.3) * 30,
-  }))
+  const symbols = ETF_SYMBOLS.join(",");
+
+  try {
+    const response = await fetch(
+      `${API_CONFIG.fmp.baseUrl}/quote/${symbols}?apikey=${API_CONFIG.fmp.key}`
+    );
+
+    if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+    const data = await response.json();
+
+    const mappedData = data.map(item => ({
+      symbol: item.symbol,
+      name: item.name,
+      price: item.price,
+      change: item.change,
+      percentChange: item.changesPercentage,
+      volume: item.volume,
+      marketCap: item.marketCap
+    }));
+
+    cacheETFData(mappedData); // Save fresh data to localStorage
+    return mappedData;
+  } catch (error) {
+    console.error("Failed to fetch etf data:", error);
+    const fallback = loadETFDataFromCache();
+    return fallback || [];
+  }
 }
 
 // Create comprehensive stock charts with timeframe support
@@ -507,7 +598,7 @@ async function createComprehensiveStockCharts(data, timeframe = "1D") {
     },
   })
 
-  // Market cap chart
+  // Market cap chart (Stock)
   const marketCapCtx = document.getElementById("stockMarketCapChart").getContext("2d")
   stockCharts.marketCap = new Chart(marketCapCtx, {
     type: "doughnut",
@@ -532,7 +623,7 @@ async function createComprehensiveStockCharts(data, timeframe = "1D") {
     },
   })
 
-  // Performance comparison
+  // Performance comparison (Stock)
   const performanceCtx = document.getElementById("stockPerformanceChart").getContext("2d")
   stockCharts.performance = new Chart(performanceCtx, {
     type: "bar",
@@ -659,15 +750,15 @@ async function createComprehensiveETFCharts(data, timeframe = "1D") {
     },
   })
 
-  // AUM chart
-  const aumCtx = document.getElementById("etfAUMChart").getContext("2d")
-  etfCharts.aum = new Chart(aumCtx, {
+  // Market Cap chart (ETF)
+  const etfMarketCapCtx = document.getElementById("etfMarketCapChart").getContext("2d")
+  etfCharts.marketCap = new Chart(etfMarketCapCtx, {
     type: "doughnut",
     data: {
       labels: data.map((etf) => etf.symbol),
       datasets: [
         {
-          data: data.map((etf) => etf.aum),
+          data: data.map((etf) => etf.marketCap),
           backgroundColor: colors,
         },
       ],
@@ -684,7 +775,7 @@ async function createComprehensiveETFCharts(data, timeframe = "1D") {
     },
   })
 
-  // YTD Performance
+  // Performance Comparison (ETF)
   const performanceCtx = document.getElementById("etfPerformanceChart").getContext("2d")
   etfCharts.performance = new Chart(performanceCtx, {
     type: "bar",
@@ -692,9 +783,9 @@ async function createComprehensiveETFCharts(data, timeframe = "1D") {
       labels: data.map((etf) => etf.symbol),
       datasets: [
         {
-          label: "YTD Return (%)",
-          data: data.map((etf) => etf.ytdReturn),
-          backgroundColor: data.map((etf) => (etf.ytdReturn >= 0 ? "#28a745" : "#dc3545")),
+          label: "Performance (%)",
+          data: data.map((etf) => etf.percentChange),
+          backgroundColor: data.map((etf) => (etf.percentChange >= 0 ? "#28a745" : "#dc3545")),
           borderRadius: 5,
         },
       ],

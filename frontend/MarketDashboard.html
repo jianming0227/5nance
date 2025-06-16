@@ -71,8 +71,10 @@
                         <table class="custom-table" id="stock-table">
                             <thead>
                                 <tr>
+                                    <th>Logo</th>
                                     <th>Symbol</th>
                                     <th>Company</th>
+                                    <th>CEO</th>
                                     <th>Price</th>
                                     <th>Change</th>
                                     <th>% Change</th>
@@ -155,10 +157,7 @@
                                     <th>Change</th>
                                     <th>% Change</th>
                                     <th>Volume</th>
-                                    <th>AUM</th>
-                                    <th>Expense Ratio</th>
-                                    <th>Dividend Yield</th>
-                                    <th>YTD Return</th>
+                                    <th>Market Cap</th>
                                 </tr>
                             </thead>
                             <tbody id="etf-tbody">
@@ -196,16 +195,16 @@
 
                         <div class="chart-box">
                             <div class="chart-header">
-                                <h5 class="text-white">Assets Under Management</h5>
+                                <h5 class="text-white">Market Cap Distribution</h5>
                             </div>
                             <div class="chart-canvas-wrapper">
-                                <canvas id="etfAUMChart"></canvas>
+                                <canvas id="etfMarketCapChart"></canvas>
                             </div>
                         </div>
 
                         <div class="chart-box">
                             <div class="chart-header">
-                                <h5 class="text-white">YTD Performance</h5>
+                                <h5 class="text-white">Performance Comparison (%)</h5>
                             </div>
                             <div class="chart-canvas-wrapper">
                                 <canvas id="etfPerformanceChart"></canvas>
@@ -289,17 +288,11 @@
             </div>
         </section>
 
-        <!-- Enhanced Economic Calendar Section -->
+        <!-- Economic Calendar Section -->
         <section class="economic-calendar-section mt-5">
             <div class="d-flex justify-content-between align-items-center mb-3" style="margin-top: 40px;">
                 <h3 class="watchlist-heading">Economic Calendar</h3>
                 <div class="d-flex align-items-center gap-3">
-                    <select id="calendar-filter" class="form-select">
-                        <option value="all">All Events</option>
-                        <option value="high">High Impact</option>
-                        <option value="medium">Medium Impact</option>
-                        <option value="low">Low Impact</option>
-                    </select>
                     <button id="calendar-refresh-btn" class="btn btn-outline-primary">
                         <i class="bi bi-arrow-clockwise"></i> Refresh
                     </button>
