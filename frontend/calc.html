@@ -44,9 +44,6 @@
                         <button id="scroll-to-calculator" class="btn btn-primary px-4 rounded-pill">
                             <i class="fas fa-calculator me-2"></i> Start Calculating
                         </button>
-                        <button id="show-tutorial" class="btn btn-outline-primary px-4 rounded-pill">
-                            <i class="fas fa-play-circle me-2"></i> How It Works
-                        </button>
                     </div>
                 </div>
                 <div class="col-lg-5 d-none d-lg-block">
@@ -452,86 +449,6 @@
         </section>
     </main>
 
-    <!-- Tutorial Modal -->
-    <div class="modal fade" id="tutorialModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">How to Use the ROI Calculator</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div id="tutorialCarousel" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#tutorialCarousel" data-bs-slide-to="0"
-                                class="active"></button>
-                            <button type="button" data-bs-target="#tutorialCarousel" data-bs-slide-to="1"></button>
-                            <button type="button" data-bs-target="#tutorialCarousel" data-bs-slide-to="2"></button>
-                            <button type="button" data-bs-target="#tutorialCarousel" data-bs-slide-to="3"></button>
-                        </div>
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="tutorial-slide">
-                                    <h3>Step 1: Enter Your Initial Investment</h3>
-                                    <p>Start by entering the amount you plan to invest initially. You can either type
-                                        the amount or use the slider to select a value.</p>
-                                    <div class="tutorial-image">
-                                        <i class="fas fa-money-bill-wave fa-5x text-primary"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="tutorial-slide">
-                                    <h3>Step 2: Set Interest Rate & Duration</h3>
-                                    <p>Enter the expected annual interest rate and how long you plan to keep your
-                                        investment.</p>
-                                    <div class="tutorial-image">
-                                        <i class="fas fa-percentage fa-5x text-primary"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="tutorial-slide">
-                                    <h3>Step 3: Add Contributions (Optional)</h3>
-                                    <p>If you plan to make regular contributions to your investment, enable this option
-                                        and specify the amount and frequency.</p>
-                                    <div class="tutorial-image">
-                                        <i class="fas fa-coins fa-5x text-primary"></i>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="tutorial-slide">
-                                    <h3>Step 4: View & Export Results</h3>
-                                    <p>Click Calculate to see detailed results with interactive charts. You can export
-                                        the results as a PDF report.</p>
-                                    <div class="tutorial-image">
-                                        <i class="fas fa-chart-line fa-5x text-primary"></i>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#tutorialCarousel"
-                            data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#tutorialCarousel"
-                            data-bs-slide="next">
-                            <span class="carousel-control-next-icon"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" id="start-calculating">Start
-                        Calculating</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <!-- Loading Overlay -->
     <div id="loading-overlay" style="display: none;">
         <div class="spinner-container">
@@ -558,7 +475,11 @@
     <!-- Lottie Player for animations -->
     <script src="https://unpkg.com/@dotlottie/player-component@2.7.12/dist/dotlottie-player.mjs" type="module"></script>
     <!-- CountUp.js for animated number counting -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.5.0/countUp.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.0.7/countUp.min.js"></script>
+    <!-- Load html2canvas (must come BEFORE calculator.js) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+
     <!-- Custom JS -->
     <script src="js/calculator.js"></script>
     <script src="js/navbar.js"></script>

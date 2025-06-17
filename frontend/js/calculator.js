@@ -23,14 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("tippy is not defined. Ensure it is properly imported or included.");
   }
 
-  const navbar = document.querySelector('.custom-navbar');
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 50) {
-      navbar.classList.add('scrolled');
-    } else {
-      navbar.classList.remove('scrolled');
-    }
-  });
 
   // Get form elements
   const roiForm = document.getElementById("roi-form");
@@ -78,10 +70,10 @@ document.addEventListener("DOMContentLoaded", () => {
       slidesPerView: 1,
       spaceBetween: 20,
       loop: true,
-      autoplay: {
-        delay: 5000,
-        disableOnInteraction: false,
-      },
+      // autoplay: {
+      //   delay: 5000,
+      //   disableOnInteraction: false,
+      // },
       pagination: {
         el: '.swiper-pagination',
         clickable: true,
@@ -90,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         nextEl: '.swiper-button-prev',
         prevEl: '.swiper-button-next',
       },
-      breakpoints: {
+      breakpoints: { // Changes based on screen width, more than 768px
         768: {
           slidesPerView: 2,
         },
@@ -116,6 +108,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize noUiSlider for Inflation Rate
     const inflationRateSlider = document.getElementById('inflation-rate-slider');
 
+
     noUiSlider.create(initialInvestmentSlider, {
       start: [10000],
       connect: [true, false],
@@ -125,7 +118,7 @@ document.addEventListener("DOMContentLoaded", () => {
         '25%': [10000],
         '50%': [50000],
         '75%': [250000],
-        'max': [1000000]
+        'max': [10000000]
       },
       format: {
         to: function (value) {
@@ -143,10 +136,10 @@ document.addEventListener("DOMContentLoaded", () => {
       step: 0.1,
       range: {
         'min': [1],
-        '25%': [3],
-        '50%': [7],
-        '75%': [12],
-        'max': [20]
+        '25%': [5],
+        '50%': [10],
+        '75%': [15],
+        'max': [30]
       },
       format: {
         to: function (value) {
@@ -221,7 +214,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
 
-    // Connect sliders to input fields
+    // Connect sliders to input fields, make sure the input fields change when the sliders change
     initialInvestmentSlider.noUiSlider.on('update', function (values, handle) {
       initialInvestment.value = values[handle];
     });
@@ -242,7 +235,7 @@ document.addEventListener("DOMContentLoaded", () => {
       inflationRate.value = values[handle];
     });
 
-    // Connect input fields to sliders
+    // Connect input fields to sliders , make sure the sliders change when the input fields change
     initialInvestment.addEventListener('change', function () {
       initialInvestmentSlider.noUiSlider.set(this.value);
     });
@@ -290,22 +283,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Scroll to calculator section
   scrollToCalculator.addEventListener("click", () => {
-    document.getElementById("calculator-section").scrollIntoView({ behavior: "smooth" });
-  });
-
-  // Show tutorial modal
-  showTutorial.addEventListener("click", () => {
-    // bootstrap is assumed to be available globally or imported elsewhere
-    if (typeof bootstrap !== 'undefined') {
-      const tutorialModal = new bootstrap.Modal(document.getElementById('tutorialModal'));
-      tutorialModal.show();
-    } else {
-      console.warn("bootstrap is not defined. Ensure it is properly imported or included.");
-    }
-  });
-
-  // Start calculating from tutorial
-  startCalculating.addEventListener("click", () => {
     document.getElementById("calculator-section").scrollIntoView({ behavior: "smooth" });
   });
 
@@ -1109,106 +1086,110 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  // Export functionality
-  exportBtn.addEventListener("click", () => {
-    if (resultsSection.style.display === "none") {
-      alert("Please calculate ROI first before exporting.");
-      return;
-    }
 
-    try {
-      // Show loading overlay
-      loadingOverlay.style.display = "flex";
-      
-      setTimeout(() => {
-        // Create PDF using jsPDF
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF();
+// Export functionality
+exportBtn.addEventListener("click", () => {
+  if (resultsSection.style.display === "none") {
+    alert("Please calculate ROI first before exporting.");
+    return;
+  }
 
-        // Add content to PDF
+  try {
+    loadingOverlay.style.display = "flex";
+
+    setTimeout(async () => {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      const pageWidth = doc.internal.pageSize.getWidth();
+
+      const addHeader = (title) => {
         doc.setFontSize(22);
         doc.setTextColor(37, 99, 235);
-        doc.text("ROI Calculator Results", 20, 20);
+        doc.text(title, 20, 20);
+        doc.setDrawColor(200);
+        doc.line(20, 24, 190, 24);
+      };
 
-        doc.setFontSize(12);
-        doc.setTextColor(0, 0, 0);
-        doc.text(`Initial Investment: RM ${initialInvestment.value}`, 20, 40);
-        doc.text(`Annual Interest Rate: ${interestRate.value}%`, 20, 50);
-        doc.text(`Investment Duration: ${duration.value} years`, 20, 60);
+      const addFooter = () => {
+        doc.setFontSize(10);
+        doc.setTextColor(100, 100, 100);
+        doc.text("Generated by 5NANCE ROI Calculator", 20, 280);
+        doc.text(new Date().toLocaleDateString(), pageWidth - 40, 280);
+      };
 
-        if (enableContributions.checked) {
-          const frequency = monthlyRadio.checked ? "Monthly" : yearlyRadio.checked ? "Yearly" : "None";
-          if (frequency !== "None") {
-            doc.text(`Additional Contributions: RM ${contributionAmount.value} (${frequency})`, 20, 70);
-          }
+      // Page 1: Summary
+      addHeader("ROI Calculator Report");
+
+      doc.setFontSize(14);
+      doc.setTextColor(0, 0, 0);
+      doc.text("Investment Details", 20, 35);
+      doc.setFontSize(11);
+      let y = 45;
+      doc.text(`Initial Investment: RM ${initialInvestment.value}`, 20, y);
+      doc.text(`Annual Interest Rate: ${interestRate.value}%`, 20, y += 8);
+      doc.text(`Investment Duration: ${duration.value} years`, 20, y += 8);
+      if (enableContributions.checked) {
+        const freq = monthlyRadio.checked ? "Monthly" : yearlyRadio.checked ? "Yearly" : "None";
+        if (freq !== "None") {
+          doc.text(`Additional Contributions: RM ${contributionAmount.value} (${freq})`, 20, y += 8);
         }
-        
-        if (enableInflation.checked) {
-          doc.text(`Inflation Rate: ${inflationRate.value}%`, 20, 80);
-        }
+      }
+      if (enableInflation.checked) {
+        doc.text(`Inflation Rate: ${inflationRate.value}%`, 20, y += 8);
+      }
 
-        doc.setFontSize(16);
-        doc.setTextColor(37, 99, 235);
-        doc.text("Results", 20, 100);
+      y += 12;
+      doc.setFontSize(14);
+      doc.setTextColor(37, 99, 235);
+      doc.text("Calculation Results", 20, y);
+      doc.line(20, y + 2, 190, y + 2);
 
-        doc.setFontSize(12);
-        doc.setTextColor(0, 0, 0);
-        doc.text(`Final Value: ${finalValueEl.textContent}`, 20, 120);
-        doc.text(`Total Contributions: ${totalContributionsEl.textContent}`, 20, 130);
-        doc.text(`Total Interest Earned: ${totalInterestEl.textContent}`, 20, 140);
-        doc.text(`CAGR / Effective Annual Rate: ${cagrEl.textContent}`, 20, 150);
-        
-        if (enableInflation.checked) {
-          doc.text(`Inflation-Adjusted CAGR: ${inflationAdjustedCagrEl.textContent}`, 20, 160);
-        }
+      doc.setFontSize(11);
+      doc.setTextColor(0, 0, 0);
+      y += 12;
+      doc.text(`Final Value: ${finalValueEl.textContent}`, 20, y);
+      doc.text(`Total Contributions: ${totalContributionsEl.textContent}`, 20, y += 8);
+      doc.text(`Total Interest Earned: ${totalInterestEl.textContent}`, 20, y += 8);
+      doc.text(`CAGR (Annual Growth Rate): ${cagrEl.textContent}`, 20, y += 8);
+      if (enableInflation.checked) {
+        doc.text(`Inflation-Adjusted CAGR: ${inflationAdjustedCagrEl.textContent}`, 20, y += 8);
+      }
 
-        // Add charts to PDF
-        try {
-          // Use html2canvas to capture charts
-          const html2canvas = window.html2canvas;
-          html2canvas(document.getElementById("growthChart").parentNode).then(canvas => {
-            const growthChartImg = canvas.toDataURL("image/png");
-            doc.addPage();
-            doc.setFontSize(16);
-            doc.setTextColor(37, 99, 235);
-            doc.text("Investment Growth Over Time", 20, 20);
-            doc.addImage(growthChartImg, "PNG", 20, 30, 170, 100);
-            
-            // Capture breakdown chart
-            html2canvas(document.getElementById("breakdownChart").parentNode).then(canvas => {
-              const breakdownChartImg = canvas.toDataURL("image/png");
-              doc.addImage(breakdownChartImg, "PNG", 20, 150, 80, 80);
-              
-              // Capture yearly comparison chart
-              html2canvas(document.getElementById("yearlyComparisonChart").parentNode).then(canvas => {
-                const yearlyChartImg = canvas.toDataURL("image/png");
-                doc.addImage(yearlyChartImg, "PNG", 110, 150, 80, 80);
-                
-                // Add footer
-                doc.setFontSize(10);
-                doc.setTextColor(100, 100, 100);
-                doc.text("Generated by 5NANCE ROI Calculator", 20, 280);
-                doc.text(new Date().toLocaleDateString(), 20, 285);
-                
-                // Save the PDF
-                doc.save("roi-calculator-results.pdf");
-                
-                // Hide loading overlay
-                loadingOverlay.style.display = "none";
-              });
-            });
-          });
-        } catch (chartError) {
-          console.error("Error adding charts to PDF:", chartError);
-          // Continue without charts if there's an error
-          doc.save("roi-calculator-results.pdf");
-          loadingOverlay.style.display = "none";
+      addFooter();
+
+      // Reusable function to switch tab
+      const switchTab = (tabId) =>
+        new Promise((resolve) => {
+          document.querySelector(tabId).click();
+          setTimeout(resolve, 600);
+        });
+
+      const renderChartToPage = async (tabButtonId, canvasId, label) => {
+        await switchTab(tabButtonId);
+        const canvas = document.getElementById(canvasId);
+        if (canvas && canvas.width > 0 && canvas.height > 0) {
+          const imgData = canvas.toDataURL("image/png");
+          doc.addPage();
+          addHeader(label);
+          doc.addImage(imgData, "PNG", 20, 30, 170, 100);
+          addFooter();
+        } else {
+          console.warn(`${label} is not rendered or has 0 size. Skipping.`);
         }
-      }, 1000);
-    } catch (error) {
-      console.error("Error generating PDF:", error);
-      alert("Error generating PDF. Please make sure jsPDF is loaded correctly.");
+      };
+
+      // One page per chart
+      await renderChartToPage("#growth-tab", "growthChart", "Investment Growth Over Time");
+      await renderChartToPage("#breakdown-tab", "breakdownChart", "Contribution Breakdown");
+      await renderChartToPage("#yearly-tab", "yearlyComparisonChart", "Yearly Comparison");
+
+      doc.save("roi-calculator-results.pdf");
       loadingOverlay.style.display = "none";
-    }
-  });
+    }, 500);
+  } catch (error) {
+    console.error("Error generating PDF:", error);
+    alert("Error generating PDF. Please ensure jsPDF is correctly loaded.");
+    loadingOverlay.style.display = "none";
+  }
+});
 });
