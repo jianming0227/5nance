@@ -347,20 +347,6 @@ body {
     margin-bottom: 2rem;
 }
 
-/* Tutorial Modal */
-.tutorial-slide {
-    padding: 2rem;
-    text-align: center;
-}
-
-.tutorial-image {
-    margin: 2rem 0;
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 /* Loading Overlay */
 #loading-overlay {
     position: fixed;
