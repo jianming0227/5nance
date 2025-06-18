@@ -296,14 +296,14 @@ document.addEventListener("DOMContentLoaded", () => {
       contributionAmountSlider.noUiSlider.set(500);
       inflationRateSlider.noUiSlider.set(2.5);
     }
-    
+
     enableContributions.checked = false;
     contributionOptions.style.display = "none";
     contributionAmountContainer.style.display = "none";
-    
+
     enableInflation.checked = false;
     inflationContainer.style.display = "none";
-    
+
     resultsSection.style.display = "none";
     comparisonSection.style.display = "none";
   });
@@ -320,15 +320,15 @@ document.addEventListener("DOMContentLoaded", () => {
       const initial = Number.parseFloat(initialInvestment.value);
       const rate = Number.parseFloat(interestRate.value) / 100; // Convert percentage to decimal
       const years = Number.parseInt(duration.value);
-      
+
       let frequency = null;
       let additionalAmount = 0;
-      
+
       if (enableContributions.checked) {
         frequency = monthlyRadio.checked ? "monthly" : yearlyRadio.checked ? "yearly" : null;
         additionalAmount = contributionAmountContainer.style.display !== "none" ? Number.parseFloat(contributionAmount.value) : 0;
       }
-      
+
       const useInflation = enableInflation.checked;
       const inflationRateValue = useInflation ? Number.parseFloat(inflationRate.value) / 100 : 0;
 
@@ -369,7 +369,7 @@ document.addEventListener("DOMContentLoaded", () => {
         createBreakdownChart(result.totalContributions, result.totalInterest);
         createCompositionChart(yearlyData);
         createYearlyComparisonChart(yearlyData);
-        
+
         // Create data table
         createDataTable(yearlyData);
 
@@ -398,14 +398,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Calculate percentage increase
     const percentIncrease = ((result.finalValue - initialValue) / initialValue) * 100;
     const roiPercent = (result.totalInterest / result.totalContributions) * 100;
-    
+
     // Format values
     const formattedFinalValue = `RM ${formatNumber(result.finalValue)}`;
     const formattedTotalContributions = `RM ${formatNumber(result.totalContributions)}`;
     const formattedTotalInterest = `RM ${formatNumber(result.totalInterest)}`;
     const formattedCagr = `${result.cagr.toFixed(2)}%`;
     const formattedInflationAdjustedCagr = `${result.inflationAdjustedCagr.toFixed(2)}% after inflation`;
-    
+
     // Set text content first (for accessibility)
     finalValueEl.textContent = formattedFinalValue;
     finalValuePercentEl.textContent = `+${percentIncrease.toFixed(0)}%`;
@@ -414,25 +414,26 @@ document.addEventListener("DOMContentLoaded", () => {
     roiPercentEl.textContent = `+${roiPercent.toFixed(0)}% ROI`;
     cagrEl.textContent = formattedCagr;
     inflationAdjustedCagrEl.textContent = formattedInflationAdjustedCagr;
-    
+
     // Animate numbers with CountUp.js
     if (typeof CountUp !== 'undefined') {
-      new CountUp('final-value', 0, result.finalValue, 0, 2, {
+      const CountUpClass = CountUp.CountUp || CountUp; // Support both ways
+      new CountUpClass('final-value', 0, result.finalValue, 0, 2, {
         prefix: 'RM ',
         separator: ',',
       }).start();
-      
-      new CountUp('total-contributions', 0, result.totalContributions, 0, 2, {
+
+      new CountUpClass('total-contributions', 0, result.totalContributions, 0, 2, {
         prefix: 'RM ',
         separator: ',',
       }).start();
-      
-      new CountUp('total-interest', 0, result.totalInterest, 0, 2, {
+
+      new CountUpClass('total-interest', 0, result.totalInterest, 0, 2, {
         prefix: 'RM ',
         separator: ',',
       }).start();
-      
-      new CountUp('cagr', 0, result.cagr, 2, 2, {
+
+      new CountUpClass('cagr', 0, result.cagr, 2, 2, {
         suffix: '%',
       }).start();
     } else {
@@ -482,7 +483,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Calculate CAGR (Compound Annual Growth Rate)
     const cagr = (Math.pow(finalValue / initialInvestment, 1 / duration) - 1) * 100;
-    
+
     // Calculate inflation-adjusted CAGR
     const inflationAdjustedCagr = ((1 + (cagr / 100)) / (1 + inflationRate) - 1) * 100;
 
@@ -520,7 +521,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const previousValue = currentValue;
         currentValue = previousValue * (1 + rate);
         yearlyInterest = currentValue - previousValue;
-        
+
         // Calculate inflation-adjusted value
         const inflationAdjustedValue = currentValue / Math.pow(1 + inflationRate, year);
 
@@ -549,7 +550,7 @@ document.addEventListener("DOMContentLoaded", () => {
         } else {
           yearlyContributions = 0;
         }
-        
+
         // Calculate inflation-adjusted value
         const inflationAdjustedValue = currentValue / Math.pow(1 + inflationRate, year);
 
@@ -580,7 +581,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         yearlyInterest = currentValue - startOfYearValue - yearlyContributions;
-        
+
         // Calculate inflation-adjusted value
         const inflationAdjustedValue = currentValue / Math.pow(1 + inflationRate, year);
 
@@ -661,7 +662,7 @@ document.addEventListener("DOMContentLoaded", () => {
         plugins: {
           tooltip: {
             callbacks: {
-              label: (context) => `${context.dataset.label}: RM ${context.parsed.y.toLocaleString(undefined, {maximumFractionDigits: 0})}`,
+              label: (context) => `${context.dataset.label}: RM ${context.parsed.y.toLocaleString(undefined, { maximumFractionDigits: 0 })}`,
             },
           },
           legend: {
@@ -672,7 +673,7 @@ document.addEventListener("DOMContentLoaded", () => {
           y: {
             beginAtZero: true,
             ticks: {
-              callback: (value) => "RM " + value.toLocaleString(undefined, {maximumFractionDigits: 0}),
+              callback: (value) => "RM " + value.toLocaleString(undefined, { maximumFractionDigits: 0 }),
             },
           },
         },
@@ -719,7 +720,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 const value = context.raw;
                 const total = context.dataset.data.reduce((a, b) => a + b, 0);
                 const percentage = ((value / total) * 100).toFixed(1);
-                return `${context.label}: RM ${value.toLocaleString(undefined, {maximumFractionDigits: 0})} (${percentage}%)`;
+                return `${context.label}: RM ${value.toLocaleString(undefined, { maximumFractionDigits: 0 })} (${percentage}%)`;
               },
             },
           },
@@ -740,18 +741,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // Create composition chart
   function createCompositionChart(yearlyData) {
     const ctx = document.getElementById("compositionChart").getContext("2d");
-    
+
     // Get final values
     const finalData = yearlyData[yearlyData.length - 1];
     const initialInvestmentValue = yearlyData[0].totalValue;
     const additionalContributions = finalData.totalContributions - initialInvestmentValue;
     const interestEarned = finalData.cumulativeInterest;
-    
+
     // Destroy existing chart if it exists
     if (compositionChart) {
       compositionChart.destroy();
     }
-    
+
     // Create new chart
     compositionChart = new Chart(ctx, {
       type: "bar",
@@ -785,7 +786,7 @@ document.addEventListener("DOMContentLoaded", () => {
         plugins: {
           tooltip: {
             callbacks: {
-              label: (context) => `${context.dataset.label}: RM ${context.raw.toLocaleString(undefined, {maximumFractionDigits: 0})}`,
+              label: (context) => `${context.dataset.label}: RM ${context.raw.toLocaleString(undefined, { maximumFractionDigits: 0 })}`,
             },
           },
           legend: {
@@ -796,7 +797,7 @@ document.addEventListener("DOMContentLoaded", () => {
           x: {
             stacked: true,
             ticks: {
-              callback: (value) => "RM " + value.toLocaleString(undefined, {maximumFractionDigits: 0}),
+              callback: (value) => "RM " + value.toLocaleString(undefined, { maximumFractionDigits: 0 }),
             },
           },
           y: {
@@ -852,7 +853,7 @@ document.addEventListener("DOMContentLoaded", () => {
         plugins: {
           tooltip: {
             callbacks: {
-              label: (context) => `${context.dataset.label}: RM ${context.parsed.y.toLocaleString(undefined, {maximumFractionDigits: 0})}`,
+              label: (context) => `${context.dataset.label}: RM ${context.parsed.y.toLocaleString(undefined, { maximumFractionDigits: 0 })}`,
             },
           },
           legend: {
@@ -868,7 +869,7 @@ document.addEventListener("DOMContentLoaded", () => {
           y: {
             beginAtZero: true,
             ticks: {
-              callback: (value) => "RM " + value.toLocaleString(undefined, {maximumFractionDigits: 0}),
+              callback: (value) => "RM " + value.toLocaleString(undefined, { maximumFractionDigits: 0 }),
             },
           },
         },
@@ -884,39 +885,39 @@ document.addEventListener("DOMContentLoaded", () => {
   function createDataTable(yearlyData) {
     const tableBody = document.getElementById("data-table-body");
     tableBody.innerHTML = "";
-    
+
     yearlyData.forEach(data => {
       const row = document.createElement("tr");
-      
+
       // Year
       const yearCell = document.createElement("td");
       yearCell.textContent = data.year;
       row.appendChild(yearCell);
-      
+
       // Starting Balance (previous year's ending balance or initial investment for year 0)
       const startingBalanceCell = document.createElement("td");
       if (data.year === 0) {
-        startingBalanceCell.textContent = `RM ${data.totalValue.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+        startingBalanceCell.textContent = `RM ${data.totalValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
       } else {
-        startingBalanceCell.textContent = `RM ${yearlyData[data.year - 1].totalValue.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+        startingBalanceCell.textContent = `RM ${yearlyData[data.year - 1].totalValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
       }
       row.appendChild(startingBalanceCell);
-      
+
       // Contributions
       const contributionsCell = document.createElement("td");
-      contributionsCell.textContent = `RM ${data.yearlyContribution.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+      contributionsCell.textContent = `RM ${data.yearlyContribution.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
       row.appendChild(contributionsCell);
-      
+
       // Interest Earned
       const interestCell = document.createElement("td");
-      interestCell.textContent = `RM ${data.yearlyInterest.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+      interestCell.textContent = `RM ${data.yearlyInterest.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
       row.appendChild(interestCell);
-      
+
       // Ending Balance
       const endingBalanceCell = document.createElement("td");
-      endingBalanceCell.textContent = `RM ${data.totalValue.toLocaleString(undefined, {maximumFractionDigits: 0})}`;
+      endingBalanceCell.textContent = `RM ${data.totalValue.toLocaleString(undefined, { maximumFractionDigits: 0 })}`;
       row.appendChild(endingBalanceCell);
-      
+
       tableBody.appendChild(row);
     });
   }
@@ -926,14 +927,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const comparisonType = document.getElementById("comparison-type");
     const comparisonValues = document.getElementById("comparison-values");
     const runComparisonBtn = document.getElementById("run-comparison");
-    
+
     // Clear previous values
     comparisonValues.innerHTML = "";
-    
+
     // Setup comparison values based on type
     comparisonType.addEventListener("change", () => {
       comparisonValues.innerHTML = "";
-      
+
       if (comparisonType.value === "interest") {
         // Interest rate comparison
         const rates = [rate * 0.5, rate, rate * 1.5, rate * 2];
@@ -951,19 +952,19 @@ document.addEventListener("DOMContentLoaded", () => {
         // Contribution amount comparison
         const amounts = [0, additionalAmount * 0.5, additionalAmount, additionalAmount * 2];
         amounts.forEach(a => {
-          addComparisonCheckbox(comparisonValues, `contribution-${a}`, `RM ${a.toLocaleString(undefined, {maximumFractionDigits: 0})}`, a === additionalAmount);
+          addComparisonCheckbox(comparisonValues, `contribution-${a}`, `RM ${a.toLocaleString(undefined, { maximumFractionDigits: 0 })}`, a === additionalAmount);
         });
       }
     });
-    
+
     // Trigger change to initialize values
     comparisonType.dispatchEvent(new Event("change"));
-    
+
     // Run comparison
     runComparisonBtn.addEventListener("click", () => {
       const selectedValues = [];
       const checkboxes = comparisonValues.querySelectorAll("input[type=checkbox]:checked");
-      
+
       checkboxes.forEach(checkbox => {
         const [type, value] = checkbox.id.split("-");
         selectedValues.push({
@@ -972,7 +973,7 @@ document.addEventListener("DOMContentLoaded", () => {
           label: checkbox.nextElementSibling.textContent
         });
       });
-      
+
       if (selectedValues.length > 0) {
         runComparison(initialInvestment, rate, years, frequency, additionalAmount, selectedValues);
       } else {
@@ -980,39 +981,39 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  
+
   // Add comparison checkbox
   function addComparisonCheckbox(container, id, label, checked) {
     const div = document.createElement("div");
     div.className = "form-check form-check-inline";
-    
+
     const input = document.createElement("input");
     input.className = "form-check-input";
     input.type = "checkbox";
     input.id = id;
     input.checked = checked;
-    
+
     const labelEl = document.createElement("label");
     labelEl.className = "form-check-label";
     labelEl.htmlFor = id;
     labelEl.textContent = label;
-    
+
     div.appendChild(input);
     div.appendChild(labelEl);
     container.appendChild(div);
   }
-  
+
   // Run comparison
   function runComparison(initialInvestment, rate, years, frequency, additionalAmount, selectedValues) {
     const ctx = document.getElementById("comparisonChart").getContext("2d");
-    
+
     // Prepare data
     const datasets = [];
-    const labels = Array.from({length: years + 1}, (_, i) => `Year ${i}`);
-    
+    const labels = Array.from({ length: years + 1 }, (_, i) => `Year ${i}`);
+
     selectedValues.forEach(item => {
       let comparisonData;
-      
+
       if (item.type === "interest") {
         const comparisonRate = item.value / 100;
         comparisonData = generateYearlyData(initialInvestment, comparisonRate, years, frequency, additionalAmount);
@@ -1023,13 +1024,13 @@ document.addEventListener("DOMContentLoaded", () => {
         const comparisonAmount = item.value;
         comparisonData = generateYearlyData(initialInvestment, rate, years, frequency, comparisonAmount);
       }
-      
+
       const totalValues = comparisonData.map(data => data.totalValue);
-      
+
       // Generate a color based on the index
       const hue = (datasets.length * 137) % 360; // Golden angle approximation for good distribution
       const color = `hsl(${hue}, 70%, 50%)`;
-      
+
       datasets.push({
         label: item.label,
         data: totalValues,
@@ -1040,12 +1041,12 @@ document.addEventListener("DOMContentLoaded", () => {
         borderWidth: 3
       });
     });
-    
+
     // Destroy existing chart if it exists
     if (comparisonChart) {
       comparisonChart.destroy();
     }
-    
+
     // Create new chart
     comparisonChart = new Chart(ctx, {
       type: "line",
@@ -1063,7 +1064,7 @@ document.addEventListener("DOMContentLoaded", () => {
         plugins: {
           tooltip: {
             callbacks: {
-              label: (context) => `${context.dataset.label}: RM ${context.parsed.y.toLocaleString(undefined, {maximumFractionDigits: 0})}`,
+              label: (context) => `${context.dataset.label}: RM ${context.parsed.y.toLocaleString(undefined, { maximumFractionDigits: 0 })}`,
             },
           },
           legend: {
@@ -1074,7 +1075,7 @@ document.addEventListener("DOMContentLoaded", () => {
           y: {
             beginAtZero: true,
             ticks: {
-              callback: (value) => "RM " + value.toLocaleString(undefined, {maximumFractionDigits: 0}),
+              callback: (value) => "RM " + value.toLocaleString(undefined, { maximumFractionDigits: 0 }),
             },
           },
         },
@@ -1087,109 +1088,109 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
 
-// Export functionality
-exportBtn.addEventListener("click", () => {
-  if (resultsSection.style.display === "none") {
-    alert("Please calculate ROI first before exporting.");
-    return;
-  }
+  // Export functionality
+  exportBtn.addEventListener("click", () => {
+    if (resultsSection.style.display === "none") {
+      alert("Please calculate ROI first before exporting.");
+      return;
+    }
 
-  try {
-    loadingOverlay.style.display = "flex";
+    try {
+      loadingOverlay.style.display = "flex";
 
-    setTimeout(async () => {
-      const { jsPDF } = window.jspdf;
-      const doc = new jsPDF();
-      const pageWidth = doc.internal.pageSize.getWidth();
+      setTimeout(async () => {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        const pageWidth = doc.internal.pageSize.getWidth();
 
-      const addHeader = (title) => {
-        doc.setFontSize(22);
+        const addHeader = (title) => {
+          doc.setFontSize(22);
+          doc.setTextColor(37, 99, 235);
+          doc.text(title, 20, 20);
+          doc.setDrawColor(200);
+          doc.line(20, 24, 190, 24);
+        };
+
+        const addFooter = () => {
+          doc.setFontSize(10);
+          doc.setTextColor(100, 100, 100);
+          doc.text("Generated by 5NANCE ROI Calculator", 20, 280);
+          doc.text(new Date().toLocaleDateString(), pageWidth - 40, 280);
+        };
+
+        // Page 1: Summary
+        addHeader("ROI Calculator Report");
+
+        doc.setFontSize(14);
+        doc.setTextColor(0, 0, 0);
+        doc.text("Investment Details", 20, 35);
+        doc.setFontSize(11);
+        let y = 45;
+        doc.text(`Initial Investment: RM ${initialInvestment.value}`, 20, y);
+        doc.text(`Annual Interest Rate: ${interestRate.value}%`, 20, y += 8);
+        doc.text(`Investment Duration: ${duration.value} years`, 20, y += 8);
+        if (enableContributions.checked) {
+          const freq = monthlyRadio.checked ? "Monthly" : yearlyRadio.checked ? "Yearly" : "None";
+          if (freq !== "None") {
+            doc.text(`Additional Contributions: RM ${contributionAmount.value} (${freq})`, 20, y += 8);
+          }
+        }
+        if (enableInflation.checked) {
+          doc.text(`Inflation Rate: ${inflationRate.value}%`, 20, y += 8);
+        }
+
+        y += 12;
+        doc.setFontSize(14);
         doc.setTextColor(37, 99, 235);
-        doc.text(title, 20, 20);
-        doc.setDrawColor(200);
-        doc.line(20, 24, 190, 24);
-      };
+        doc.text("Calculation Results", 20, y);
+        doc.line(20, y + 2, 190, y + 2);
 
-      const addFooter = () => {
-        doc.setFontSize(10);
-        doc.setTextColor(100, 100, 100);
-        doc.text("Generated by 5NANCE ROI Calculator", 20, 280);
-        doc.text(new Date().toLocaleDateString(), pageWidth - 40, 280);
-      };
-
-      // Page 1: Summary
-      addHeader("ROI Calculator Report");
-
-      doc.setFontSize(14);
-      doc.setTextColor(0, 0, 0);
-      doc.text("Investment Details", 20, 35);
-      doc.setFontSize(11);
-      let y = 45;
-      doc.text(`Initial Investment: RM ${initialInvestment.value}`, 20, y);
-      doc.text(`Annual Interest Rate: ${interestRate.value}%`, 20, y += 8);
-      doc.text(`Investment Duration: ${duration.value} years`, 20, y += 8);
-      if (enableContributions.checked) {
-        const freq = monthlyRadio.checked ? "Monthly" : yearlyRadio.checked ? "Yearly" : "None";
-        if (freq !== "None") {
-          doc.text(`Additional Contributions: RM ${contributionAmount.value} (${freq})`, 20, y += 8);
+        doc.setFontSize(11);
+        doc.setTextColor(0, 0, 0);
+        y += 12;
+        doc.text(`Final Value: ${finalValueEl.textContent}`, 20, y);
+        doc.text(`Total Contributions: ${totalContributionsEl.textContent}`, 20, y += 8);
+        doc.text(`Total Interest Earned: ${totalInterestEl.textContent}`, 20, y += 8);
+        doc.text(`CAGR (Annual Growth Rate): ${cagrEl.textContent}`, 20, y += 8);
+        if (enableInflation.checked) {
+          doc.text(`Inflation-Adjusted CAGR: ${inflationAdjustedCagrEl.textContent}`, 20, y += 8);
         }
-      }
-      if (enableInflation.checked) {
-        doc.text(`Inflation Rate: ${inflationRate.value}%`, 20, y += 8);
-      }
 
-      y += 12;
-      doc.setFontSize(14);
-      doc.setTextColor(37, 99, 235);
-      doc.text("Calculation Results", 20, y);
-      doc.line(20, y + 2, 190, y + 2);
+        addFooter();
 
-      doc.setFontSize(11);
-      doc.setTextColor(0, 0, 0);
-      y += 12;
-      doc.text(`Final Value: ${finalValueEl.textContent}`, 20, y);
-      doc.text(`Total Contributions: ${totalContributionsEl.textContent}`, 20, y += 8);
-      doc.text(`Total Interest Earned: ${totalInterestEl.textContent}`, 20, y += 8);
-      doc.text(`CAGR (Annual Growth Rate): ${cagrEl.textContent}`, 20, y += 8);
-      if (enableInflation.checked) {
-        doc.text(`Inflation-Adjusted CAGR: ${inflationAdjustedCagrEl.textContent}`, 20, y += 8);
-      }
+        // Reusable function to switch tab
+        const switchTab = (tabId) =>
+          new Promise((resolve) => {
+            document.querySelector(tabId).click();
+            setTimeout(resolve, 600);
+          });
 
-      addFooter();
+        const renderChartToPage = async (tabButtonId, canvasId, label) => {
+          await switchTab(tabButtonId);
+          const canvas = document.getElementById(canvasId);
+          if (canvas && canvas.width > 0 && canvas.height > 0) {
+            const imgData = canvas.toDataURL("image/png");
+            doc.addPage();
+            addHeader(label);
+            doc.addImage(imgData, "PNG", 20, 30, 170, 100);
+            addFooter();
+          } else {
+            console.warn(`${label} is not rendered or has 0 size. Skipping.`);
+          }
+        };
 
-      // Reusable function to switch tab
-      const switchTab = (tabId) =>
-        new Promise((resolve) => {
-          document.querySelector(tabId).click();
-          setTimeout(resolve, 600);
-        });
+        // One page per chart
+        await renderChartToPage("#growth-tab", "growthChart", "Investment Growth Over Time");
+        await renderChartToPage("#breakdown-tab", "breakdownChart", "Contribution Breakdown");
+        await renderChartToPage("#yearly-tab", "yearlyComparisonChart", "Yearly Comparison");
 
-      const renderChartToPage = async (tabButtonId, canvasId, label) => {
-        await switchTab(tabButtonId);
-        const canvas = document.getElementById(canvasId);
-        if (canvas && canvas.width > 0 && canvas.height > 0) {
-          const imgData = canvas.toDataURL("image/png");
-          doc.addPage();
-          addHeader(label);
-          doc.addImage(imgData, "PNG", 20, 30, 170, 100);
-          addFooter();
-        } else {
-          console.warn(`${label} is not rendered or has 0 size. Skipping.`);
-        }
-      };
-
-      // One page per chart
-      await renderChartToPage("#growth-tab", "growthChart", "Investment Growth Over Time");
-      await renderChartToPage("#breakdown-tab", "breakdownChart", "Contribution Breakdown");
-      await renderChartToPage("#yearly-tab", "yearlyComparisonChart", "Yearly Comparison");
-
-      doc.save("roi-calculator-results.pdf");
+        doc.save("roi-calculator-results.pdf");
+        loadingOverlay.style.display = "none";
+      }, 500);
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+      alert("Error generating PDF. Please ensure jsPDF is correctly loaded.");
       loadingOverlay.style.display = "none";
-    }, 500);
-  } catch (error) {
-    console.error("Error generating PDF:", error);
-    alert("Error generating PDF. Please ensure jsPDF is correctly loaded.");
-    loadingOverlay.style.display = "none";
-  }
-});
+    }
+  });
 });

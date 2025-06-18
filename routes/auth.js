@@ -74,13 +74,6 @@ router.post('/logout', (req, res) => {
   });
 });
 
-
-// Profile
-router.get('/profile', (req, res) => {
-  if (!req.session.user) return res.status(401).json({ message: 'Not authenticated' });
-  res.json({ user: req.session.user });
-});
-
 router.get('/auth/session', (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
 

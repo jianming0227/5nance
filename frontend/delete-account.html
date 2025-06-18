@@ -54,6 +54,31 @@
       // default to view-profile if not specified or unknown
       cancelButton.href = 'view-profile.html';
     }
+
+    // Add delete account functionality
+    document.querySelector('.btn-delete').addEventListener('click', async function(e) {
+      e.preventDefault();
+      const userId = localStorage.getItem('userId');
+      if (!userId) {
+        alert('User ID not found. Please log in again.');
+        return;
+      }
+      try {
+        const response = await fetch(`/api/user/${userId}`, {
+          method: 'DELETE',
+        });
+        const data = await response.json();
+        if (response.ok) {
+          localStorage.removeItem('userId');
+          window.location.href = data.redirect;
+        } else {
+          alert(data.message || 'Failed to delete account.');
+        }
+      } catch (error) {
+        console.error('Error deleting account:', error);
+        alert('An error occurred while deleting your account.');
+      }
+    });
   </script>
   <script src="js/navbar.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
