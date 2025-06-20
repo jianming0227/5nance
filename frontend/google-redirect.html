@@ -12,7 +12,21 @@
 
     if (userId) {
       localStorage.setItem("userId", userId);
-      window.location.href = "index.html"; // Redirect to main app
+      // Check if user has filled the input form (financial profile)
+      fetch(`http://localhost:5000/api/financial-profile/${userId}`)
+        .then(res => {
+          if (res.ok) {
+            // Profile exists, go to main app
+            window.location.href = "index.html";
+          } else {
+            // No profile, go to input form
+            window.location.href = "input_form.html";
+          }
+        })
+        .catch(() => {
+          // On error, go to input form as fallback
+          window.location.href = "input_form.html";
+        });
     } else {
       window.location.href = "sign-up.html"; // Fallback
     }

@@ -1,6 +1,3 @@
-
-
-
 // Dropdown country/state/city options
 const stateOptions = {
   "Malaysia": [
@@ -26,6 +23,14 @@ const cityOptions = {
   "Negeri Sembilan": ["Seremban", "Port Dickson", "Nilai"],
   "Wilayah Persekutuan": ["Kuala Lumpur", "Putrajaya", "Labuan"]
 };
+
+// Password validation regex (same as reset-password.js)
+const PASSWORD_REGEX = /^(?=.*[A-Z])(?=.*\d)(?=.*[^\w\s]).{6,}$/;
+
+// Function to validate password requirements
+function validatePassword(password) {
+  return PASSWORD_REGEX.test(password);
+}
 
 function populateCountries() {
   const countrySelect = document.getElementById('signup-country');
@@ -78,6 +83,12 @@ function showToast(message, callback) {
 }
 
 async function saveSignUpData() {
+  const password = document.getElementById("signup-password").value;
+  // Validate password before proceeding
+  if (!validatePassword(password)) {
+    alert("Password must be at least 6 characters, include one uppercase letter, one number, and one symbol");
+    return;
+  }
   const userData = {
     name: document.getElementById("signup-name").value,
     email: document.getElementById("signup-email").value,
@@ -89,7 +100,7 @@ async function saveSignUpData() {
     address1: document.getElementById("signup-address1")?.value || "",
     address2: document.getElementById("signup-address2")?.value || "",
     postcode: document.getElementById("signup-postcode")?.value || "",
-    password: document.getElementById("signup-password").value,
+    password: password,
     avatar: "images/profile-pic.png"
   };
 
@@ -115,13 +126,21 @@ async function saveSignUpData() {
   }
 }
 
+function pwVisibility() {
+  var x = document.getElementById("signup-password");
+  if (x.type === "password") {
+    x.type = "text";
+  } else {
+    x.type = "password";
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   populateCountries();
-
   const form = document.getElementById("signup-form");
   form.addEventListener("submit", function (e) {
     e.preventDefault(); // prevents page reload
     saveSignUpData();   // call your function
   });
 });
-
+  
