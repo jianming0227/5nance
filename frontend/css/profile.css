@@ -187,8 +187,14 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 
 /* Password Field */
+/* Password Field */
 .password-group {
     margin-bottom: 30px;
+}
+
+.form-row .form-group {
+    flex: 1;
+    min-width: 200px;
 }
 
 .password-container{

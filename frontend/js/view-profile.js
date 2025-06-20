@@ -27,7 +27,7 @@ async function populateViewProfile() {
     document.querySelector(".readonly-city").textContent = data.city || "-";
     document.querySelector(".readonly-state").textContent = data.state || "-";
     document.querySelector(".readonly-country").textContent = data.country || "-";
-    document.getElementById("password").value = "********";
+    document.getElementById("password").value = "******";
     document.getElementById("view-profile-img").src = data.avatar || "images/profile-pic.png";
   } catch (error) {
     console.error("Error loading profile:", error);

@@ -135,13 +135,13 @@ document.getElementById("edit-profile-form").addEventListener("submit", async fu
   const updatedData = {
     name: document.getElementById("name").value,
     email: document.getElementById("email").value,
-    contact: "+60" + document.getElementById("contact").value,
+    contact: document.getElementById("contact").value,
     dob: document.getElementById("dob").value,
     address1: document.getElementById("address1").value,
     address2: document.getElementById("address2").value,
     postcode: document.getElementById("postcode").value,
     country: document.getElementById("country").value,
-    state: document.getElementById("state").value,
+    state: document.getElementById("state").value, 
     city: document.getElementById("city").value,
     // avatar will be handled separately (base64 or FormData)
   };
