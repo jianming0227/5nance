@@ -1,5 +1,3 @@
-
-
 //select country, state and city for sign-up-page.html
 const stateOptions = {
   "Malaysia": [
@@ -117,22 +115,42 @@ function populateCountries() {
   });
 }
 
-function setupAvatarUpload() {
-  document.getElementById("avatar-upload")?.addEventListener("change", function (event) {
-    const reader = new FileReader();
-    reader.onload = function (e) {
-      document.getElementById("profile-preview").src = e.target.result;
-    };
-    reader.readAsDataURL(event.target.files[0]);
+async function uploadAvatar(file) {
+  const formData = new FormData();
+  formData.append('avatar', file);
+
+  // Adjust the endpoint as per your backend
+  const response = await fetch('http://localhost:5000/api/user/upload-avatar', {
+    method: 'POST',
+    body: formData,
+    credentials: 'include'
   });
+
+  if (!response.ok) throw new Error('Failed to upload avatar');
+  return response.json(); // Should return { imageUrl: '...' }
 }
 
+document.getElementById("avatar-upload").addEventListener("change", async function (event) {
+  const file = event.target.files[0];
+  if (file) {
+    try {
+      const result = await uploadAvatar(file);
+      // Update the preview immediately
+      document.getElementById("profile-preview").src = "/" + result.imageUrl;
+      // Optionally, store imageUrl for later use when saving profile
+      window.latestAvatarUrl = result.imageUrl;
+    } catch (err) {
+      alert('Image upload failed');
+    }
+  }
+});
+
 document.getElementById("edit-profile-form").addEventListener("submit", async function (e) {
-  e.preventDefault(); // prevent page reload
+  e.preventDefault();
 
-  const userId = localStorage.getItem("userId"); // or fetch dynamically if needed
-
-  const updatedData = {
+  const userId = localStorage.getItem("userId"); 
+  // Gather form data
+  const profileData = {
     name: document.getElementById("name").value,
     email: document.getElementById("email").value,
     contact: document.getElementById("contact").value,
@@ -143,30 +161,48 @@ document.getElementById("edit-profile-form").addEventListener("submit", async fu
     country: document.getElementById("country").value,
     state: document.getElementById("state").value, 
     city: document.getElementById("city").value,
-    // avatar will be handled separately (base64 or FormData)
+    avatar: window.latestAvatarUrl // Use the uploaded image URL
   };
 
-  try {
-    const response = await fetch(`http://localhost:5000/api/profile/${userId}`, {
-      method: "PUT", // or PATCH
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(updatedData),
-    });
+  // Save profile to backend
+  const response = await fetch(`http://localhost:5000/api/profile/${userId}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(profileData),
+    credentials: 'include'
+  });
 
-    if (!response.ok) throw new Error("Update failed");
-
-    alert("Profile updated successfully!");
-    window.location.href = "view-profile.html"; // redirect
-
-  } catch (err) {
-    console.error("Error updating profile:", err);
-    alert("Failed to update profile. Try again.");
+  if (response.ok) {
+    // Fetch latest profile to update UI
+    await fetchAndUpdateProfile();
+    window.location.href = "view-profile.html";
+  } else {
+    alert('Failed to save profile');
   }
 });
 
+async function fetchAndUpdateProfile() {
+  const userId = localStorage.getItem("userId");
+  const response = await fetch(`http://localhost:5000/api/profile/${userId}`, { credentials: 'include' });
+  if (response.ok) {
+    const profile = await response.json();
+    // Update form fields
+    document.getElementById("name").value = profile.name || '';
+    document.getElementById("email").value = profile.email || '';
+    document.getElementById("contact").value = profile.contact || '';
+    document.getElementById("dob").value = profile.dob ? profile.dob.substring(0, 10) : '';
+    document.getElementById("address1").value = profile.address1 || '';
+    document.getElementById("address2").value = profile.address2 || '';
+    document.getElementById("postcode").value = profile.postcode || '';
+    document.getElementById("country").value = profile.country || '';
+    document.getElementById("state").value = profile.state || '';
+    document.getElementById("city").value = profile.city || '';
+    // Update profile image
+    document.getElementById("profile-preview").src = profile.avatar || 'images/profile-pic.png';
+  }
+}
 
 window.onload = function () {
   populateCountries();
-  setupAvatarUpload();
   populateEditProfile();
 }
