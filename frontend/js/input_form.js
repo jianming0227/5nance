@@ -480,7 +480,7 @@ async function submitToDatabase(data) {
 function showSuccessMessage() {
   const formContainer = document.querySelector(".form-container")
   const progressContainer = document.querySelector(".progress-container")
-  localStorage.removeItem("userId");
+  // localStorage.removeItem("userId");
   if (formContainer) formContainer.classList.add("d-none")
   if (progressContainer) progressContainer.classList.add("d-none")
   if (successMessage) successMessage.classList.remove("d-none")

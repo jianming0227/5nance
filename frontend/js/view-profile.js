@@ -27,8 +27,14 @@ async function populateViewProfile() {
     document.querySelector(".readonly-city").textContent = data.city || "-";
     document.querySelector(".readonly-state").textContent = data.state || "-";
     document.querySelector(".readonly-country").textContent = data.country || "-";
-    document.getElementById("password").value = "******";
-    document.getElementById("view-profile-img").src = data.avatar || "images/profile-pic.png";
+    const profileImg = document.getElementById("view-profile-img");
+    if (profileImg) {
+      if (data.avatar) {
+        profileImg.src = data.avatar.startsWith("/") ? data.avatar : "/" + data.avatar;
+      } else {
+        profileImg.src = "images/profile-pic.png";
+      }
+    }
   } catch (error) {
     console.error("Error loading profile:", error);
   }
@@ -37,4 +43,19 @@ async function populateViewProfile() {
 window.onload = () => {
   console.log("Page loaded, populating profile..."); // DEBUG
   populateViewProfile();
+}
+
+async function uploadAvatar(file) {
+  const formData = new FormData();
+  formData.append('avatar', file);
+  formData.append('userId', localStorage.getItem("userId"));
+
+  const response = await fetch('http://localhost:5000/api/user/upload-avatar', {
+    method: 'POST',
+    body: formData,
+    credentials: 'include'
+  });
+
+  if (!response.ok) throw new Error('Failed to upload avatar');
+  return response.json();
 }

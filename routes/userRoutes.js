@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user'); // Mongoose model
 const FinancialProfile = require('../models/FinancialProfile');
+const multer = require('multer');
+const path = require('path');
 
 // PUT /api/update-profile
 router.put('/profile/:id', async (req, res) => {
@@ -56,6 +58,35 @@ router.delete('/user/:id', async (req, res) => {
     });
   } catch (err) {
     console.error('Delete user error:', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname, '../frontend/images')); // Save in frontend/images
+  },
+  filename: function (req, file, cb) {
+    // Use userId + timestamp + extension
+    const ext = path.extname(file.originalname);
+    cb(null, req.body.userId + '-' + Date.now() + ext);
+  }
+});
+const upload = multer({ storage: storage });
+
+// POST /api/user/upload-avatar
+router.post('/user/upload-avatar', upload.single('avatar'), async (req, res) => {
+  try {
+    const userId = req.body.userId;
+    if (!req.file) return res.status(400).json({ message: 'No file uploaded' });
+
+    // Save the relative path to the DB
+    const imageUrl = `images/${req.file.filename}`;
+    await User.findByIdAndUpdate(userId, { avatar: imageUrl });
+
+    res.json({ imageUrl });
+  } catch (err) {
+    console.error('Avatar upload error:', err);
     res.status(500).json({ message: 'Server error' });
   }
 });
