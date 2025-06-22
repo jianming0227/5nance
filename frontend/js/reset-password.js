@@ -71,6 +71,18 @@ async function handlePasswordReset(e) {
     try {
         // If coming from forgot password flow
         if (resetEmail) {
+            // Validate new password requirements
+            if (!validatePassword(newPassword)) {
+                showError("Password must be at least 6 characters, include one uppercase letter, one number, and one symbol");
+                return;
+            }
+
+            // Check if passwords match
+            if (newPassword !== confirmPassword) {
+                showError("New password and confirm password do not match");
+                return;
+            }
+
             // Find user by email
             const userResponse = await fetch(`http://localhost:5000/api/users/find-by-email`, {
                 method: 'POST',

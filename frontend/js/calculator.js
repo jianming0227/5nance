@@ -136,10 +136,10 @@ document.addEventListener("DOMContentLoaded", () => {
       step: 0.1,
       range: {
         'min': [1],
-        '25%': [5],
-        '50%': [10],
-        '75%': [15],
-        'max': [30]
+        '25%': [8],
+        '50%': [16],
+        '75%': [32],
+        'max': [50]
       },
       format: {
         to: function (value) {
@@ -157,10 +157,10 @@ document.addEventListener("DOMContentLoaded", () => {
       step: 1,
       range: {
         'min': [1],
-        '25%': [5],
-        '50%': [10],
-        '75%': [20],
-        'max': [30]
+        '25%': [8],
+        '50%': [16],
+        '75%': [32],
+        'max': [50]
       },
       format: {
         to: function (value) {
@@ -178,10 +178,10 @@ document.addEventListener("DOMContentLoaded", () => {
       step: 100,
       range: {
         'min': [100],
-        '25%': [500],
-        '50%': [1000],
-        '75%': [5000],
-        'max': [10000]
+        '25%': [1000],
+        '50%': [5000],
+        '75%': [10000],
+        'max': [50000]
       },
       format: {
         to: function (value) {
@@ -199,10 +199,10 @@ document.addEventListener("DOMContentLoaded", () => {
       step: 0.1,
       range: {
         'min': [0],
-        '25%': [1],
-        '50%': [2.5],
-        '75%': [5],
-        'max': [10]
+        '25%': [2.5],
+        '50%': [5],
+        '75%': [10],
+        'max': [20]
       },
       format: {
         to: function (value) {

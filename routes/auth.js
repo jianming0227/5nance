@@ -4,8 +4,8 @@ const authController = require('../controllers/authController');
 const User = require("../models/user"); // Adjust path if needed
 const bcrypt = require("bcrypt");
 
-const INACTIVITY_LIMIT_MS = 60 * 1000; // 1 min inactivity
-const GRACE_PERIOD_MS = 30 * 1000;      // 30 seconds to decide before full logout
+const INACTIVITY_LIMIT_MS = 20 * 1000; // 20 seconds inactivity
+const GRACE_PERIOD_MS = 10 * 1000;      // 10 seconds to decide before full logout
 
 function inactivityChecker(req, res, next) {
   if (req.session.user) {

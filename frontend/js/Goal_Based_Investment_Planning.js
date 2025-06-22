@@ -259,13 +259,21 @@ function renderGoals() {
     const progressPercentage = calculateProgress(goal.currentAmount, goal.targetAmount)
     const canMoveUp = index > 0
     const canMoveDown = index < goals.length - 1
+    const isCompleted = progressPercentage >= 100
 
     const goalCard = document.createElement("div")
     goalCard.className = "goal-card"
     goalCard.dataset.id = goal._id
     goalCard.style.animationDelay = `${index * 0.1}s`
+    
+    // Add completed class if goal is 100% complete
+    if (isCompleted) {
+      goalCard.classList.add("goal-completed")
+    }
+    
     goalCard.innerHTML = `
-      <div class="card">
+      <div class="card ${isCompleted ? 'completed-goal' : ''}">
+        ${isCompleted ? '<div class="completion-overlay"><i class="bi bi-check-circle-fill"></i> Goal Achieved!</div>' : ''}
         <div class="drag-handle">
           <i class="bi bi-grip-vertical"></i>
         </div>
@@ -325,7 +333,7 @@ function renderGoals() {
               <span class="small fw-medium progress-percentage">${progressPercentage}%</span>
             </div>
             <div class="progress">
-              <div class="progress-bar" role="progressbar" style="width: ${progressPercentage}%" 
+              <div class="progress-bar ${isCompleted ? 'bg-success' : ''}" role="progressbar" style="width: ${progressPercentage}%" 
                 aria-valuenow="${progressPercentage}" aria-valuemin="0" aria-valuemax="100"></div>
             </div>
             <div class="d-flex justify-content-between small mt-1">
@@ -334,8 +342,8 @@ function renderGoals() {
             </div>
           </div>
           
-          <button class="btn btn-outline-primary btn-sm w-100 add-savings" data-id="${goal._id}">
-            <i class="bi bi-plus-lg me-1"></i> Add Savings
+          <button class="btn btn-outline-primary btn-sm w-100 add-savings" data-id="${goal._id}" ${isCompleted ? 'disabled' : ''}>
+            <i class="bi bi-plus-lg me-1"></i> ${isCompleted ? 'Goal Completed!' : 'Add Savings'}
           </button>
         </div>
       </div>
