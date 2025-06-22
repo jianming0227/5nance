@@ -299,6 +299,15 @@
     color: white;
   }
 
+  #customForm button {
+    width: 100%;
+    margin-left: 0 !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    text-align: center;
+    display: block;
+  }
+
   #customStrategyBtn {
     background-color: #555; /* Grey background */
     border-color: #555;     /* Grey border */
