@@ -8,17 +8,7 @@
   <link href="css/styles.css" rel="stylesheet">
   <link href="css/nav.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
-  <script type="text/javascript"
-        src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js">
-  </script>
   <script src="js/contact.js"></script>
-  <script type="text/javascript">
-    (function(){
-        emailjs.init({
-          publicKey: "vNoToEMXemYuPjecu",
-        });
-    })();
-  </script>
 </head>
 
 <body style="background-color: #010725; color: white; font-family: 'DM Sans', 'Inter', sans-serif;">
@@ -37,7 +27,7 @@
   <section class="scroll-fade-up feedback-section py-5">
     <div class="container">
       <div class="feedback-box shadow p-4 rounded bg-white">
-      <form action="/submit-feedback" onsubmit="sendMail(event)" method="POST" enctype="multipart/form-data">
+      <form id="contact-form" onsubmit="sendMail(event)" method="POST" enctype="multipart/form-data">
         <div class="mb-3">
           <label for="userName" class="form-label">Name</label>
           <input type="text" class="form-control" id="name" name="userName" required>
@@ -53,7 +43,11 @@
           <textarea class="form-control" id="feedback" name="feedback" rows="4" required></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary">Submit</button>
+        <button type="submit" class="btn btn-primary" id="submit-btn">
+          <span id="submit-text">Submit</span>
+          <span id="loading-spinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+        </button>
+
       </form>
       </div>
     </div>
@@ -74,19 +68,6 @@
   </div>
 </div>
 
-<script>
-  document.querySelector("form").addEventListener("submit", function (e) {
-    e.preventDefault(); // stop actual submission
-    const thankYouModal = new bootstrap.Modal(document.getElementById("thankYouModal"));
-    thankYouModal.show();
-    this.reset(); // reset form fields
-  });
-</script>
-  
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
-
   <!-- JS Libraries -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
   <script src="js/navbar.js"></script>
@@ -106,6 +87,18 @@
 
   floatElements.forEach(el => observer.observe(el));
 </script>
+
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    const yearEl = document.getElementById("year");
+    if (yearEl) {
+      yearEl.textContent = new Date().getFullYear();
+    } else {
+      console.warn("Year element not found.");
+    }
+  });
+</script>
+
 </body>
 <!-- Footer -->
 <footer class="text-center py-3 text-white" style="background-color: #010725;">
