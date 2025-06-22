@@ -6,7 +6,7 @@ if (currentPage === 'session-timeout.html') {
 
   console.log("sessionCheck.js loaded successfully!");
 
-  let sessionInterval = setInterval(checkSession, 60 * 1000); // store interval so we can clear it
+  let sessionInterval = setInterval(checkSession, 20 * 1000); // store interval so we can clear it
 
   async function checkSession() {
     try {

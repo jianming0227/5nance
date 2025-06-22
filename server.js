@@ -96,7 +96,7 @@ app.use((req, res, next) => {
   }
 
   const inactiveTime = now - (req.session.lastActivity || now);
-  if (inactiveTime > 60 * 1000) {
+  if (inactiveTime > 20 * 1000) {
     req.session.timedOutAt = now;
   } else {
     req.session.lastActivity = now;

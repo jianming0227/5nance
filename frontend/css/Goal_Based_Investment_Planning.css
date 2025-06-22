@@ -199,6 +199,160 @@ h1.text-center {
   transition: all 0.3s ease;
 }
 
+/* Completed goal styles */
+.goal-card.goal-completed .card {
+  background: linear-gradient(145deg, #2a2a2a, #3a3a3a);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  opacity: 0.8;
+  filter: grayscale(0.3);
+}
+
+.goal-card.goal-completed .card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.goal-card.goal-completed .card-header {
+  background: rgba(40, 40, 40, 0.7);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.goal-card.goal-completed .card-body {
+  background-color: rgba(35, 35, 35, 0.7);
+}
+
+.goal-card.goal-completed .card-title {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.goal-card.goal-completed .goal-description {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.goal-card.goal-completed .info-value {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.goal-card.goal-completed .info-label {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Completion overlay */
+.completion-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(40, 167, 69, 0.3);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: 12px;
+}
+
+/* Make dropdown menu visible and clear for completed goals */
+.goal-card.goal-completed .dropdown {
+  z-index: 15;
+  position: relative;
+}
+
+.goal-card.goal-completed .dropdown button {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: rgba(10, 25, 86, 0.95) !important;
+  border: 2px solid rgba(255, 255, 255, 0.4) !important;
+  z-index: 15;
+  position: relative;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.goal-card.goal-completed .dropdown button:hover {
+  background: rgba(15, 35, 100, 0.95) !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  transform: translateY(-1px);
+}
+
+.goal-card.goal-completed .dropdown-menu {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  background: linear-gradient(145deg, #051042, #0a1956) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+  z-index: 20;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+.goal-card.goal-completed .dropdown-item {
+  color: #ffffff;
+}
+
+.goal-card.goal-completed .dropdown-item:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.goal-card.goal-completed .dropdown-item.text-danger:hover {
+  background-color: rgba(220, 53, 69, 0.2);
+}
+
+.completion-overlay i {
+  font-size: 2rem;
+  color: #28a745;
+  margin-right: 0.5rem;
+  animation: pulse 2s infinite;
+  text-shadow: 0 0 10px rgba(40, 167, 69, 0.5);
+}
+
+.completion-overlay::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(45deg, transparent 30%, rgba(0, 0, 0, 0.2) 50%, transparent 70%);
+  animation: shimmer 3s infinite;
+  pointer-events: none;
+}
+
+/* Disabled add savings button for completed goals */
+.goal-card.goal-completed .add-savings:disabled {
+  background: rgba(40, 167, 69, 0.2);
+  border-color: #28a745;
+  color: #28a745;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.goal-card.goal-completed .add-savings:disabled:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Animation for completion overlay */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
 .goal-card .drag-handle {
   cursor: move;
   cursor: grab;
