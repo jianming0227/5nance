@@ -46,16 +46,20 @@
    ```bash
    cd frontend
 
-cd backend
 npm install
-# Create a .env file with:
-# MONGO_URI=your_mongodb_uri
-node server.js
+### 📁 Backend Setup
+1. Create a .env file with: MONGO_URI=your_mongodb_uri
+2. command prompt: node server.js
+3. pip install pandas numpy scikit-learn xgboost imbalanced-learn joblib
 
-pip install pandas numpy scikit-learn xgboost imbalanced-learn joblib
-# Use or train model and load with joblib
+##Other Documentation
+### Libraries used 
+1. Authentication: Passport, Google OAuth
+2. Database: Mongoose, Connect-Mongo
+3. Session & Email: Express-session, Nodemailer, EmailJS
+4. Dev Tools: Nodemon
 
-Contribution workflow
+### Contribution workflow
 git clone https://github.com/jianming0227/5nance.git
 cd 5nance
 git checkout -b feature/your-feature
