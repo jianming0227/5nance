@@ -276,6 +276,8 @@
   }
   
   
+
+  
   /* Override Bootstrap Button Styles */
   .btn-primary {
     background-color: var(--primary);
@@ -297,6 +299,15 @@
     background-color: var(--primary);
     border-color: var(--primary);
     color: white;
+  }
+
+  #customForm button {
+    width: 100%;
+    margin-left: 0 !important;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    text-align: center;
+    display: block;
   }
 
   #customStrategyBtn {
