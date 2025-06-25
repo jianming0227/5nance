@@ -52,7 +52,7 @@ npm install
 2. command prompt: node server.js
 3. pip install pandas numpy scikit-learn xgboost imbalanced-learn joblib
 
-##Other Documentation
+## Other Documentation
 ### Libraries used 
 1. Authentication: Passport, Google OAuth
 2. Database: Mongoose, Connect-Mongo
@@ -60,8 +60,7 @@ npm install
 4. Dev Tools: Nodemon
 
 ### Contribution workflow
-git clone https://github.com/jianming0227/5nance.git
-cd 5nance
-git checkout -b feature/your-feature
-git add . && git commit -m "your message"
-git push origin feature/your-feature
+1. git clone https://github.com/jianming0227/5nance.git
+2. git checkout -b feature/your-feature
+3. git add . && git commit -m "your message"
+4. git push origin feature/your-feature
