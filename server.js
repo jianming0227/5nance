@@ -17,7 +17,6 @@ const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/userRoutes');
 require('./config/passport')(passport);
 
-
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000
@@ -794,4 +793,60 @@ app.post("/api/users/find-by-email", async (req, res) => {
     console.error("Error finding user:", error);
     res.status(500).json({ message: "Error finding user" });
   }
+});
+
+// Feedback form email route
+app.post('/send-feedback', async (req, res) => {
+    console.log("📧 Using email:", process.env.EMAIL_USER);
+    const { name, email, feedback } = req.body;
+
+    // Basic validation
+    if (!name?.trim() || !email?.trim() || !feedback?.trim()) {
+        return res.status(400).json({ message: 'Missing required fields' });
+    }
+
+    try {
+        // Create reusable transporter using Gmail
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER,
+                pass: process.env.EMAIL_PASS,
+            },
+        });
+
+        // Send email to your own team inbox
+        await transporter.sendMail({
+            from: `"5nance Feedback Bot" <${process.env.EMAIL_USER}>`,
+            to: process.env.EMAIL_USER,
+            subject: `📩 New Feedback from ${name}`,
+            text: `From: ${name} (${email})\n\nMessage:\n${feedback}`,
+            html: `
+                <h3>New Feedback Received</h3>
+                <p><strong>From:</strong> ${name} &lt;${email}&gt;</p>
+                <p><strong>Message:</strong></p>
+                <p>${feedback.replace(/\n/g, '<br>')}</p>
+            `,
+        });
+
+        // Send confirmation email to the user
+        await transporter.sendMail({
+            from: `"5nance Support" <${process.env.EMAIL_USER}>`,
+            to: email,
+            subject: '✅ Thanks for your feedback!',
+            text: `Hi ${name},\n\nWe received your message:\n"${feedback}"\n\nThank you for reaching out to 5nance.`,
+            html: `
+                <p>Hi ${name},</p>
+                <p>Thank you for contacting <strong>5nance</strong>. We’ve received your message:</p>
+                <blockquote>${feedback.replace(/\n/g, '<br>')}</blockquote>
+                <p>Our team will get back to you shortly.</p>
+                <p>— The 5nance Team</p>
+            `,
+        });
+
+        res.status(200).json({ message: 'Emails sent successfully' });
+    } catch (error) {
+        console.error('❌ Email error:', error);
+        res.status(500).json({ message: 'Failed to send emails', error: error.message });
+    }
 });

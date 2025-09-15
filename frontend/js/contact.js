@@ -1,26 +1,45 @@
-function sendMail() {
-    let params = {
+function sendMail(event) {
+    event.preventDefault();
+
+    const submitBtn = document.getElementById("submit-btn");
+    const submitText = document.getElementById("submit-text");
+    const spinner = document.getElementById("loading-spinner");
+
+    // Show loading spinner
+    submitBtn.disabled = true;
+    spinner.classList.remove("d-none");
+    submitText.textContent = "Sending...";
+
+    const data = {
         name: document.getElementById("name").value,
         email: document.getElementById("email").value,
         feedback: document.getElementById("feedback").value,
     };
 
-    // Send to team using the first template
-    emailjs.send("service_zyojtkc", "template_fdyhu63", params)
-        .then(function(response) {
-            console.log("Message sent to team:", response.status);
-        }, function(error) {
-            console.error("Failed to send to team:", error);
-        });
-
-    // Send confirmation email to user using the second template
-    emailjs.send("service_zyojtkc", "template_zslpztg", params)
-        .then(function(response) {
-            console.log("Confirmation sent to user:", response.status);
-        }, function(error) {
-            console.error("Failed to send to user:", error);
-        });
-
-    // Reset form
-    document.getElementById("contact-form").reset();
+    fetch('http://localhost:5000/send-feedback', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => {
+        if (response.ok) {
+            const thankYouModal = new bootstrap.Modal(document.getElementById("thankYouModal"));
+            thankYouModal.show();
+            document.getElementById("contact-form").reset();
+        } else {
+            alert("Something went wrong. Please try again later.");
+        }
+    })
+    .catch(error => {
+        console.error("Error sending message:", error);
+        alert("Failed to send message.");
+    })
+    .finally(() => {
+        // Restore button state
+        submitBtn.disabled = false;
+        spinner.classList.add("d-none");
+        submitText.textContent = "Submit";
+    });
 }
